@@ -6,6 +6,7 @@ import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 import Sider from "antd/es/layout/Sider";
 import { Button, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const userRole = {
   ADMIN: "admin",
@@ -17,7 +18,9 @@ const Sidebar = () => {
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
+    const toastId = toast.loading("Logging out");
     dispatch(logout());
+    toast.success("Logout success", { id: toastId, duration: 2000 });
     navigate("/login");
   };
 

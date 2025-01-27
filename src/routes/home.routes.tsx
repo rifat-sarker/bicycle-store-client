@@ -1,6 +1,6 @@
 import About from "../pages/About";
+import Contact from "../pages/Contact";
 import HomePage from "../pages/home/HomePage";
-import MyCart from "../pages/MyCart";
 import AllProduct from "../pages/product/AllProduct";
 
 export const homePaths = [
@@ -20,8 +20,8 @@ export const homePaths = [
     element: <About />,
   },
   {
-    name: "My cart",
-    path: "my-cart",
-    element: <MyCart />,
+    name: "Contact",
+    path: "contact",
+    element: <Contact />,
   },
 ];
