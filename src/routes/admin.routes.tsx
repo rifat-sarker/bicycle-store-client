@@ -1,4 +1,6 @@
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import OrderDashboard from "../pages/order/OrderDashboard";
+import ProductDashboard from "../pages/product/ProductDashboard";
 
 export const adminPaths = [
   {
@@ -8,28 +10,13 @@ export const adminPaths = [
   },
 
   {
-    name: "Product",
-    children: [
-      {
-        name: "Add Product",
-        path: "add-product",
-        element: <AdminDashboard />,
-      },
-    ],
+    name: "Products",
+    path: "products",
+    element: <ProductDashboard />,
   },
   {
-    name: "Add Product",
-    path: "add-product",
-    element: <AdminDashboard />,
-  },
-  {
-    name: "Add Product",
-    path: "add-product",
-    element: <AdminDashboard />,
-  },
-  {
-    name: "Add Product",
-    path: "add-product",
-    element: <AdminDashboard />,
+    name: "Orders",
+    path: "orders",
+    element: <OrderDashboard />,
   },
 ];

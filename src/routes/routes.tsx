@@ -6,22 +6,9 @@ import { routesGenerator } from "../utils/routesGenerator";
 import { adminPaths } from "./admin.routes";
 import { customerPaths } from "./customer.routes";
 import { homePaths } from "./home.routes";
+import SidebarLayout from "../components/layout/SidebarLayout";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/",
-  //   element: <App />,
-  // },
-  {
-    path: "/admin",
-    element: <App />,
-    children: routesGenerator(adminPaths),
-  },
-  {
-    path: "/customer",
-    element: <App />,
-    children: routesGenerator(customerPaths),
-  },
   {
     path: "/",
     element: <App />,
@@ -34,6 +21,16 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/admin",
+    element: <SidebarLayout />,
+    children: routesGenerator(adminPaths),
+  },
+  {
+    path: "/customer",
+    element: <SidebarLayout />,
+    children: routesGenerator(customerPaths),
   },
 ]);
 

@@ -1,12 +1,11 @@
-import Sider from "antd/es/layout/Sider";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { adminPaths } from "../../routes/admin.routes";
-
-import { Menu } from "antd";
-
-import { useAppSelector } from "../../redux/hooks";
-import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { customerPaths } from "../../routes/customer.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
+import Sider from "antd/es/layout/Sider";
+import { Button, Menu } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const userRole = {
   ADMIN: "admin",
@@ -14,6 +13,14 @@ const userRole = {
 };
 
 const Sidebar = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+
   const user = useAppSelector(selectCurrentUser);
   let sidebarItems;
 
@@ -24,7 +31,6 @@ const Sidebar = () => {
     case userRole.CUSTOMER:
       sidebarItems = sidebarItemsGenerator(customerPaths, userRole.CUSTOMER);
       break;
-
     default:
       break;
   }
@@ -40,7 +46,9 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        <h1> PHUM</h1>
+        <h1 style={{ color: "white", fontSize: "30px", fontWeight: "bold" }}>
+          Cyclify
+        </h1>
       </div>
       <Menu
         theme="dark"
@@ -48,6 +56,7 @@ const Sidebar = () => {
         defaultSelectedKeys={["4"]}
         items={sidebarItems}
       />
+      <Button onClick={handleLogout}>logout</Button>
     </Sider>
   );
 };

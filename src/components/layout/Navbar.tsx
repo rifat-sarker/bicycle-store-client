@@ -1,15 +1,14 @@
 import { Button, Layout, Menu } from "antd";
 import { Header } from "antd/es/layout/layout";
-
-import { homePaths } from "../../routes/home.routes";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
+import { homePaths } from "../../routes/home.routes";
 
 const Navbar = () => {
   return (
     <Layout>
       <Header style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <div style={{ color: "white", fontSize: "30px", fontWeight: "bold" }}>
-          Bicycle Store
+        Cyclify
         </div>
         <Menu
           theme="dark"
@@ -18,8 +17,6 @@ const Navbar = () => {
           items={navbarItemsGenerator(homePaths)}
           style={{ flex: 1, justifyContent: "center", minWidth: 0 }}
         />
-
-        {/* <Button onClick={handleLogout}>Logout</Button>{" "} */}
         <Button href="/register">Register</Button>
         <Button href="/login">Login</Button>
       </Header>

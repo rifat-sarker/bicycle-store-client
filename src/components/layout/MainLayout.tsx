@@ -1,20 +1,10 @@
-import { Breadcrumb, Button, Layout, Menu } from "antd";
+import { Layout, Button } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
-import Sidebar from "./Sidebar";
-import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
-import { adminPaths } from "../../routes/admin.routes";
-import { customerPaths } from "../../routes/customer.routes";
-import Login from "../../pages/Login";
-
+import { useAppDispatch } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 import Navbar from "./Navbar";
-const { Content, Footer } = Layout;
 
-// const userRole = {
-//   ADMIN: "admin",
-//   CUSTOMER: "customer",
-// };
+const { Content, Footer } = Layout;
 
 const MainLayout = () => {
   const navigate = useNavigate();
@@ -25,17 +15,11 @@ const MainLayout = () => {
     navigate("/login");
   };
 
-
   return (
     <Layout>
       <Navbar />
       <Content style={{ height: "100vh" }}>
-        <div
-          style={{
-            minHeight: 280,
-            padding: 24,
-          }}
-        >
+        <div style={{ minHeight: 280, padding: 24 }}>
           <Outlet />
         </div>
       </Content>
