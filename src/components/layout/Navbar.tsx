@@ -4,12 +4,13 @@ import { MenuOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
 import { homePaths } from "../../routes/home.routes";
+import Logo from "../../utils/Logo";
 
 const { Header } = Layout;
 
 // Define primary and secondary colors
-const primaryColor = "#171717"; 
-const secondaryColor = "#f4b400"; 
+const primaryColor = "#ffffff";
+const secondaryColor = "#f4b400";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -30,20 +31,11 @@ const Navbar = () => {
         }}
       >
         {/* Logo */}
-        <div
-          style={{
-            color: "white",
-            fontSize: "24px",
-            fontWeight: "bold",
-          }}
-        >
-          Cyclify
-        </div>
+        <Logo />
 
-        {/* Desktop Menu */}
         <div className="desktop-menu">
           <Menu
-            theme="dark"
+            // theme="dark"
             mode="horizontal"
             items={navbarItemsGenerator(homePaths)}
             style={{
@@ -119,7 +111,7 @@ const Navbar = () => {
           align-items: center;
           justify-content: center;
           font-size: 24px; /* Increase icon size */
-          color: white;
+          // color: white;
           background: none;
           border: none;
           cursor: pointer;

@@ -4,6 +4,7 @@ export type TNavbarItem = {
   key: string;
   label: ReactNode;
   children?: TNavbarItem[];
+
 };
 
 export type TUserPath = {
@@ -11,6 +12,7 @@ export type TUserPath = {
   path?: string;
   element?: ReactNode;
   children?: TUserPath[];
+
 };
 
 export type TRoute = {

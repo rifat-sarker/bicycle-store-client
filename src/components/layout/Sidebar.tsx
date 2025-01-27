@@ -7,6 +7,10 @@ import Sider from "antd/es/layout/Sider";
 import { Button, Menu } from "antd";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import Logo from "../../utils/Logo";
+import { useEffect, useState } from "react";
+import { RightOutlined } from "@ant-design/icons";
+import { LogoutOutlined } from "@ant-design/icons";
 
 const userRole = {
   ADMIN: "admin",
@@ -16,6 +20,9 @@ const userRole = {
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const [collapsed, setCollapsed] = useState(false); // State to handle sidebar collapse
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const handleLogout = () => {
     const toastId = toast.loading("Logging out");
@@ -38,8 +45,37 @@ const Sidebar = () => {
       break;
   }
 
+  // Use media query to detect screen width and update state
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsSmallScreen(true);
+        setCollapsed(true);
+      } else {
+        setIsSmallScreen(false);
+        setCollapsed(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
-    <Sider breakpoint="lg" collapsedWidth="0">
+    <Sider
+      theme="light"
+      collapsed={collapsed}
+      width={250}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+      }}
+    >
+      {/* Logo */}
       <div
         style={{
           color: "white",
@@ -49,17 +85,80 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        <h1 style={{ color: "white", fontSize: "30px", fontWeight: "bold" }}>
-          Cyclify
-        </h1>
+        <Logo />
       </div>
+
       <Menu
-        theme="dark"
         mode="inline"
-        defaultSelectedKeys={["4"]}
+        defaultSelectedKeys={["0"]}
         items={sidebarItems}
+        style={{
+          flex: 1,
+          overflowY: "auto",
+        }}
       />
-      <Button onClick={handleLogout}>logout</Button>
+
+      <div style={{ marginTop: "auto", padding: "1rem" }}>
+        <Button
+          onClick={handleLogout}
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            backgroundColor: "#f4b400",
+          }}
+          icon={<LogoutOutlined />}
+        >
+          {!collapsed && "Logout"}
+        </Button>
+      </div>
+
+      {isSmallScreen && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 10,
+          }}
+        >
+          <Button
+            icon={<RightOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              background: "#fff",
+              border: "none",
+              padding: "0.5rem",
+              borderRadius: "50%",
+            }}
+          />
+        </div>
+      )}
+
+      {/* Toggle Button at the Bottom of Sidebar
+      {isSmallScreen && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "10px", // Bottom of the sidebar
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: 10,
+          }}
+        >
+          <Button
+            icon={<RightOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              background: "#fff",
+              border: "none",
+              padding: "0.5rem",
+              borderRadius: "50%",
+            }}
+          />
+        </div>
+      )} */}
     </Sider>
   );
 };
