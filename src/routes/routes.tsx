@@ -8,10 +8,10 @@ import { customerPaths } from "./customer.routes";
 import { homePaths } from "./home.routes";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
+  // {
+  //   path: "/",
+  //   element: <App />,
+  // },
   {
     path: "/admin",
     element: <App />,
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: routesGenerator(customerPaths),
   },
   {
-    path: "/home",
+    path: "/",
     element: <App />,
     children: routesGenerator(homePaths),
   },
