@@ -6,7 +6,7 @@ import AllProduct from "../pages/product/AllProduct";
 export const homePaths = [
   {
     name: "Home",
-    path: "home",
+    path: "/",
     element: <HomePage />,
   },
   {
