@@ -1,46 +1,10 @@
 import { Card, Col, Row, Button } from "antd";
 import { Link } from "react-router-dom";
+import { useGetAllProductsQuery } from "../../redux/features/admin/productManagementApi";
 
 const FeaturedBicycles = () => {
-  const bicycles = [
-    {
-      id: 1,
-      title: "Mountain Bike",
-      image: "https://i.ibb.co/G9WyKbW/download.jpg",
-      description:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    },
-    {
-      id: 2,
-      title: "Road Bike",
-      image: "https://i.ibb.co/G9WyKbW/download.jpg",
-      description: "Tempora maiores facere cumque saepe dolorem.",
-    },
-    {
-      id: 3,
-      title: "Hybrid Bike",
-      image: "https://i.ibb.co/G9WyKbW/download.jpg",
-      description: "Inventore suscipit totam eligendi ipsam nemo.",
-    },
-    {
-      id: 4,
-      title: "Electric Bike",
-      image: "https://i.ibb.co/G9WyKbW/download.jpg",
-      description: "Tenetur voluptatem magni neque omnis veritatis.",
-    },
-    {
-      id: 5,
-      title: "Folding Bike",
-      image: "https://i.ibb.co/G9WyKbW/download.jpg",
-      description: "Quae architecto facilis maiores facere cumque.",
-    },
-    {
-      id: 6,
-      title: "BMX Bike",
-      image: "https://i.ibb.co/G9WyKbW/download.jpg",
-      description: "Nemo earum tenetur voluptatem magni neque omnis.",
-    },
-  ];
+  const { data: products } = useGetAllProductsQuery(undefined);
+  console.log(products);
 
   return (
     <div style={{ marginTop: "50px" }}>
@@ -48,20 +12,20 @@ const FeaturedBicycles = () => {
         <h1>Featured Bicycles</h1>
       </div>
       <Row gutter={[16, 16]} justify="center">
-        {bicycles.map((bicycle) => (
-          <Col key={bicycle.id} xs={24} sm={12} md={8}>
-            <Card title={bicycle.title} bordered={false}>
+        {products?.data?.slice(0, 6).map((product) => (
+          <Col key={product._id} xs={24} sm={12} md={8}>
+            <Card title={product.name} bordered={false}>
               <img
                 style={{
                   width: "100%",
-                  height: "auto",
+                  height: "200px",
                   objectFit: "cover",
                   marginBottom: "8px",
                 }}
-                src={bicycle.image}
-                alt={bicycle.title}
+                src={product.productImg}
+                alt={product.productImg}
               />
-              <p>{bicycle.description}</p>
+              <p>{product.description}</p>
             </Card>
           </Col>
         ))}
