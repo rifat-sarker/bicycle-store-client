@@ -7,6 +7,7 @@ import { adminPaths } from "./admin.routes";
 import { customerPaths } from "./customer.routes";
 import { homePaths } from "./home.routes";
 import SidebarLayout from "../components/layout/SidebarLayout";
+import ProductDetails from "../pages/product/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/product/:id",
+    element: <ProductDetails />,
   },
   {
     path: "/admin",

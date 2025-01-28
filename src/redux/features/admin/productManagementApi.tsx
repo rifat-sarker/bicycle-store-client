@@ -26,7 +26,14 @@ const productManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getProductById: builder.query({
+      query: (id: string) => ({
+        url: `/products/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<TProduct>) => response,
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery } = productManagementApi;
+export const { useGetAllProductsQuery, useGetProductByIdQuery } = productManagementApi;
