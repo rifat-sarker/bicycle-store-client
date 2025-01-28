@@ -1,4 +1,5 @@
 import { Card, Col, Row, Button } from "antd";
+import { Link } from "react-router-dom";
 
 const FeaturedBicycles = () => {
   const bicycles = [
@@ -42,7 +43,7 @@ const FeaturedBicycles = () => {
   ];
 
   return (
-    <div style={{ marginTop: "40px" }}>
+    <div style={{ marginTop: "50px" }}>
       <div style={{ textAlign: "center", marginBottom: "24px" }}>
         <h1>Featured Bicycles</h1>
       </div>
@@ -66,7 +67,9 @@ const FeaturedBicycles = () => {
         ))}
       </Row>
       <div style={{ textAlign: "center", marginTop: "16px" }}>
-        <Button className="secondary-bg">View All</Button>
+        <Link to={"/all-product"}>
+          <Button className="secondary-bg">View All</Button>
+        </Link>
       </div>
     </div>
   );
