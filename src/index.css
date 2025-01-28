@@ -4,3 +4,21 @@
   box-sizing: border-box;
   font-family: "Inter", serif;
 }
+
+
+/* Primary and Secondary Colors */
+.primary-color {
+  color: #007bff;
+}
+
+.primary-bg {
+  background-color: #007bff; 
+}
+
+.secondary-color {
+  color: #f4b400; 
+}
+
+.secondary-bg {
+  background-color: #f4b400; 
+}
