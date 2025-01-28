@@ -1,4 +1,4 @@
-import { Button, Card, Carousel, Col, Row } from "antd";
+import { Button, Card, Carousel } from "antd";
 import { useRef } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 

@@ -71,7 +71,7 @@ const Navbar = () => {
         placement="right"
         onClose={toggleDrawer}
         open={drawerVisible}
-        bodyStyle={{ padding: 0 }}
+        // bodyStyle={{ padding: 0 }}
       >
         <Menu
           theme="light"

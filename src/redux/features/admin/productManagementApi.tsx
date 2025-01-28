@@ -16,10 +16,10 @@ const productManagementApi = baseApi.injectEndpoints({
         return {
           url: "/products",
           method: "GET",
+          params: params,
         };
       },
       transformResponse: (response: TResponseRedux<TProduct[]>) => {
-        console.log("inside redux", response);
         return {
           data: response.data,
           meta: response.meta,
