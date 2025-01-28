@@ -6,7 +6,7 @@ const testimonials = [
   {
     id: 1,
     name: "John Doe",
-    image: "https://i.ibb.co/G9WyKbW/download.jpg",
+    image: "https://i.ibb.co.com/sFks9GW/Michael-Brown.png",
     feedback:
       "This is the best bicycle I have ever purchased. It's smooth, stylish, and worth every penny!",
     position: "Cyclist",
@@ -14,7 +14,7 @@ const testimonials = [
   {
     id: 2,
     name: "Jane Smith",
-    image: "https://i.ibb.co/G9WyKbW/download.jpg",
+    image: "https://i.ibb.co.com/yYN8Pvk/Emily-Johnson-Profile.jpg",
     feedback:
       "Amazing quality and performance. Customer service was excellent. Highly recommended!",
     position: "Fitness Enthusiast",
@@ -22,7 +22,7 @@ const testimonials = [
   {
     id: 3,
     name: "Alex Johnson",
-    image: "https://i.ibb.co/G9WyKbW/download.jpg",
+    image: "https://i.ibb.co.com/bB1mLF9/brown-michael.jpg",
     feedback:
       "I love the durability and design of these bicycles. Perfect for city and off-road rides.",
     position: "Mountain Biker",
@@ -38,7 +38,7 @@ const testimonials = [
   {
     id: 5,
     name: "Mark Wilson",
-    image: "https://i.ibb.co/G9WyKbW/download.jpg",
+    image: "https://i.ibb.co.com/jgvGKSJ/Sample-Male-Principal.jpg",
     feedback:
       "Superb quality and attention to detail. I'm happy with my purchase. Highly recommend this brand!",
     position: "Professional Cyclist",
