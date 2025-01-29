@@ -33,7 +33,33 @@ const productManagementApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response: TResponseRedux<TProduct>) => response,
     }),
+    addProduct: builder.mutation({
+      query: (data) => ({
+        url: "/products",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    updateProduct: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/products/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery, useGetProductByIdQuery } = productManagementApi;
+export const {
+  useGetAllProductsQuery,
+  useGetProductByIdQuery,
+  useAddProductMutation,
+  useDeleteProductMutation,
+  useUpdateProductMutation,
+} = productManagementApi;
