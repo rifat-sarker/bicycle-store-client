@@ -95,7 +95,9 @@ const Login = () => {
           >
             Login
           </Button>
-          <p style={{textAlign: "center", margin: "10px 0"}}>Don't have an account? Please <Link to={"/register"} >Register</Link></p>
+          <p style={{ textAlign: "center", margin: "10px 0" }}>
+            Don't have an account? Please <Link to={"/register"}>Register</Link>
+          </p>
         </BSForm>
       </div>
     </Row>

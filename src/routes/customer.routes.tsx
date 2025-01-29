@@ -16,7 +16,7 @@ export const customerPaths = [
   {
     name: "Profile",
     path: "profile",
-    element: <CustomerDashboard />,
+    // element: <CustomerDashboard />,
     icon: <UserOutlined />,
   },
   {
