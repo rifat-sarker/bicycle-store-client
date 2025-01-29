@@ -3,20 +3,41 @@ import { Button, Row } from "antd";
 import { FieldValues } from "react-hook-form";
 import { useAppDispatch } from "../redux/hooks";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BSInput from "../components/form/BSInput";
-import { LoginOutlined, UserOutlined } from "@ant-design/icons";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../schemas/login.schema";
 import { registerSchema } from "../schemas/register.schema";
 import { UserAddOutlined } from "@ant-design/icons";
+import { useRegisterMutation } from "../redux/features/customer/customerApi";
+import { setUser, TUser } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [register] = useRegisterMutation();
 
   const onSubmit = async (data: FieldValues) => {
-    console.log(data);
+    // console.log(data);
+    const toastId = toast.loading("Creating User..");
+
+    try {
+      const userInfo = {
+        name: data.name.trim(),
+        email: data.email.trim(),
+        password: data.password,
+      };
+      const res = await register(userInfo).unwrap();
+      console.log(res);
+      const user = verifyToken(res.data.accessToken) as TUser;
+      console.log(user);
+
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
+      toast.success("Register success", { id: toastId, duration: 2000 });
+      navigate(`/${user.role}/dashboard`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -67,6 +88,9 @@ const Register = () => {
           >
             Register
           </Button>
+          <p style={{ textAlign: "center", margin: "10px 0" }}>
+            Already have an account? Please <Link to={"/login"}>Login</Link>
+          </p>
         </BSForm>
       </div>
     </Row>

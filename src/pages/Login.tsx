@@ -4,7 +4,7 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BSForm from "../components/form/BSForm";
 import { verifyToken } from "../utils/verifyToken";
 import BSInput from "../components/form/BSInput";
@@ -95,6 +95,7 @@ const Login = () => {
           >
             Login
           </Button>
+          <p style={{textAlign: "center", margin: "10px 0"}}>Don't have an account? Please <Link to={"/register"} >Register</Link></p>
         </BSForm>
       </div>
     </Row>
