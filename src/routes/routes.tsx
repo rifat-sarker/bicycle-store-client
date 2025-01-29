@@ -8,6 +8,7 @@ import { customerPaths } from "./customer.routes";
 import { homePaths } from "./home.routes";
 import SidebarLayout from "../components/layout/SidebarLayout";
 import ProductDetails from "../pages/product/ProductDetails";
+import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,12 +30,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <SidebarLayout />,
+    element: (
+      <ProtectedRoute>
+        <SidebarLayout />
+      </ProtectedRoute>
+    ),
     children: routesGenerator(adminPaths),
   },
   {
     path: "/customer",
-    element: <SidebarLayout />,
+    element: (
+      <ProtectedRoute>
+        <SidebarLayout />
+      </ProtectedRoute>
+    ),
     children: routesGenerator(customerPaths),
   },
 ]);
