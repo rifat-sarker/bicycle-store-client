@@ -15,7 +15,7 @@ const Banner = () => {
     console.log(currentSlide);
   };
   return (
-    <Carousel afterChange={onChange}>
+    <Carousel autoplay autoplaySpeed={2000} afterChange={onChange}>
       <div>
         <h3 style={contentStyle}>
           <img style={{ width: "100%", height: "80vh" }} src={banner1} alt="" />

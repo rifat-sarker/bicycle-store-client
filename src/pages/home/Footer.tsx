@@ -24,7 +24,7 @@ const Footer = () => {
 
         <Col xs={24} sm={12} md={6}>
           <h4 style={{ color: "white" }}>Important Links</h4>
-          <ul style={{ listStyle: "none", padding: 0 }}>
+          <ul style={{ listStyle: "none", padding: 0, }}>
             <li>
               <a
                 href="/"
@@ -32,6 +32,7 @@ const Footer = () => {
                   textDecoration: "none",
                   display: "block",
                   marginBottom: "8px",
+                  color: "gray"
                 }}
               >
                 Home
@@ -44,6 +45,7 @@ const Footer = () => {
                   textDecoration: "none",
                   display: "block",
                   marginBottom: "8px",
+                  color: "gray"
                 }}
               >
                 All Products
@@ -56,6 +58,7 @@ const Footer = () => {
                   textDecoration: "none",
                   display: "block",
                   marginBottom: "8px",
+                  color: "gray"
                 }}
               >
                 About
@@ -68,6 +71,7 @@ const Footer = () => {
                   textDecoration: "none",
                   display: "block",
                   marginBottom: "8px",
+                  color: "gray"
                 }}
               >
                 Contact
@@ -78,17 +82,17 @@ const Footer = () => {
 
         <Col xs={24} sm={12} md={6}>
           <h4 style={{}}>Follow Us</h4>
-          <div style={{ fontSize: "24px", display: "flex", gap: "15px" }}>
-            <a href="#" style={{}}>
+          <div style={{ fontSize: "24px", display: "flex", gap: "15px",  }}>
+            <a href="#" style={{color: "gray"}}>
               <FacebookOutlined />
             </a>
-            <a href="#" style={{}}>
+            <a href="#" style={{color: "gray"}}>
               <TwitterOutlined />
             </a>
-            <a href="#" style={{}}>
+            <a href="#" style={{color: "gray"}}>
               <InstagramOutlined />
             </a>
-            <a href="#" style={{}}>
+            <a href="#" style={{color: "gray"}}>
               <LinkedinOutlined />
             </a>
           </div>

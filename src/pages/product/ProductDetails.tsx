@@ -46,9 +46,10 @@ const ProductDetails = () => {
             <Text strong>Description:</Text>
             <p>{product?.data?.description}</p>
             <Button
+              className="secondary-bg"
               type="primary"
               size="large"
-              style={{ width: "100%" }}
+              style={{ width: "100%", color: "black" }}
               onClick={handleCheckout}
             >
               Buy Now

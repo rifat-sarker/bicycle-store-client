@@ -84,10 +84,9 @@ const AllProduct = () => {
     setParams(queryParams);
   }, [searchQuery, selectedModel, selectedCategory]);
 
-
   if (isLoading) {
     return (
-      <Row  gutter={[16, 16]}>
+      <Row gutter={[16, 16]}>
         {Array.from({ length: 8 }).map((_, index) => (
           <Col key={index} xs={24} sm={12} md={8} lg={6}>
             <Card>
@@ -110,7 +109,10 @@ const AllProduct = () => {
 
   return (
     <>
-      <Row  gutter={[16, 16]} style={{ marginBottom: "16px",marginTop: "50px" }}>
+      <Row
+        gutter={[16, 16]}
+        style={{ marginBottom: "16px", marginTop: "50px" }}
+      >
         <Col span={8}>
           <Input
             placeholder="Search by Name"
@@ -151,7 +153,7 @@ const AllProduct = () => {
         </Col>
       </Row>
 
-      <Row gutter={[16, 16]}>
+      <Row style={{ marginTop: "40px" }} gutter={[16, 16]}>
         {filteredProducts?.map((product) => (
           <Col key={product.key} xs={24} sm={12} md={8} lg={6}>
             <Card
@@ -194,8 +196,9 @@ const AllProduct = () => {
               />
               <Link to={`/product/${product.key}`}>
                 <Button
+                  className="secondary-bg"
                   type="primary"
-                  style={{ marginTop: "16px", width: "100%" }}
+                  style={{ marginTop: "16px", width: "100%", color: "black" }}
                 >
                   View Details
                 </Button>

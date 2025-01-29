@@ -39,13 +39,13 @@ const AboutPage = () => {
           </Col>
           <Col xs={24} md={12}>
             <h1>Welcome to Our Bicycle Shop!</h1>
-            <h4 style={{ color: "#888" }}>
+            <h4 style={{ color: "gray" }}>
               At <strong>Your Bicycle Shop</strong>, we are passionate about
               helping you find the perfect bicycle for your adventures. Whether
               you are an experienced cyclist or just getting started, we offer a
               wide range of bikes and accessories tailored to meet your needs.
             </h4>
-            <h4 style={{ color: "#888" }}>
+            <h4 style={{ color: "gray" }}>
               <strong>Our Mission:</strong> To inspire and empower every
               individual to explore the joy of cycling while promoting a
               healthier and more sustainable lifestyle.
@@ -56,7 +56,7 @@ const AboutPage = () => {
         <Row style={{ marginTop: "24px", }}>
           <Col xs={24}>
             <h1>Why Choose Us?</h1>
-            <ul style={{ paddingLeft: "20px",color: "#888", }}>
+            <ul style={{ paddingLeft: "20px",color: "gray" }}>
               <li>Wide range of premium bicycles and accessories.</li>
               <li>Friendly and knowledgeable staff ready to assist you.</li>
               <li>Commitment to sustainability and the environment.</li>
