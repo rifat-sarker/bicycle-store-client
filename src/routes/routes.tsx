@@ -17,18 +17,6 @@ const router = createBrowserRouter([
     children: routesGenerator(homePaths),
   },
   {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/product/:id",
-    element: <ProductDetails />,
-  },
-  {
     path: "/admin",
     element: (
       <ProtectedRoute>
@@ -45,6 +33,18 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: routesGenerator(customerPaths),
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  {
+    path: "/product/:id",
+    element: <ProductDetails />,
   },
 ]);
 

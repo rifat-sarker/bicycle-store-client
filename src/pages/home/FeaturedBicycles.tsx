@@ -4,7 +4,7 @@ import { useGetAllProductsQuery } from "../../redux/features/admin/productManage
 
 const FeaturedBicycles = () => {
   const { data: products } = useGetAllProductsQuery(undefined);
-  console.log(products);
+  // console.log(products);
 
   return (
     <div style={{ marginTop: "50px" }}>

@@ -4,10 +4,14 @@ import BSInput from "../../components/form/BSInput";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import BSSelect from "../../components/form/BSSelect";
 import { useAddProductMutation } from "../../redux/features/admin/productManagementApi";
-import { categoryOptions, modelOptions } from "../../constants/global";
+import {
+  brandOptions,
+  categoryOptions,
+  modelOptions,
+} from "../../constants/global";
+import { toast } from "sonner";
+import { TResponse } from "../../types";
 
-//! This is only for development
-//! Should be removed
 const productDefaultValues = {
   productImg:
     "https://i.ibb.co.com/FmzHyjJ/unbox-guy-9-Qm-VUQTFCVk-unsplash.jpg",
@@ -21,27 +25,28 @@ const productDefaultValues = {
   quantity: 20,
   stock: true,
 };
+
 const CreateProdcut = () => {
-  const [addProduct, { data, error }] = useAddProductMutation();
+  const [createProduct] = useAddProductMutation();
 
-  console.log({ data, error });
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const toastId = toast.loading("Creating...");
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     const productData = {
-      data,
+      ...data,
     };
-
-    // console.log(data);
-    const formData = new FormData();
-
-    formData.append("data", JSON.stringify(productData));
-    // formData.append("file", data.image);
-
-    addProduct(formData);
-
-    //! This is for development
-    //! Just for checking
-    // console.log(Object.fromEntries(formData));
+   
+    try {
+      const res = (await createProduct(productData)) as TResponse<any>;
+      console.log(res);
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success("Product created", { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
   return (
     <Row justify="center">
@@ -53,10 +58,10 @@ const CreateProdcut = () => {
               <BSInput type="text" name="name" label="Name" />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <BSSelect options={modelOptions} name="model" label="Model" />
+              <BSSelect options={brandOptions} name="brand" label="Brand" />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <BSInput type="text" name="brand" label="Brand" />
+              <BSSelect options={modelOptions} name="model" label="Model" />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <BSSelect

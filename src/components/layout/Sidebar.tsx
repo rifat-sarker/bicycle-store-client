@@ -5,7 +5,7 @@ import { customerPaths } from "../../routes/customer.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 import Sider from "antd/es/layout/Sider";
 import { Button, Menu } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Logo from "../../utils/Logo";
 import { useEffect, useState } from "react";
@@ -21,7 +21,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [collapsed, setCollapsed] = useState(false); // State to handle sidebar collapse
+  const [collapsed, setCollapsed] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const handleLogout = () => {
@@ -45,7 +45,6 @@ const Sidebar = () => {
       break;
   }
 
-  // Use media query to detect screen width and update state
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -85,7 +84,9 @@ const Sidebar = () => {
           alignItems: "center",
         }}
       >
-        <Logo />
+        <Link to={"/"}>
+          <Logo />
+        </Link>
       </div>
 
       <Menu

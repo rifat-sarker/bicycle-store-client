@@ -5,6 +5,7 @@ import "antd/dist/reset.css";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
 import { homePaths } from "../../routes/home.routes";
 import Logo from "../../utils/Logo";
+import { Link } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -31,7 +32,9 @@ const Navbar = () => {
         }}
       >
         {/* Logo */}
-        <Logo />
+        <Link to="/">
+          <Logo />
+        </Link>
 
         <div className="desktop-menu">
           <Menu

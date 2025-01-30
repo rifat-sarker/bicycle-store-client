@@ -11,11 +11,9 @@ const contentStyle: React.CSSProperties = {
 };
 
 const Banner = () => {
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
+  
   return (
-    <Carousel autoplay autoplaySpeed={2000} afterChange={onChange}>
+    <Carousel autoplay autoplaySpeed={2000}  draggable>
       <div>
         <h3 style={contentStyle}>
           <img style={{ width: "100%", height: "80vh" }} src={banner1} alt="" />

@@ -11,6 +11,17 @@ export const category = [
   "Fitness",
 ];
 
+export const brand = [
+  "CityRide",
+  "UrbanMotion",
+  "TrailPro",
+  "KidBike",
+  "GreenWheel",
+  "Velocita",
+  "HealthBike",
+  "SpeedBikes",
+  "ElectraBike",
+];
 export const modelOptions = model.map((item) => ({
   value: item.toLowerCase(),
   label: item,
@@ -18,5 +29,10 @@ export const modelOptions = model.map((item) => ({
 
 export const categoryOptions = category.map((item) => ({
   value: item,
+  label: item,
+}));
+
+export const brandOptions = brand.map((item) => ({
+  value: item.toLowerCase(),
   label: item,
 }));
