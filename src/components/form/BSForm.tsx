@@ -30,10 +30,17 @@ const BSForm = ({
   if (resolver) {
     formConfig["resolver"] = resolver;
   }
+
+  const submit: SubmitHandler<FieldValues> = (data) => {
+    onSubmit(data);
+    methods.reset();
+  };
   const methods = useForm(formConfig);
   return (
     <FormProvider {...methods}>
-      <Form layout="vertical" onFinish={methods.handleSubmit(onSubmit)}>{children}</Form>
+      <Form layout="vertical" onFinish={methods.handleSubmit(submit)}>
+        {children}
+      </Form>
     </FormProvider>
   );
 };

@@ -13,16 +13,8 @@ import { toast } from "sonner";
 import { TResponse } from "../../types";
 
 const productDefaultValues = {
-  productImg:
-    "https://i.ibb.co.com/FmzHyjJ/unbox-guy-9-Qm-VUQTFCVk-unsplash.jpg",
-  name: "Ninja",
-  brand: "HealthBike",
-  price: 600,
-  model: "Hybrid",
-  category: "Fitness",
-  description:
-    "The FitRide F1 is perfect for fitness enthusiasts who want to stay in shape while enjoying the outdoors. Its lightweight frame and ergonomic design make it easy to ride for long periods, while the 10-speed gear system provides versatility and control. The comfortable saddle and adjustable handlebars ensure a customized fit, reducing strain on your body during intense workouts. With its practical features and stylish design, the FitRide F1 is a great choice for anyone looking to incorporate cycling into their fitness routine.",
-  quantity: 20,
+  // productImg:
+  //   "https://i.ibb.co.com/FmzHyjJ/unbox-guy-9-Qm-VUQTFCVk-unsplash.jpg",
   stock: true,
 };
 
@@ -34,8 +26,13 @@ const CreateProdcut = () => {
 
     const productData = {
       ...data,
+      price: Number(data.price),
+      quantity: Number(data.quantity),
+      stock: true,
     };
-   
+
+    console.log(productData);
+
     try {
       const res = (await createProduct(productData)) as TResponse<any>;
       console.log(res);
@@ -98,7 +95,13 @@ const CreateProdcut = () => {
               <BSInput type="number" name="quantity" label="Quantity" />
             </Col>
           </Row>
-          <Button htmlType="submit">Submit</Button>
+          <Button
+            className="secondary-bg"
+            style={{ display: "flex", placeSelf: "center" }}
+            htmlType="submit"
+          >
+            Submit
+          </Button>
         </BSForm>
       </Col>
     </Row>

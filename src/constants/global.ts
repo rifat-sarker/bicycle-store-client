@@ -23,7 +23,7 @@ export const brand = [
   "ElectraBike",
 ];
 export const modelOptions = model.map((item) => ({
-  value: item.toLowerCase(),
+  value: item,
   label: item,
 }));
 
@@ -33,6 +33,6 @@ export const categoryOptions = category.map((item) => ({
 }));
 
 export const brandOptions = brand.map((item) => ({
-  value: item.toLowerCase(),
+  value: item,
   label: item,
 }));
