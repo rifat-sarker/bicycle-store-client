@@ -1,11 +1,16 @@
-
+import { useGetAllOrdersQuery } from "../../redux/features/customer/customerOrderApi";
 
 const CustomerOrder = () => {
-    return (
-        <div>
-            <h1>Customer order</h1>
-        </div>
-    );
+  const {
+    data: orderData,
+    isLoading,
+    isError,
+    error,
+  } = useGetAllOrdersQuery(undefined);
+
+  console.log("API Response:", orderData); // Debugging
+
+  return <div></div>;
 };
 
 export default CustomerOrder;

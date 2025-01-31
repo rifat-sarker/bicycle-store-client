@@ -1,5 +1,10 @@
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { logout, selectCurrentUser } from "../../redux/features/auth/authSlice";
+import {
+  logout,
+  selectCurrentUser,
+  TUser,
+  useCurrentToken,
+} from "../../redux/features/auth/authSlice";
 import { adminPaths } from "../../routes/admin.routes";
 import { customerPaths } from "../../routes/customer.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
@@ -11,6 +16,7 @@ import Logo from "../../utils/Logo";
 import { useEffect, useState } from "react";
 import { RightOutlined } from "@ant-design/icons";
 import { LogoutOutlined } from "@ant-design/icons";
+import { verifyToken } from "../../utils/verifyToken";
 
 const userRole = {
   ADMIN: "admin",
@@ -31,10 +37,15 @@ const Sidebar = () => {
     navigate("/login");
   };
 
-  const user = useAppSelector(selectCurrentUser);
+  const token = useAppSelector(useCurrentToken);
+  let user;
+  if (token) {
+    user = verifyToken(token);
+  }
+
   let sidebarItems;
 
-  switch (user?.role) {
+  switch ((user as TUser)?.role) {
     case userRole.ADMIN:
       sidebarItems = sidebarItemsGenerator(adminPaths, userRole.ADMIN);
       break;

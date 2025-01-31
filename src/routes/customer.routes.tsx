@@ -5,6 +5,7 @@ import {
   DashboardOutlined,
   OrderedListOutlined,
 } from "@ant-design/icons";
+import CustomerProfile from "../pages/customer/CustomerProfile";
 
 export const customerPaths = [
   {
@@ -16,7 +17,7 @@ export const customerPaths = [
   {
     name: "Profile",
     path: "profile",
-    // element: <CustomerDashboard />,
+    element: <CustomerProfile />,
     icon: <UserOutlined />,
   },
   {
