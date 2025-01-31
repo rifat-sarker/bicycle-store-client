@@ -6,6 +6,7 @@ import {
   ShoppingCartOutlined,
   OrderedListOutlined,
 } from "@ant-design/icons";
+import UpdateProduct from "../pages/product/UpdateProduct";
 
 export const adminPaths = [
   {
@@ -22,6 +23,11 @@ export const adminPaths = [
         name: "Add Product",
         path: "add-product",
         element: <CreateProdcut />,
+      },
+      {
+        name: "Update Product",
+        path: "update-product",
+        element: <UpdateProduct />,
       },
     ],
   },
