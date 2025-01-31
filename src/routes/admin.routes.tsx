@@ -14,7 +14,7 @@ export const adminPaths = [
     path: "dashboard",
     element: <AdminDashboard />,
     icon: <DashboardOutlined />,
-  },
+  }, 
   {
     name: "Products",
     icon: <ShoppingCartOutlined />,

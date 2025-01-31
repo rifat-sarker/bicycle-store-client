@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="admin">
         <SidebarLayout />
       </ProtectedRoute>
     ),
@@ -28,7 +28,7 @@ const router = createBrowserRouter([
   {
     path: "/customer",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute role="customer">
         <SidebarLayout />
       </ProtectedRoute>
     ),
