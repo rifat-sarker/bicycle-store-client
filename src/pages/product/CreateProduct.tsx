@@ -31,11 +31,13 @@ const CreateProdcut = () => {
       stock: true,
     };
 
-    console.log(productData);
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(productData));
+    formData.append("file", data.image);
 
     try {
-      const res = (await createProduct(productData)) as TResponse<any>;
-      console.log(res);
+      const res = (await createProduct(formData)) as TResponse<any>;
+
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
       } else {
