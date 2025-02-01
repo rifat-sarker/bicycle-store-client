@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
 import {
   Table,
@@ -10,6 +11,8 @@ import {
   Select,
   Switch,
   Upload,
+  Pagination,
+  TableColumnsType,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -23,9 +26,17 @@ import { brand, category, model } from "../../constants/global";
 
 const { Option } = Select;
 
-
 const ProductsManagement = () => {
-  const { data: products, isLoading, refetch } = useGetAllProductsQuery(undefined);
+  const [page, setPage] = useState(1);
+  const {
+    data: products,
+    isLoading,
+    refetch,
+  } = useGetAllProductsQuery([
+    { name: "limit", value: 8 },
+    { name: "page", value: page },
+    { name: "sort", value: "id" },
+  ]);
   const [addProduct] = useAddProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
@@ -34,6 +45,7 @@ const ProductsManagement = () => {
   const [editingProduct, setEditingProduct] = useState<TProduct | null>(null);
   const [form] = Form.useForm();
 
+  const metaData = products?.meta;
   const tableData = products?.data?.map((product) => ({
     key: product._id,
     ...product,
@@ -59,7 +71,7 @@ const ProductsManagement = () => {
         : {
             name: "",
             brand: "",
-            price: 0,
+            price: 1,
             model: "",
             category: "",
             description: "",
@@ -99,7 +111,10 @@ const ProductsManagement = () => {
       }
 
       if (editingProduct) {
-        await updateProduct({ id: editingProduct._id, ...productData }).unwrap();
+        await updateProduct({
+          id: editingProduct._id,
+          ...productData,
+        }).unwrap();
         message.success("Product updated successfully!");
       } else {
         await addProduct(formData).unwrap();
@@ -107,7 +122,7 @@ const ProductsManagement = () => {
       }
 
       handleCancel();
-      refetch(); 
+      refetch();
     } catch (error) {
       message.error("Operation failed");
     }
@@ -117,19 +132,52 @@ const ProductsManagement = () => {
     try {
       await deleteProduct(id).unwrap();
       message.success("Product deleted successfully!");
-      refetch(); 
+      refetch();
     } catch (error) {
       message.error("Failed to delete product");
     }
   };
 
-  const columns = [
+  const columns: TableColumnsType<TProduct> = [
     { title: "Name", dataIndex: "name", key: "name" },
     { title: "Brand", dataIndex: "brand", key: "brand" },
     { title: "Model", dataIndex: "model", key: "model" },
-    { title: "Category", dataIndex: "category", key: "category" },
-    { title: "Price", dataIndex: "price", key: "price" },
-    { title: "Quantity", dataIndex: "quantity", key: "quantity" },
+    {
+      title: "Category",
+      dataIndex: "category",
+      key: "category",
+      filters: [
+        {
+          text: "Racing",
+          value: "Racing",
+        },
+        {
+          text: "Electric",
+          value: "Electric",
+        },
+        {
+          text: "Sport",
+          value: "Sport",
+        },
+        {
+          text: "Outdoor",
+          value: "Outdoor",
+        },
+      ],
+      onFilter: (value, record) => record.category.includes(value as string),
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      sorter: (a, b) => a.price - b.price,
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      key: "quantity",
+      sorter: (a, b) => a.quantity - b.quantity,
+    },
     {
       title: "Stock",
       dataIndex: "stock",
@@ -160,74 +208,119 @@ const ProductsManagement = () => {
     },
   ];
 
+  const onChange: TableProps<TProduct>["onChange"] = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {};
+
   return (
-    <div style={{ padding: 20 }}>
-      <Button type="primary" onClick={() => showModal()} style={{ marginBottom: 16 }}>
-        Add Product
-      </Button>
-      <Table columns={columns} dataSource={tableData || []} loading={isLoading} rowKey="_id" />
-      <Modal
-        title={editingProduct ? "Edit Product" : "Add Product"}
-        open={isModalOpen}
-        onCancel={handleCancel}
-        onOk={() => form.submit()}
-      >
-        <Form form={form} layout="vertical" onFinish={handleSave}>
-          <Form.Item name="name" label="Product Name" rules={[{ required: true }]}>
-            <Input />
-          </Form.Item>
-          <Form.Item name="brand" label="Brand" rules={[{ required: true }]}>
-            <Select>
-              {brand.map((brand) => (
-                <Option key={brand} value={brand}>
-                  {brand}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="model" label="Model" rules={[{ required: true }]}>
-            <Select>
-              {model.map((model) => (
-                <Option key={model} value={model}>
-                  {model}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="category" label="Category" rules={[{ required: true }]}>
-            <Select>
-              {category.map((category) => (
-                <Option key={category} value={category}>
-                  {category}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="price" label="Price" rules={[{ required: true }]}>
-            <Input type="number" />
-          </Form.Item>
-          <Form.Item name="quantity" label="Quantity" rules={[{ required: true }]}>
-            <Input type="number" min={1} />
-          </Form.Item>
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item name="stock" label="In Stock" valuePropName="checked">
-            <Switch />
-          </Form.Item>
-          <Form.Item
-            name="productImg"
-            label="Product Image"
-            valuePropName="fileList"
-            getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
-          >
-            <Upload beforeUpload={() => false} listType="picture" maxCount={1}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+    <>
+      <div style={{ padding: 20 }}>
+        <Button
+          type="primary"
+          onClick={() => showModal()}
+          style={{ marginBottom: 16 }}
+        >
+          Add Product
+        </Button>
+        <Table
+          columns={columns}
+          dataSource={tableData || []}
+          loading={isLoading}
+          rowKey="_id"
+          onChange={onChange}
+          pagination={false}
+        />
+        <Modal
+          title={editingProduct ? "Edit Product" : "Add Product"}
+          open={isModalOpen}
+          onCancel={handleCancel}
+          onOk={() => form.submit()}
+        >
+          <Form form={form} layout="vertical" onFinish={handleSave}>
+            <Form.Item
+              name="name"
+              label="Product Name"
+              rules={[{ required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item name="brand" label="Brand" rules={[{ required: true }]}>
+              <Select>
+                {brand.map((brand) => (
+                  <Option key={brand} value={brand}>
+                    {brand}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item name="model" label="Model" rules={[{ required: true }]}>
+              <Select>
+                {model.map((model) => (
+                  <Option key={model} value={model}>
+                    {model}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              name="category"
+              label="Category"
+              rules={[{ required: true }]}
+            >
+              <Select>
+                {category.map((category) => (
+                  <Option key={category} value={category}>
+                    {category}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item name="price" label="Price" rules={[{ required: true }]}>
+              <Input type="number" />
+            </Form.Item>
+            <Form.Item
+              name="quantity"
+              label="Quantity"
+              rules={[{ required: true }]}
+            >
+              <Input type="number" min={1} />
+            </Form.Item>
+            <Form.Item
+              name="description"
+              label="Description"
+              rules={[{ required: true }]}
+            >
+              <Input.TextArea />
+            </Form.Item>
+            <Form.Item name="stock" label="In Stock" valuePropName="checked">
+              <Switch />
+            </Form.Item>
+            <Form.Item
+              name="productImg"
+              label="Product Image"
+              valuePropName="fileList"
+              getValueFromEvent={(e) => (Array.isArray(e) ? e : e?.fileList)}
+            >
+              <Upload
+                beforeUpload={() => false}
+                listType="picture"
+                maxCount={1}
+              >
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+              </Upload>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
+      <Pagination
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      />
+    </>
   );
 };
 
