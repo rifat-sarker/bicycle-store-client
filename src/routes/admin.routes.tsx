@@ -7,6 +7,7 @@ import {
   OrderedListOutlined,
 } from "@ant-design/icons";
 import UpdateProduct from "../pages/product/UpdateProduct";
+import ProductsManagement from "../pages/product/ProductsManagement";
 
 export const adminPaths = [
   {
@@ -28,6 +29,11 @@ export const adminPaths = [
         name: "Update Product",
         path: "update-product",
         element: <UpdateProduct />,
+      },
+      {
+        name: "Products Managements",
+        path: "product",
+        element: <ProductsManagement />,
       },
     ],
   },
