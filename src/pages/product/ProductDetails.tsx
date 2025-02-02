@@ -1,21 +1,40 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Card, Skeleton, Row, Col, Button, Typography, Divider } from "antd";
 import { useGetProductByIdQuery } from "../../redux/features/admin/productManagementApi";
+import { useCreateOrderMutation } from "../../redux/features/customer/customerOrderApi";
+import { useEffect } from "react";
+import { toast } from "sonner";
 
 const { Title, Text } = Typography;
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: product, isLoading } = useGetProductByIdQuery(id);
+  const { data: product } = useGetProductByIdQuery(id);
+  const [createOrder, { isSuccess, isLoading, data, isError, error }] =
+    useCreateOrderMutation();
+
+  // console.log(product.data);
+  const handlePlaceOrder = async () => {
+    // await createOrder({ products: [product?.data] });
+
+    navigate(`/product/checkout/${id}`);
+  };
+  // const toastId = "cart";
+  // useEffect(() => {
+  //   if (isLoading) toast.loading("Processing....", { id: toastId });
+  //   if (isSuccess) {
+  //     toast.success(data?.message, { id: toastId });
+  //     if (data?.data) {
+  //       window.location.href = data.data;
+  //     }
+  //   }
+  //   if (isError) toast.error(JSON.stringify(error), { id: toastId });
+  // }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
 
   if (isLoading) {
     return <Skeleton active />;
   }
-
-  const handleCheckout = () => {
-    navigate("/checkout"); // Redirects to checkout page
-  };
 
   return (
     <Card style={{ width: "100%", marginTop: "16px" }}>
@@ -42,6 +61,15 @@ const ProductDetails = () => {
             <Text strong>Price:</Text> ${product?.data?.price}
             <br />
             <Text strong>Category:</Text> {product?.data?.category}
+            <br />
+            <Text strong>
+              Status:
+              {product?.data?.stock === true ? (
+                <Text type="success">In Stock </Text>
+              ) : (
+                <Text type="danger"> Out of stock</Text>
+              )}{" "}
+            </Text>{" "}
             <Divider />
             <Text strong>Description:</Text>
             <p>{product?.data?.description}</p>
@@ -50,7 +78,7 @@ const ProductDetails = () => {
               type="primary"
               size="large"
               style={{ width: "100%", color: "black" }}
-              onClick={handleCheckout}
+              onClick={handlePlaceOrder}
             >
               Buy Now
             </Button>

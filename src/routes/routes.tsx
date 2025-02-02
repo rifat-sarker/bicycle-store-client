@@ -9,6 +9,7 @@ import { homePaths } from "./home.routes";
 import SidebarLayout from "../components/layout/SidebarLayout";
 import ProductDetails from "../pages/product/ProductDetails";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
+import CheckoutPage from "../pages/checkout/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/product/:id",
     element: <ProductDetails />,
+  },
+  {
+    path: "/product/checkout/:id",
+    element: <CheckoutPage />,
   },
 ]);
 

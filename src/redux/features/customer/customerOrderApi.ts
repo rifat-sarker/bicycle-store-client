@@ -2,6 +2,20 @@ import { baseApi } from "../../api/baseApi";
 
 const customerOrderApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    createOrder: builder.mutation({
+      query: (userInfo) => ({
+        url: "/orders",
+        method: "POST",
+        body: userInfo,
+      }),
+    }),
+    verifyOrder: builder.query({
+      query: (order_id) => ({
+        url: "/orders/verify",
+        params: { order_id },
+        method: "GET",
+      }),
+    }),
     getAllOrders: builder.query({
       query: () => ({
         url: "/orders",
@@ -25,7 +39,9 @@ const customerOrderApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useCreateOrderMutation,
   useGetAllOrdersQuery,
   useDeleteOrderMutation,
   useUpdateOrderMutation,
+  useVerifyOrderQuery,
 } = customerOrderApi;
