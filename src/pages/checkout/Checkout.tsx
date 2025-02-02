@@ -107,7 +107,7 @@ const Checkout = () => {
                 }}
                 loading={orderLoading}
               >
-                Place Order
+                Order Now
               </Button>
             </Col>
           </Row>
