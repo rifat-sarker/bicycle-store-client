@@ -8,7 +8,7 @@ import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { TOrder } from "../../types/orderManagement.type";
 
 const CustomerOrder = () => {
-  const { data: orders, isLoading } = useGetAllOrdersQuery(undefined);
+  const { data: orders, isLoading, refetch } = useGetAllOrdersQuery(undefined);
   const [deleteOrder] = useDeleteOrderMutation();
 
   const currentUser = useAppSelector(selectCurrentUser);
@@ -22,18 +22,27 @@ const CustomerOrder = () => {
     try {
       await deleteOrder(orderId).unwrap();
       message.success("Order canceled successfully!");
+      refetch()
     } catch (error) {
       message.error("Failed to cancel order. Please try again.");
     }
   };
 
   const tableData = userOrders.map(
-    ({ _id, product, transactionId, email, date, totalPrice, status }) => ({
+    ({
+      _id,
+      product,
+      transactionId,
+      email,
+      totalPrice,
+      status,
+      createdAt,
+    }) => ({
       key: _id,
       product,
       transactionId: transactionId || "Not Available",
       email,
-      date: date || new Date().toLocaleDateString(),
+      date: createdAt,
       totalPrice,
       status,
     })
@@ -69,7 +78,7 @@ const CustomerOrder = () => {
     },
   ];
 
-  return <Table dataSource={tableData} columns={columns} loading={isLoading} />;
+  return <Table dataSource={tableData} columns={columns} loading={isLoading} pagination={{ pageSize: 8, position: ['bottomLeft'] }} />;
 };
 
 export default CustomerOrder;

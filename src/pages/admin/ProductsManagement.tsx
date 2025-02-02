@@ -13,6 +13,7 @@ import {
   Upload,
   Pagination,
   TableColumnsType,
+  TableProps,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import {
@@ -88,7 +89,7 @@ const ProductsManagement = () => {
     form.resetFields();
   };
 
-  const handleSave = async (values: any) => {
+  const handleSubmit = async (values: any) => {
     try {
       const productData = {
         name: values.name,
@@ -239,7 +240,7 @@ const ProductsManagement = () => {
           onCancel={handleCancel}
           onOk={() => form.submit()}
         >
-          <Form form={form} layout="vertical" onFinish={handleSave}>
+          <Form form={form} layout="vertical" onFinish={handleSubmit}>
             <Form.Item
               name="name"
               label="Product Name"
