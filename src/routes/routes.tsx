@@ -10,6 +10,7 @@ import SidebarLayout from "../components/layout/SidebarLayout";
 import ProductDetails from "../pages/product/ProductDetails";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import CheckoutPage from "../pages/checkout/Checkout";
+import VerificationOrder from "../pages/order/VerificationOrder";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/product/checkout/:id",
     element: <CheckoutPage />,
+  },
+  {
+    path: "/orders/verify",
+    element: <VerificationOrder />,
   },
 ]);
 

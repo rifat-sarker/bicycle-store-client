@@ -17,9 +17,11 @@
 }
 
 .secondary-color {
-  color: #f4b400; 
+  color: #1A1A1A; 
+  /* color: #f4b400;  */
 }
 
 .secondary-bg {
-  background-color: #f4b400; 
+  background-color: #1A1A1A; 
+  /* background-color: #f4b400;  */
 }

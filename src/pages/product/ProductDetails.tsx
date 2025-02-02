@@ -1,36 +1,17 @@
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card, Skeleton, Row, Col, Button, Typography, Divider } from "antd";
 import { useGetProductByIdQuery } from "../../redux/features/admin/productManagementApi";
-import { useCreateOrderMutation } from "../../redux/features/customer/customerOrderApi";
-import { useEffect } from "react";
-import { toast } from "sonner";
 
 const { Title, Text } = Typography;
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: product } = useGetProductByIdQuery(id);
-  const [createOrder, { isSuccess, isLoading, data, isError, error }] =
-    useCreateOrderMutation();
+  const { data: product, isLoading } = useGetProductByIdQuery(id);
 
-  // console.log(product.data);
-  const handlePlaceOrder = async () => {
-    // await createOrder({ products: [product?.data] });
-
+  const handlePlaceOrder = () => {
     navigate(`/product/checkout/${id}`);
   };
-  // const toastId = "cart";
-  // useEffect(() => {
-  //   if (isLoading) toast.loading("Processing....", { id: toastId });
-  //   if (isSuccess) {
-  //     toast.success(data?.message, { id: toastId });
-  //     if (data?.data) {
-  //       window.location.href = data.data;
-  //     }
-  //   }
-  //   if (isError) toast.error(JSON.stringify(error), { id: toastId });
-  // }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
 
   if (isLoading) {
     return <Skeleton active />;
@@ -53,7 +34,7 @@ const ProductDetails = () => {
         </Col>
         <Col xs={24} sm={12} md={12}>
           <div style={{ paddingLeft: "20px" }}>
-            <Title level={2}>{product?.data?.name}</Title>
+            <h1>{product?.data?.name}</h1>
             <Text strong>Brand:</Text> {product?.data?.brand}
             <br />
             <Text strong>Model:</Text> {product?.data?.model}
@@ -74,10 +55,10 @@ const ProductDetails = () => {
             <Text strong>Description:</Text>
             <p>{product?.data?.description}</p>
             <Button
-              className="secondary-bg"
-              type="primary"
+              color="default"
+              variant="solid"
               size="large"
-              style={{ width: "100%", color: "black" }}
+              style={{ width: "50%" }}
               onClick={handlePlaceOrder}
             >
               Buy Now

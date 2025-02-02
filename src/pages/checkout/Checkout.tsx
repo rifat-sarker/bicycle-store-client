@@ -1,6 +1,15 @@
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { Card, InputNumber, Button, Typography, Skeleton, message } from "antd";
+import { useParams } from "react-router-dom";
+import {
+  Card,
+  InputNumber,
+  Button,
+  Typography,
+  Skeleton,
+  Row,
+  Col,
+  Divider,
+} from "antd";
 import { useGetProductByIdQuery } from "../../redux/features/admin/productManagementApi";
 import { useCreateOrderMutation } from "../../redux/features/customer/customerOrderApi";
 import { toast } from "sonner";
@@ -9,7 +18,6 @@ const { Title, Text } = Typography;
 
 const Checkout = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { data: product, isLoading } = useGetProductByIdQuery(id);
   const [quantity, setQuantity] = useState(1);
   const [
@@ -29,43 +37,83 @@ const Checkout = () => {
     toast.success(data?.message, { id: toastId });
     if (data?.data) {
       setTimeout(() => {
-        window.location.href = data.data; 
+        window.location.href = data.data;
       }, 1000);
     }
   }
-  if (isError) toast.error(JSON.stringify(error), { id: toastId });
+  if (isError) {
+    const errorMessage =
+      (error as any)?.data?.message ||
+      "Something went wrong! Please try again.";
+    toast.error(errorMessage, { id: toastId });
+  }
 
   if (isLoading) return <Skeleton active />;
 
   return (
-    <Card style={{ width: "100%", marginTop: "16px" }}>
-      <Title level={2}>Checkout</Title>
-      <Text strong>Product:</Text> {product?.data?.name}
-      <br />
-      <Text strong>Price:</Text> ${product?.data?.price}
-      <br />
-      <img style={{ width: "50%" }} src={product?.data?.productImg} alt="" />
-      <br />
-      <Text strong>Quantity:</Text>
-      <InputNumber
-        min={1}
-        max={10}
-        value={quantity}
-        onChange={(value) => setQuantity(value)}
-        style={{ marginLeft: "10px" }}
-      />
-      <br />
-      <br />
-      <Button
-        type="primary"
-        size="large"
-        onClick={handlePlaceOrder}
-        style={{ width: "100%" }}
-        loading={orderLoading}
-      >
-        Place Order
-      </Button>
-    </Card>
+    <Row justify="center" style={{ padding: "20px" }}>
+      <Col xs={24} sm={18} md={16} lg={12}>
+        <Card
+          style={{
+            width: "100%",
+            borderRadius: "12px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            padding: "20px",
+            textAlign: "center",
+          }}
+        >
+          <h1 style={{ marginBottom: "10px" }}>Checkout</h1>
+          <Divider />
+          <Row gutter={[16, 16]} align="middle">
+            <Col xs={24} md={12}>
+              <img
+                src={product?.data?.productImg}
+                alt="Product"
+                style={{
+                  width: "100%",
+                  height: "auto",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+              />
+            </Col>
+            <Col xs={24} md={12} style={{ textAlign: "left" }}>
+              <Title level={4}>{product?.data?.name}</Title>
+              <Text strong>Price: </Text> ${product?.data?.price}
+              <br />
+              <Text strong>Quantity:</Text>
+              <InputNumber
+                min={1}
+                max={10}
+                value={quantity}
+                onChange={(value) => setQuantity(value ?? 1)}
+                style={{
+                  marginLeft: "10px",
+                  width: "80px",
+                  borderRadius: "8px",
+                  padding: "5px",
+                }}
+              />
+              <Divider />
+              <Button
+                type="primary"
+                size="large"
+                onClick={handlePlaceOrder}
+                style={{
+                  width: "100%",
+                  backgroundColor: "#1890ff",
+                  border: "none",
+                  borderRadius: "8px",
+                }}
+                loading={orderLoading}
+              >
+                Place Order
+              </Button>
+            </Col>
+          </Row>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

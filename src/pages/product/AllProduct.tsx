@@ -196,9 +196,10 @@ const AllProduct = () => {
               />
               <Link to={`/product/${product.key}`}>
                 <Button
-                  className="secondary-bg"
-                  type="primary"
-                  style={{ marginTop: "16px", width: "100%", color: "black" }}
+                  color="default"
+                  variant="solid"
+                  size="large"
+                  style={{ marginTop: "16px", width: "100%" }}
                 >
                   View Details
                 </Button>
