@@ -29,7 +29,24 @@ const userManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
+    updateUser: builder.mutation({
+      query: (args) => ({
+        url: `/users/${args.id}`,
+        method: "PATCH",
+        body: args.data,
+      }),
+    }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/users/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useGetUsersQuery } = userManagementApi;
+export const {
+  useGetUsersQuery,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+} = userManagementApi;

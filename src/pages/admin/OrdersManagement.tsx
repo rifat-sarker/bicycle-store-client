@@ -99,8 +99,10 @@ const OrdersManagement = () => {
               onChange={(value) => handleStatusChange(data.key, value)} // Pass `data.key` as `orderId`
             >
               <Select.Option value="Pending">Pending</Select.Option>
+              <Select.Option value="Paid">Paid</Select.Option>
               <Select.Option value="Shipped">Shipped</Select.Option>
-              <Select.Option value="Delivered">Delivered</Select.Option>
+              <Select.Option value="Dlivered">Delivered</Select.Option>
+              <Select.Option value="Cancelled">Cancelled</Select.Option>
             </Select>
           )}
         </Space>

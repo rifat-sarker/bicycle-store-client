@@ -1,26 +1,51 @@
-import { Space, Table, message, Select } from "antd";
-import { selectCurrentUser } from "../../redux/features/auth/authSlice";
+import { Space, Table, Select, message } from "antd";
+import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
-import { useGetUsersQuery } from "../../redux/features/admin/userManagementApi";
+import {
+  useDeleteUserMutation,
+  useGetUsersQuery,
+  useUpdateUserMutation,
+} from "../../redux/features/admin/userManagementApi";
+import { TAllUser } from "../../types/userManagement.type";
 
 const UserManagement = () => {
   const { data: users, isLoading, refetch } = useGetUsersQuery(undefined);
-
+  const [updateUserStatus] = useUpdateUserMutation();
+  const [deleteUser] = useDeleteUserMutation();
   const currentUser = useAppSelector(selectCurrentUser);
+  const currentUserEmail = currentUser?.email;
 
   const isAdmin = currentUser?.role === "admin";
 
-  const handleCancel = async (orderId: string) => {
+  const filteredUsers = Array.isArray(users?.data)
+    ? users.data.filter((user) => isAdmin || user.email === currentUserEmail)
+    : [];
+
+  const handleDeleteUser = async (userId: string) => {
     try {
-      await deleteOrder(orderId).unwrap();
-      message.success("Order canceled successfully!");
+      await deleteUser(userId).unwrap();
+      message.success("User deleted successfully!");
       refetch();
     } catch (error) {
-      message.error("Failed to cancel order. Please try again.");
+      message.error("Failed to delete user. Please try again.");
     }
   };
 
-  const tableData = users?.data?.map(({ _id, name, email, role, status }) => ({
+  const handleStatusChange = async (userId: string, status: string) => {
+    try {
+      if (userId && status) {
+        await updateUserStatus({ id: userId, data: { status } }).unwrap();
+        message.success("User status updated successfully!");
+        refetch();
+      } else {
+        message.error("Invalid user ID or status.");
+      }
+    } catch (error) {
+      message.error("Failed to update user status. Please try again.");
+    }
+  };
+
+  const tableData = filteredUsers.map(({ _id, name, email, role, status }) => ({
     key: _id,
     name,
     email,
@@ -41,7 +66,7 @@ const UserManagement = () => {
         <Space size="middle">
           {data.status === "Pending" ? (
             <a
-              onClick={() => handleCancel(data.key)}
+              onClick={() => handleDeleteUser(data.key)}
               style={{ color: "red", cursor: "pointer" }}
             >
               Cancel

@@ -1,4 +1,4 @@
-export type TUser = {
+export type TAllUser = {
   phone: string;
   address: string;
   city: string;
