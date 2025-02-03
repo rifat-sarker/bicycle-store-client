@@ -64,16 +64,13 @@ const UserManagement = () => {
       key: "action",
       render: (data: { key: string; status: string }) => (
         <Space size="middle">
-          {data.status === "Pending" ? (
-            <a
-              onClick={() => handleDeleteUser(data.key)}
-              style={{ color: "red", cursor: "pointer" }}
-            >
-              Cancel
-            </a>
-          ) : (
-            "-"
-          )}
+          <a
+            onClick={() => handleDeleteUser(data.key)}
+            style={{ color: "red", cursor: "pointer" }}
+          >
+            Delete
+          </a>
+
           {isAdmin && (
             <Select
               defaultValue={data.status}
