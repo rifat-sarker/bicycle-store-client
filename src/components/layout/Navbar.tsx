@@ -1,24 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout, Menu, Button, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import "antd/dist/reset.css";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
 import { homePaths } from "../../routes/home.routes";
 import Logo from "../../utils/Logo";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 
 const { Header } = Layout;
 
 // Define primary and secondary colors
 const primaryColor = "#ffffff";
-const secondaryColor = "#f4b400";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Track if screen is mobile
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // Get user data from Redux store
+  const { user } = useAppSelector((state) => state.auth);
 
   const toggleDrawer = () => {
     setDrawerVisible(!drawerVisible);
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+    // navigate("/login");
+  };
+
+  // Determine dashboard path based on role
+  const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
+
+  // Resize listener to update isMobile state
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <Layout>
@@ -36,111 +62,127 @@ const Navbar = () => {
           <Logo />
         </Link>
 
-        <div className="desktop-menu">
-          <Menu
-            // theme="dark"
-            mode="horizontal"
-            items={navbarItemsGenerator(homePaths)}
-            style={{
-              backgroundColor: primaryColor,
-              color: "#C2C2C2",
-              borderBottom: "none",
-            }}
-          />
-        </div>
+        {/* Desktop Menu */}
+        {!isMobile && (
+          <div className="desktop-menu">
+            <Menu
+              mode="horizontal"
+              items={navbarItemsGenerator(homePaths)}
+              style={{
+                backgroundColor: primaryColor,
+                color: "#C2C2C2",
+                borderBottom: "none",
+              }}
+            />
+          </div>
+        )}
 
+        {/* Show Login/Register if not logged in, otherwise show Dashboard/Logout */}
         <div style={{ gap: "10px" }} className="desktop-buttons">
-          <Button
-            href="/register"
-            style={{ backgroundColor: secondaryColor, color: "black" }}
-          >
-            Register
-          </Button>
-          <Button href="/login" type="primary">
-            Login
-          </Button>
+          {user ? (
+            <>
+              <Button
+                color="default"
+                variant="solid"
+                onClick={() => navigate(dashboardPath)}
+              >
+                Dashboard
+              </Button>
+              <Button color="default" variant="solid" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button color="default" variant="solid" href="/register">
+                Register
+              </Button>
+              <Button color="default" variant="solid" href="/login">
+                Login
+              </Button>
+            </>
+          )}
         </div>
 
-        <Button
-          type="text"
-          icon={<MenuOutlined />}
-          onClick={toggleDrawer}
-          className="mobile-menu-toggle"
-        />
+        {/* Mobile menu toggle button */}
+        {isMobile && (
+          <Button
+            type="text"
+            icon={<MenuOutlined />}
+            onClick={toggleDrawer}
+            className="mobile-menu-toggle"
+          />
+        )}
       </Header>
 
       {/* Mobile Drawer */}
-      <Drawer
-        placement="right"
-        onClose={toggleDrawer}
-        open={drawerVisible}
-        // bodyStyle={{ padding: 0 }}
-      >
-        <Menu
-          theme="light"
-          mode="vertical"
-          items={navbarItemsGenerator(homePaths)}
-        />
-        <div
-          style={{
-            padding: "16px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-          }}
-        >
-          <Button
-            href="/register"
-            style={{ backgroundColor: secondaryColor, color: "black" }}
+      {isMobile && (
+        <Drawer placement="right" onClose={toggleDrawer} open={drawerVisible}>
+          <Menu
+            theme="light"
+            mode="vertical"
+            items={navbarItemsGenerator(homePaths)}
+          />
+          <div
+            style={{
+              padding: "16px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
           >
-            Register
-          </Button>
-          <Button href="/login" type="primary">
-            Login
-          </Button>
-        </div>
-      </Drawer>
+            {user ? (
+              <>
+                <Button
+                  color="default"
+                  variant="solid"
+                  onClick={() => navigate(dashboardPath)}
+                >
+                  Dashboard
+                </Button>
+                <Button color="default" variant="solid" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button color="default" variant="solid" href="/register">
+                  Register
+                </Button>
+                <Button color="default" variant="solid" href="/login">
+                  Login
+                </Button>
+              </>
+            )}
+          </div>
+        </Drawer>
+      )}
 
       <style jsx="true">{`
-        /* Hide desktop menu and buttons on small screens */
         .desktop-menu,
         .desktop-buttons {
           display: none;
         }
 
-        /* Adjust toggle button size and alignment */
         .mobile-menu-toggle {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px; /* Increase icon size */
-          // color: white;
+          font-size: 24px;
           background: none;
           border: none;
           cursor: pointer;
-          width: 48px; /* Ensure button size is consistent */
+          width: 48px;
           height: 48px;
           padding: 0;
           margin-left: auto;
         }
 
-        /* Hover effect for toggle button */
         .mobile-menu-toggle:hover {
           background-color: rgba(255, 255, 255, 0.1);
           border-radius: 8px;
         }
 
-        /* Custom active menu item style */
-        .ant-menu-item-selected {
-          background: none !important;
-          // border-bottom: 2px solid ${secondaryColor} !important; /* Add underline */
-        }
-
-        .ant-menu-item:hover {
-          background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Responsive styles for larger screens */
         @media (min-width: 768px) {
           .desktop-menu,
           .desktop-buttons {

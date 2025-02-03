@@ -112,12 +112,14 @@ const Sidebar = () => {
 
       <div style={{ marginTop: "auto", padding: "1rem" }}>
         <Button
+          color="default"
+          variant="solid"
           onClick={handleLogout}
           style={{
             width: "100%",
             display: "flex",
             alignItems: "center",
-            backgroundColor: "#f4b400",
+            
           }}
           icon={<LogoutOutlined />}
         >

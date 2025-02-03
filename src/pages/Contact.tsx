@@ -41,12 +41,7 @@ const ContactPage = () => {
               <Form.Item label="Your Message">
                 <Input.TextArea rows={4} placeholder="Write your message..." />
               </Form.Item>
-              <Button
-                style={{ color: "black" }}
-                className="secondary-bg"
-                type="primary"
-                block
-              >
+              <Button color="default" variant="solid" style={{width: "50%"}} block>
                 Send Message
               </Button>
             </Form>

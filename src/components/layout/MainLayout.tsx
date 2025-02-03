@@ -10,10 +10,10 @@ const MainLayout = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   dispatch(logout());
+  //   navigate("/login");
+  // };
 
   return (
     <Layout>

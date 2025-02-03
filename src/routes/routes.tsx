@@ -11,12 +11,18 @@ import ProductDetails from "../pages/product/ProductDetails";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
 import CheckoutPage from "../pages/checkout/Checkout";
 import VerificationOrder from "../pages/order/VerificationOrder";
+import MainLayout from "../components/layout/MainLayout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-    children: routesGenerator(homePaths),
+    element: <MainLayout />, // Apply Navbar once at the root
+    children: [
+      ...routesGenerator(homePaths),
+      { path: "product/:id", element: <ProductDetails /> },
+      { path: "product/checkout/:id", element: <CheckoutPage /> },
+      { path: "orders/verify", element: <VerificationOrder /> },
+    ],
   },
   {
     path: "/admin",
@@ -44,18 +50,18 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
-  {
-    path: "/product/:id",
-    element: <ProductDetails />,
-  },
-  {
-    path: "/product/checkout/:id",
-    element: <CheckoutPage />,
-  },
-  {
-    path: "/orders/verify",
-    element: <VerificationOrder />,
-  },
+  // {
+  //   path: "/product/:id",
+  //   element: <ProductDetails />,
+  // },
+  // {
+  //   path: "/product/checkout/:id",
+  //   element: <CheckoutPage />,
+  // },
+  // {
+  //   path: "/orders/verify",
+  //   element: <VerificationOrder />,
+  // },
 ]);
 
 export default router;

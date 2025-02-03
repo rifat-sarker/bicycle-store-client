@@ -76,7 +76,8 @@ const Register = () => {
           <BSInput type="password" name="password" label="Password:" />
           <Button
             icon={<UserAddOutlined />}
-            className="secondary-bg"
+            color="default"
+            variant="solid"
             style={{
               width: "100%",
               padding: "10px 0",

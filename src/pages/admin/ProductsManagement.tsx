@@ -220,7 +220,8 @@ const ProductsManagement = () => {
     <>
       <div style={{ padding: 20 }}>
         <Button
-          type="primary"
+          color="default"
+          variant="solid"
           onClick={() => showModal()}
           style={{ marginBottom: 16 }}
         >

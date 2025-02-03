@@ -57,8 +57,7 @@ const ProductDetails = () => {
             <Button
               color="default"
               variant="solid"
-              size="large"
-              style={{ width: "50%" }}
+              style={{ width: "50%", margin: "20px 0px" }}
               onClick={handlePlaceOrder}
             >
               Buy Now

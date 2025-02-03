@@ -198,7 +198,6 @@ const AllProduct = () => {
                 <Button
                   color="default"
                   variant="solid"
-                  size="large"
                   style={{ marginTop: "16px", width: "100%" }}
                 >
                   View Details

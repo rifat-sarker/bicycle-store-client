@@ -96,12 +96,11 @@ const Checkout = () => {
               />
               <Divider />
               <Button
-                type="primary"
-                size="large"
+                color="default"
+                variant="solid"
                 onClick={handlePlaceOrder}
                 style={{
                   width: "100%",
-                  backgroundColor: "#1890ff",
                   border: "none",
                   borderRadius: "8px",
                 }}

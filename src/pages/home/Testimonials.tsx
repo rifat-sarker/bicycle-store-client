@@ -155,8 +155,9 @@ const Testimonials = () => {
         </Carousel>
 
         <Button
+          color="default"
+          variant="solid"
           shape="circle"
-          className="secondary-bg"
           icon={<LeftOutlined />}
           onClick={handlePrev}
           style={{
@@ -168,7 +169,8 @@ const Testimonials = () => {
           }}
         />
         <Button
-          className="secondary-bg"
+          color="default"
+          variant="solid"
           shape="circle"
           icon={<RightOutlined />}
           onClick={handleNext}
