@@ -48,32 +48,35 @@ const CustomerProfile = () => {
         justifyContent: "center",
         padding: "20px",
         backgroundColor: "#f0f2f5",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <Card
         style={{
           width: "100%",
-          maxWidth: "800px",
+          maxWidth: "600px", // Ensures max width for large screens
           borderRadius: "8px",
           boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
           padding: "20px",
         }}
       >
-        <Row gutter={[24, 24]} align="middle">
-          <Col xs={24} md={10} style={{ textAlign: "center" }}>
+        <Row gutter={[16, 24]} align="middle" justify="center">
+          {/* Avatar Section */}
+          <Col xs={24} style={{ textAlign: "center" }}>
             <Avatar
               src={
-                "https://i.ibb.co.com/MkbyPSHB/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg"
+                "https://i.ibb.co/MkbyPSHB/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg"
               }
               size={80}
+              style={{ marginBottom: "15px" }}
             />
-            <Title level={4} style={{ margin: "15px 0 5px" }}>
-              {user.email}
-            </Title>
+            <Title level={4}>{user.email}</Title>
             <Text type="secondary">{user.role}</Text>
           </Col>
 
-          <Col xs={24} md={14}>
+          {/* Form Section */}
+          <Col xs={24}>
             <Title
               level={4}
               style={{ textAlign: "center", marginBottom: "20px" }}
@@ -112,10 +115,13 @@ const CustomerProfile = () => {
                 <Input.Password placeholder="Confirm password" />
               </Form.Item>
               <Button
-                type="primary"
-                block
+                color="default"
+                variant="solid"
                 htmlType="submit"
-                style={{ fontSize: "16px", height: "40px", color: "black" }}
+                style={{
+                  display: "flex",
+                  margin: "0 auto",
+                }}
               >
                 Change Password
               </Button>

@@ -8,6 +8,7 @@ import { TOrder } from "../../types/orderManagement.type";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
 import { useState } from "react";
+import { formatDateTime } from "../../utils/date";
 
 const OrdersManagement = () => {
   const [page, setPage] = useState(1);
@@ -57,20 +58,6 @@ const OrdersManagement = () => {
     }
   };
 
-  // Format date with AM/PM
-  const formatDateTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: true,
-    });
-  };
-
   const tableData = filteredOrders.map(
     ({ _id, user, products, transaction, totalPrice, status, createdAt }) => ({
       key: _id,
@@ -101,30 +88,26 @@ const OrdersManagement = () => {
       key: "action",
       render: (data: { key: string; status: string }) => (
         <Space size="middle">
-          {data.status === "Pending" ? (
-            <a
-              onClick={() => handleCancel(data.key)}
-              style={{ color: "red", cursor: "pointer" }}
-            >
-              Cancel
-            </a>
-          ) : (
-            "-"
-          )}
-          {isAdmin && (
-            <Select
-              defaultValue={data.status}
-              style={{ width: 120 }}
-              onChange={(value) => handleStatusChange(data.key, value)}
-            >
-              <Select.Option value="Pending">Pending</Select.Option>
-              <Select.Option value="Paid">Paid</Select.Option>
-              <Select.Option value="Shipped">Shipped</Select.Option>
-              <Select.Option value="Delivered">Delivered</Select.Option>
-              <Select.Option value="Cancelled">Cancelled</Select.Option>
-            </Select>
-          )}
-        </Space>
+        {data.status === "Pending" && (
+          <a onClick={() => handleCancel(data.key)} style={{ color: "red", cursor: "pointer" }}>
+            <i className="fas fa-times-circle" /> Cancel
+          </a>
+        )}
+        {isAdmin && (
+          <Select
+            defaultValue={data.status}
+            style={{ width: '100%', maxWidth: 120 }}
+            onChange={(value) => handleStatusChange(data.key, value)}
+          >
+            <Select.Option value="Pending">Pending</Select.Option>
+            <Select.Option value="Paid">Paid</Select.Option>
+            <Select.Option value="Shipped">Shipped</Select.Option>
+            <Select.Option value="Delivered">Delivered</Select.Option>
+            <Select.Option value="Cancelled">Cancelled</Select.Option>
+          </Select>
+        )}
+      </Space>
+      
       ),
     },
   ];
@@ -136,8 +119,10 @@ const OrdersManagement = () => {
         columns={columns}
         loading={isLoading}
         pagination={false}
+        scroll={{ x: 'max-content' }}
       />
       <Pagination
+      style={{padding: "20px 0px"}}
         onChange={(value) => setPage(value)}
         pageSize={metaData?.limit}
         total={metaData?.total}
