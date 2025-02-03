@@ -1,4 +1,4 @@
-import { Space, Table, message, Select } from "antd";
+import { Space, Table, message, Select, Pagination } from "antd";
 import {
   useDeleteOrderMutation,
   useGetAllOrdersQuery,
@@ -7,20 +7,35 @@ import {
 import { TOrder } from "../../types/orderManagement.type";
 import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
+import { useState } from "react";
 
 const OrdersManagement = () => {
-  const { data: orders, isLoading, refetch } = useGetAllOrdersQuery(undefined);
+  const [page, setPage] = useState(1);
+
+  const {
+    data: orders,
+    isLoading,
+    refetch,
+  } = useGetAllOrdersQuery([
+    { name: "limit", value: 8 },
+    { name: "page", value: page.toString() },
+    { name: "sort", value: "id" },
+  ]);
+
   const [deleteOrder] = useDeleteOrderMutation();
   const [updateOrderStatus] = useUpdateOrderMutation();
   const currentUser = useAppSelector(selectCurrentUser);
   const currentUserEmail = currentUser?.email;
   const isAdmin = currentUser?.role === "admin";
 
+  const metaData = orders?.meta;
   const filteredOrders: TOrder[] = Array.isArray(orders?.data)
     ? orders.data.filter(
         (order: TOrder) => isAdmin || order.email === currentUserEmail
       )
     : [];
+
+  // console.log(filteredOrders);
 
   const handleCancel = async (orderId: string) => {
     try {
@@ -34,46 +49,50 @@ const OrdersManagement = () => {
 
   const handleStatusChange = async (orderId: string, status: string) => {
     try {
-      if (orderId && status) {
-        await updateOrderStatus({ id: orderId, data: { status } }).unwrap();
-        message.success("Order status updated successfully!");
-        refetch();
-      } else {
-        message.error("Invalid order ID or status.");
-      }
+      await updateOrderStatus({ id: orderId, data: { status } }).unwrap();
+      message.success("Order status updated successfully!");
+      refetch();
     } catch (error) {
       message.error("Failed to update order status. Please try again.");
     }
   };
 
+  // Format date with AM/PM
+  const formatDateTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
+  };
+
   const tableData = filteredOrders.map(
-    ({
-      _id,
-      product,
-      transactionId,
-      email,
-      totalPrice,
-      status,
-      createdAt,
-    }) => ({
+    ({ _id, user, products, transaction, totalPrice, status, createdAt }) => ({
       key: _id,
-      product,
-      transactionId: transactionId || "Not Available",
-      email,
-      date: createdAt,
+      userEmail: user?.email || "Not Available",
+      products: products.map((p) => p._id).join(", "),
+      transactionId: transaction?.id || "Not Available",
+      date: formatDateTime(createdAt),
       totalPrice,
       status,
     })
   );
 
+  // console.log(tableData);
+
   const columns = [
-    { title: "Product", dataIndex: "product", key: "product" },
+    { title: "Products", dataIndex: "products", key: "products" },
     {
       title: "Transaction ID",
       dataIndex: "transactionId",
       key: "transactionId",
     },
-    { title: "Email", dataIndex: "email", key: "email" },
+    { title: "User Email", dataIndex: "userEmail", key: "userEmail" },
     { title: "Date", dataIndex: "date", key: "date" },
     { title: "Total Price", dataIndex: "totalPrice", key: "totalPrice" },
     { title: "Status", dataIndex: "status", key: "status" },
@@ -96,12 +115,12 @@ const OrdersManagement = () => {
             <Select
               defaultValue={data.status}
               style={{ width: 120 }}
-              onChange={(value) => handleStatusChange(data.key, value)} // Pass `data.key` as `orderId`
+              onChange={(value) => handleStatusChange(data.key, value)}
             >
               <Select.Option value="Pending">Pending</Select.Option>
               <Select.Option value="Paid">Paid</Select.Option>
               <Select.Option value="Shipped">Shipped</Select.Option>
-              <Select.Option value="Dlivered">Delivered</Select.Option>
+              <Select.Option value="Delivered">Delivered</Select.Option>
               <Select.Option value="Cancelled">Cancelled</Select.Option>
             </Select>
           )}
@@ -111,12 +130,19 @@ const OrdersManagement = () => {
   ];
 
   return (
-    <Table
-      dataSource={tableData}
-      columns={columns}
-      loading={isLoading}
-      pagination={{ pageSize: 8, position: ["bottomLeft"] }}
-    />
+    <>
+      <Table
+        dataSource={tableData}
+        columns={columns}
+        loading={isLoading}
+        pagination={false}
+      />
+      <Pagination
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      />
+    </>
   );
 };
 

@@ -19,7 +19,7 @@ const UserManagement = () => {
     (user) => isAdmin || user.email === currentUserEmail
   );
 
-  console.log(filteredUsers);
+  // console.log(filteredUsers);
   const handleDeleteUser = async (userId: string) => {
     try {
       await deleteUser(userId).unwrap();
