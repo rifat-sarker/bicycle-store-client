@@ -6,7 +6,6 @@ import {
   useGetUsersQuery,
   useUpdateUserMutation,
 } from "../../redux/features/admin/userManagementApi";
-import { TAllUser } from "../../types/userManagement.type";
 
 const UserManagement = () => {
   const { data: users, isLoading, refetch } = useGetUsersQuery(undefined);
@@ -16,11 +15,11 @@ const UserManagement = () => {
   const currentUserEmail = currentUser?.email;
 
   const isAdmin = currentUser?.role === "admin";
+  const filteredUsers = (users?.data ?? []).filter(
+    (user) => isAdmin || user.email === currentUserEmail
+  );
 
-  const filteredUsers = Array.isArray(users?.data)
-    ? users.data.filter((user) => isAdmin || user.email === currentUserEmail)
-    : [];
-
+  console.log(filteredUsers);
   const handleDeleteUser = async (userId: string) => {
     try {
       await deleteUser(userId).unwrap();
