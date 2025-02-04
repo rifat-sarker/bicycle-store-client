@@ -5,7 +5,7 @@ import { useGetProductByIdQuery } from "../../redux/features/admin/productManage
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { data: product, isLoading } = useGetProductByIdQuery(id);
+  const { data: product, isLoading } = useGetProductByIdQuery(id as string);
 
   const handlePlaceOrder = () => {
     navigate(`/product/checkout/${id}`);

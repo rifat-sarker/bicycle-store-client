@@ -18,7 +18,7 @@ const { Text } = Typography;
 
 const Checkout = () => {
   const { id } = useParams();
-  const { data: product, isLoading } = useGetProductByIdQuery(id);
+  const { data: product, isLoading } = useGetProductByIdQuery(id as string);
   const [quantity, setQuantity] = useState(1);
   const [
     createOrder,
@@ -78,7 +78,7 @@ const Checkout = () => {
               />
             </Col>
             <Col xs={24} md={12} style={{ textAlign: "left" }}>
-              <h2 >{product?.data?.name}</h2>
+              <h2>{product?.data?.name}</h2>
               <Text strong>Price: </Text> ${product?.data?.price}
               <br />
               <Text strong>Quantity:</Text>
