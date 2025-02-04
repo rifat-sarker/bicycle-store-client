@@ -19,11 +19,6 @@ const Login = () => {
   // console.log("data", data);
   // console.log("error", error);
 
-  const defaultValues = {
-    email: "rifatswd@gmail.com",
-    password: "rifat1234",
-  };
-
   const onSubmit = async (data: FieldValues) => {
     console.log(data);
     const toastId = toast.loading("Logging in");
@@ -77,7 +72,7 @@ const Login = () => {
         <BSForm
           onSubmit={onSubmit}
           resolver={zodResolver(loginSchema)}
-          defaultValues={defaultValues}
+          // defaultValues={defaultValues}
         >
           <BSInput type="email" name="email" label="Email:" />
           <BSInput type="password" name="password" label="Password:" />
