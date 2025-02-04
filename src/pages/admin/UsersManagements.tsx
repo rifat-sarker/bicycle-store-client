@@ -1,5 +1,5 @@
 import { Space, Table, Select, message } from "antd";
-import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
+import { selectCurrentUser } from "../../redux/features/auth/authSlice";
 import { useAppSelector } from "../../redux/hooks";
 import {
   useDeleteUserMutation,

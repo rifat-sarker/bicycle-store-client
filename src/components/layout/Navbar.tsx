@@ -33,10 +33,8 @@ const Navbar = () => {
     // navigate("/login");
   };
 
-  
   const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
 
-  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -158,41 +156,43 @@ const Navbar = () => {
         </Drawer>
       )}
 
-      <style jsx="true">{`
-        .desktop-menu,
-        .desktop-buttons {
-          display: none;
-        }
-
-        .mobile-menu-toggle {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          width: 48px;
-          height: 48px;
-          padding: 0;
-          margin-left: auto;
-        }
-
-        .mobile-menu-toggle:hover {
-          background-color: rgba(255, 255, 255, 0.1);
-          border-radius: 8px;
-        }
-
-        @media (min-width: 768px) {
+      <style>
+        {`
           .desktop-menu,
           .desktop-buttons {
-            display: flex;
-          }
-          .mobile-menu-toggle {
             display: none;
           }
-        }
-      `}</style>
+
+          .mobile-menu-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            margin-left: auto;
+          }
+
+          .mobile-menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+          }
+
+          @media (min-width: 768px) {
+            .desktop-menu,
+            .desktop-buttons {
+              display: flex;
+            }
+            .mobile-menu-toggle {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </Layout>
   );
 };

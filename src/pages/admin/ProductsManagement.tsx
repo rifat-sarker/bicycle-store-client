@@ -210,10 +210,10 @@ const ProductsManagement = () => {
   ];
 
   const onChange: TableProps<TProduct>["onChange"] = (
-    pagination,
-    filters,
-    sorter,
-    extra
+    // pagination,
+    // filters,
+    // sorter,
+    // extra
   ) => {};
 
   return (

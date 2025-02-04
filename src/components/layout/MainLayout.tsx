@@ -1,19 +1,11 @@
-import { Layout, Button } from "antd";
-import { Outlet, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../redux/hooks";
+import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
+
 import Navbar from "./Navbar";
 
 const { Content, Footer } = Layout;
 
 const MainLayout = () => {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
-  // const handleLogout = () => {
-  //   dispatch(logout());
-  //   navigate("/login");
-  // };
-
   return (
     <Layout>
       <Navbar />

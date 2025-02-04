@@ -9,7 +9,7 @@ import {
   Button,
   Tabs,
   Input,
-  Form,
+  Form, 
   Spin,
   Alert,
 } from "antd";
@@ -123,9 +123,9 @@ const AdminProfile = () => {
                       <Form.Item label="Email">
                         <Input value={profileData?.email} />
                       </Form.Item>
-                      <Form.Item label="Bio">
+                      {/* <Form.Item label="Bio">
                         <Input.TextArea value={profileData?.bio || ""} />
-                      </Form.Item>
+                      </Form.Item> */}
                       <Button type="primary" block>
                         Save Changes
                       </Button>

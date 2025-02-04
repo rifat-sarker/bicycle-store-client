@@ -1,7 +1,6 @@
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   logout,
-  selectCurrentUser,
   TUser,
   useCurrentToken,
 } from "../../redux/features/auth/authSlice";

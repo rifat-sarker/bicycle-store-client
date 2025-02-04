@@ -14,7 +14,7 @@ import { useGetProductByIdQuery } from "../../redux/features/admin/productManage
 import { useCreateOrderMutation } from "../../redux/features/customer/customerOrderApi";
 import { toast } from "sonner";
 
-const { Title, Text } = Typography;
+const { Text } = Typography;
 
 const Checkout = () => {
   const { id } = useParams();
