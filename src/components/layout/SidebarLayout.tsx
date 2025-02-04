@@ -14,9 +14,9 @@ const SidebarLayout = () => {
         <Content style={{ padding: 24, margin: 0, minHeight: 280 }}>
           <Outlet />
         </Content>
-        <Footer style={{ textAlign: "center" }}>
+        {/* <Footer style={{ textAlign: "center" }}>
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
+        </Footer> */}
       </Layout>
     </Layout>
   );

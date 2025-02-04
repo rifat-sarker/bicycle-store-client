@@ -6,17 +6,25 @@ import {
   AppstoreOutlined,
   UnorderedListOutlined,
   TeamOutlined,
+  UserOutlined,
   UserAddOutlined,
 } from "@ant-design/icons";
 import ProductsManagement from "../pages/admin/ProductsManagement";
 import OrdersManagement from "../pages/admin/OrdersManagement";
 import UsersManagements from "../pages/admin/UsersManagements";
+import AdminProfile from "../pages/admin/AdminProfile";
 export const adminPaths = [
   {
     name: "Dashboard",
     path: "dashboard",
     element: <AdminDashboard />,
     icon: <DashboardOutlined />,
+  },
+  {
+    name: "My Profile",
+    path: "profile",
+    element: <AdminProfile />,
+    icon: <UserOutlined />,
   },
   {
     name: "Users",

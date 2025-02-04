@@ -1,7 +1,6 @@
 import { Layout, Button } from "antd";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
-import { logout } from "../../redux/features/auth/authSlice";
 import Navbar from "./Navbar";
 
 const { Content, Footer } = Layout;

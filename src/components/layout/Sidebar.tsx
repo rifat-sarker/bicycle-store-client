@@ -34,7 +34,7 @@ const Sidebar = () => {
     const toastId = toast.loading("Logging out");
     dispatch(logout());
     toast.success("Logout success", { id: toastId, duration: 2000 });
-    navigate("/login");
+    navigate("/");
   };
 
   const token = useAppSelector(useCurrentToken);

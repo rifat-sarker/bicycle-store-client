@@ -1,8 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, Skeleton, Row, Col, Button, Typography, Divider } from "antd";
+import { Card, Skeleton, Row, Col, Button, Divider } from "antd";
 import { useGetProductByIdQuery } from "../../redux/features/admin/productManagementApi";
-
-const { Title, Text } = Typography;
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -35,28 +33,40 @@ const ProductDetails = () => {
         <Col xs={24} sm={12} md={12}>
           <div style={{ paddingLeft: "20px" }}>
             <h1>{product?.data?.name}</h1>
-            <Text strong>Brand:</Text> {product?.data?.brand}
-            <br />
-            <Text strong>Model:</Text> {product?.data?.model}
-            <br />
-            <Text strong>Price:</Text> ${product?.data?.price}
-            <br />
-            <Text strong>Category:</Text> {product?.data?.category}
-            <br />
-            <Text strong>
-              Status:
-              {product?.data?.stock === true ? (
-                <Text type="success">In Stock </Text>
+            <p style={{ fontSize: "24px", fontWeight: "bold" }}>
+              ${product?.data?.price}
+            </p>
+            <p>
+              <strong>Reviews: ⭐⭐⭐⭐☆ (4/5)</strong>
+            </p>
+            <p>
+              <strong>Brand:</strong> {product?.data?.brand}
+            </p>
+            <p>
+              <strong>Model:</strong> {product?.data?.model}
+            </p>
+            <p>
+              <strong>Category:</strong> {product?.data?.category}
+            </p>
+            <p>
+              <strong>Status:</strong>
+              {product?.data?.stock ? (
+                <span style={{ color: "green" }}>In Stock</span>
               ) : (
-                <Text type="danger"> Out of stock</Text>
-              )}{" "}
-            </Text>{" "}
+                <span style={{ color: "red" }}>Out of Stock</span>
+              )}
+            </p>
             <Divider />
-            <Text strong>Description:</Text>
+
+            <p>
+              <strong>Description:</strong>
+            </p>
             <p>{product?.data?.description}</p>
+
+            <Divider />
+
             <Button
-              color="default"
-              variant="solid"
+              color="default" variant="solid"
               style={{ width: "50%", margin: "20px 0px" }}
               onClick={handlePlaceOrder}
             >

@@ -78,7 +78,7 @@ const Checkout = () => {
               />
             </Col>
             <Col xs={24} md={12} style={{ textAlign: "left" }}>
-              <Title level={4}>{product?.data?.name}</Title>
+              <h2 >{product?.data?.name}</h2>
               <Text strong>Price: </Text> ${product?.data?.price}
               <br />
               <Text strong>Quantity:</Text>

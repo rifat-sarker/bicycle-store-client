@@ -17,7 +17,11 @@ const FeaturedBicycles = () => {
             <Col key={index} xs={24} sm={12} md={8}>
               <Card style={{ height: "100%" }}>
                 <Skeleton.Image
-                  style={{ width: "100%", height: "200px", borderRadius: "8px" }}
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    borderRadius: "8px",
+                  }}
                   active
                 />
                 <Skeleton
@@ -34,26 +38,46 @@ const FeaturedBicycles = () => {
         <Row gutter={[16, 16]} justify="center">
           {products?.data?.slice(0, 6).map((product) => (
             <Col key={product._id} xs={24} sm={12} md={8}>
-              <Link to={`/product/${product._id}`}>
-                <Card
-                  title={product.name}
-                  bordered={false}
-                  style={{ height: "100%" }}
-                  bodyStyle={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+              <Card
+                title={product.name}
+                bordered={false}
+                style={{ height: "100%" }}
+                bodyStyle={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <img
+                  style={{
+                    width: "100%",
+                    height: "200px",
+                    objectFit: "cover",
+                    marginBottom: "8px",
+                  }}
+                  src={product.productImg}
+                  alt={product.productImg}
+                />
+                <p style={{ flexGrow: 1, fontSize: "14px", color: "#666" }}>
+                  {product.description.length > 200
+                    ? `${product.description.substring(0, 200)}...`
+                    : product.description}
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
-                  <img
-                    style={{
-                      width: "100%",
-                      height: "200px",
-                      objectFit: "cover",
-                      marginBottom: "8px",
-                    }}
-                    src={product.productImg}
-                    alt={product.productImg}
-                  />
-                  <p style={{ flexGrow: 1 }}>{product.description}</p>
-                </Card>
-              </Link>
+                  <span style={{ fontWeight: "bold", fontSize: "20px" }}>
+                    ${product.price}
+                  </span>
+                  <Link to={`/product/${product._id}`}>
+                    <Button type="link">View Details...</Button>
+                  </Link>
+                </div>
+              </Card>
             </Col>
           ))}
         </Row>
@@ -61,7 +85,9 @@ const FeaturedBicycles = () => {
 
       <div style={{ textAlign: "center", marginTop: "16px" }}>
         <Link to={"/all-product"}>
-          <Button color="default" variant="solid" >View All</Button>
+          <Button color="default" variant="solid">
+            View All
+          </Button>
         </Link>
       </div>
     </div>
