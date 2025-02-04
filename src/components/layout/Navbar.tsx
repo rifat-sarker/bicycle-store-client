@@ -33,10 +33,10 @@ const Navbar = () => {
     // navigate("/login");
   };
 
-  // Determine dashboard path based on role
+  
   const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
 
-  // Resize listener to update isMobile state
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);

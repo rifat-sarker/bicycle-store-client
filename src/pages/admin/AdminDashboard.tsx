@@ -1,52 +1,68 @@
-import React from 'react';
-import { Card, Col, Row, Statistic, Table } from 'antd';
-import { Line } from '@ant-design/charts'; // For chart example
-
-const { Meta } = Card;
-
-// 1. Cards Section Data
-const cardData = [
-  { title: 'Total Users', value: 1200 },
-  { title: 'Total Orders', value: 5000 },
-  { title: 'Total Revenue', value: 85000 },
-  { title: 'Products Sold', value: 3500 },
-];
-
-// 2. Chart Data (Example with Line Chart)
-const chartData = [
-  { month: 'Jan', value: 30 },
-  { month: 'Feb', value: 80 },
-  { month: 'Mar', value: 45 },
-  { month: 'Apr', value: 70 },
-  { month: 'May', value: 60 },
-];
-
-// 3. Table Data (Example)
-const tableData = [
-  { key: '1', name: 'Product A', orders: 120, revenue: 15000 },
-  { key: '2', name: 'Product B', orders: 250, revenue: 30000 },
-  { key: '3', name: 'Product C', orders: 350, revenue: 42000 },
-];
-
-// Table Columns
-const columns = [
-  { title: 'Product Name', dataIndex: 'name', key: 'name' },
-  { title: 'Orders', dataIndex: 'orders', key: 'orders' },
-  { title: 'Revenue', dataIndex: 'revenue', key: 'revenue' },
-];
+import { Card, Col, Row, Statistic, Table } from "antd";
+import { Line } from "@ant-design/charts"; // Line chart for visualization
+import { useGetAllOrdersQuery } from "../../redux/features/customer/customerOrderApi";
+import { useGetUsersQuery } from "../../redux/features/admin/userManagementApi";
+import { useRevenueQuery } from "../../redux/features/admin/revenueApi";
 
 const AdminDashboard: React.FC = () => {
-  // Chart configuration
+  const { data: orders, isLoading: ordersLoading } =
+    useGetAllOrdersQuery(undefined);
+  const { data: users, isLoading: usersLoading } = useGetUsersQuery(undefined);
+  const { data: revenue, isLoading: revenueLoading } =
+    useRevenueQuery(undefined);
+
+  const totalProductsSold =
+    orders?.data?.reduce((sum, order) => sum + order.products.length, 0) || 0;
+
+  const cardData = [
+    {
+      title: "Total Users",
+      value: usersLoading ? "Loading..." : users?.data?.length || 0,
+    },
+    {
+      title: "Total Orders",
+      value: ordersLoading ? "Loading..." : orders?.data?.length || 0,
+    },
+    {
+      title: "Total Revenue",
+      value: revenueLoading ? "Loading..." : revenue?.data?.totalRevenue || 0,
+    },
+    {
+      title: "Products Sold",
+      value: ordersLoading ? "Loading..." : totalProductsSold,
+    },
+  ];
+
+  const chartData = [
+    { month: "Jan", value: 30 },
+    { month: "Feb", value: 80 },
+    { month: "Mar", value: 45 },
+    { month: "Apr", value: 70 },
+    { month: "May", value: 60 },
+  ];
+
   const config = {
     data: chartData,
-    xField: 'month',
-    yField: 'value',
-    point: { size: 5, shape: 'diamond' },
+    xField: "month",
+    yField: "value",
+    point: { size: 5, shape: "diamond" },
   };
 
+  const tableData = [
+    { key: "1", name: "Urban Cruiser 200", orders: 10, revenue: 20000 },
+    { key: "2", name: "Trailblazer X1", orders: 2, revenue: 3000 },
+    { key: "3", name: "EcoRide E500", orders: 3, revenue: 3000 },
+  ];
+
+  // Table Columns
+  const columns = [
+    { title: "Product Name", dataIndex: "name", key: "name" },
+    { title: "Orders", dataIndex: "orders", key: "orders" },
+    { title: "Revenue", dataIndex: "revenue", key: "revenue" },
+  ];
+
   return (
-    <div style={{ padding: '24px' }}>
-      {/* 1st Section: Cards */}
+    <div style={{ padding: "24px" }}>
       <Row gutter={16}>
         {cardData.map((card, index) => (
           <Col span={6} key={index}>
@@ -54,11 +70,11 @@ const AdminDashboard: React.FC = () => {
               title={card.title}
               bordered={false}
               hoverable
-              style={{ textAlign: 'center' }}
+              style={{ textAlign: "center" }}
             >
               <Statistic
                 value={card.value}
-                prefix={card.title === 'Total Revenue' ? '$' : ''}
+                prefix={card.title === "Total Revenue" ? "$" : ""}
                 valueStyle={{ fontSize: 24 }}
               />
             </Card>
@@ -66,8 +82,7 @@ const AdminDashboard: React.FC = () => {
         ))}
       </Row>
 
-      {/* 2nd Section: Charts */}
-      <Row gutter={16} style={{ marginTop: '24px' }}>
+      <Row gutter={16} style={{ marginTop: "24px" }}>
         <Col span={12}>
           <Card title="Monthly Sales Chart" bordered={false}>
             <Line {...config} />
@@ -76,7 +91,7 @@ const AdminDashboard: React.FC = () => {
       </Row>
 
       {/* 3rd Section: Tables */}
-      <Row gutter={16} style={{ marginTop: '24px' }}>
+      <Row gutter={16} style={{ marginTop: "24px" }}>
         <Col span={24}>
           <Card title="Product Sales Data" bordered={false}>
             <Table
@@ -92,5 +107,4 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-export default AdminDashboard
-;
+export default AdminDashboard;

@@ -4,8 +4,10 @@ import {
   UserOutlined,
   DashboardOutlined,
   OrderedListOutlined,
+  QuestionCircleOutlined
 } from "@ant-design/icons";
 import CustomerProfile from "../pages/customer/CustomerProfile";
+import HelpAndSupport from "../pages/customer/HelpAndSupport";
 
 export const customerPaths = [
   {
@@ -25,5 +27,11 @@ export const customerPaths = [
     path: "my-order",
     element: <CustomerOrder />,
     icon: <OrderedListOutlined />,
+  },
+  {
+    name: "Help & Support",
+    path: "help-support",
+    element: <HelpAndSupport />,
+    icon: <QuestionCircleOutlined />,
   },
 ];

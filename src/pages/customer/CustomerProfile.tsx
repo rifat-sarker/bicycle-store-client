@@ -1,135 +1,143 @@
-import { Form, Input, Button, Card, Avatar, Typography, Row, Col } from "antd";
-import { useUpdatePasswordMutation } from "../../redux/features/customer/customerApi";
+import { useEffect, useState } from "react";
+import {
+  Layout,
+  Card,
+  Avatar,
+  Row,
+  Col,
+  Typography,
+  Button,
+  Tabs,
+  Input,
+  Form,
+  Alert,
+} from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useAppSelector } from "../../redux/hooks";
-import { toast } from "sonner";
-import { FieldValues } from "react-hook-form";
-import { selectCurrentUser } from "../../redux/features/auth/authSlice";
+import { selectCurrentUser, TUser } from "../../redux/features/auth/authSlice";
 
-const { Title, Text } = Typography;
+const { Header, Content } = Layout;
+const { TabPane } = Tabs;
+const { Title, Paragraph } = Typography;
 
 const CustomerProfile = () => {
-  const [updatePassword] = useUpdatePasswordMutation();
-  const [form] = Form.useForm();
-  const user = useAppSelector(selectCurrentUser);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const [activeTab, setActiveTab] = useState("1");
+  const [profileData, setProfileData] = useState<TUser | null>(null);
 
-  if (!user) {
-    return <p>Loading...</p>;
+  // Set profile data when currentUser changes
+  useEffect(() => {
+    if (currentUser) {
+      setProfileData({
+        name: currentUser.name,
+        email: currentUser.email,
+        role: currentUser.role,
+        iat: currentUser.iat,
+        exp: currentUser.exp,
+      });
+    }
+  }, [currentUser]);
+
+  if (!currentUser) {
+    return (
+      <Alert
+        message="Error"
+        description="User is not logged in"
+        type="error"
+        showIcon
+      />
+    );
   }
 
-  const handlePasswordChange = async (data: FieldValues) => {
-    try {
-      if (data.newPassword !== data.confirmPassword) {
-        toast.warning("New password and confirm password do not match.");
-        return;
-      }
-      const userInfo = {
-        email: user?.email,
-        oldPassword: data.currentPassword,
-        newPassword: data.newPassword,
-      };
-
-      const res = await updatePassword(userInfo).unwrap();
-
-      if (res.success) {
-        toast.success(res.message || "Password changed successfully!");
-      } else {
-        toast.error("Failed to update password. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Something went wrong");
-    }
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "20px",
-        backgroundColor: "#f0f2f5",
-        width: "100%",
-        boxSizing: "border-box",
-      }}
-    >
-      <Card
-        style={{
-          width: "100%",
-          maxWidth: "600px", // Ensures max width for large screens
-          borderRadius: "8px",
-          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-          padding: "20px",
-        }}
-      >
-        <Row gutter={[16, 24]} align="middle" justify="center">
-          {/* Avatar Section */}
-          <Col xs={24} style={{ textAlign: "center" }}>
-            <Avatar
-              src={
-                "https://i.ibb.co/MkbyPSHB/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg"
-              }
-              size={80}
-              style={{ marginBottom: "15px" }}
-            />
-            <Title level={4}>{user.email}</Title>
-            <Text type="secondary">{user.role}</Text>
-          </Col>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Layout style={{ padding: "0 24px 24px" }}>
+        <Header style={{ background: "#fff", padding: 0 }}>
+          <h1>My Profile</h1>
+        </Header>
 
-          {/* Form Section */}
-          <Col xs={24}>
-            <Title
-              level={4}
-              style={{ textAlign: "center", marginBottom: "20px" }}
-            >
-              Change Password
-            </Title>
-            <Form
-              layout="vertical"
-              onFinish={handlePasswordChange}
-              form={form}
-              style={{ width: "100%" }}
-            >
-              <Form.Item
-                name="currentPassword"
-                label="Current Password"
-                rules={[
-                  { required: true, message: "Enter your current password" },
-                ]}
+        <Content
+          style={{
+            padding: "24px",
+            margin: "24px 0",
+            background: "#fff",
+            minHeight: 280,
+          }}
+        >
+          <Row gutter={24}>
+            <Col xs={24} sm={8} md={8} lg={6}>
+              <Card
+                hoverable
+                cover={<Avatar size={64} icon={<UserOutlined />} />}
+                style={{ textAlign: "center" }}
               >
-                <Input.Password placeholder="Current password" />
-              </Form.Item>
-              <Form.Item
-                name="newPassword"
-                label="New Password"
-                rules={[{ required: true, message: "Enter a new password" }]}
-              >
-                <Input.Password placeholder="New password" />
-              </Form.Item>
-              <Form.Item
-                name="confirmPassword"
-                label="Confirm New Password"
-                rules={[
-                  { required: true, message: "Confirm your new password" },
-                ]}
-              >
-                <Input.Password placeholder="Confirm password" />
-              </Form.Item>
-              <Button
-                color="default"
-                variant="solid"
-                htmlType="submit"
-                style={{
-                  display: "flex",
-                  margin: "0 auto",
-                }}
-              >
-                Change Password
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-      </Card>
-    </div>
+                <Title level={4}>{profileData?.name}</Title>
+                <Paragraph>{profileData?.email}</Paragraph>
+                <Paragraph>{profileData?.role}</Paragraph>
+                <Button type="primary" size="small">
+                  Edit Profile
+                </Button>
+              </Card>
+            </Col>
+
+            <Col xs={24} sm={16} md={16} lg={18}>
+              <Tabs activeKey={activeTab} onChange={(key) => setActiveTab(key)}>
+                <TabPane tab="Profile Details" key="1">
+                  <Card title="Profile Details" bordered={false}>
+                    <Paragraph>
+                      <strong>Username:</strong> {profileData?.name}
+                    </Paragraph>
+                    <Paragraph>
+                      <strong>Email:</strong> {profileData?.email}
+                    </Paragraph>
+                    <Paragraph>
+                      <strong>Role:</strong> {profileData?.role}
+                    </Paragraph>
+                    <Paragraph>
+                      <strong>Bio:</strong> Customer of Cyclify
+                    </Paragraph>
+                  </Card>
+                </TabPane>
+
+                <TabPane tab="Settings" key="2">
+                  <Card title="Account Settings" bordered={false}>
+                    <Form layout="vertical">
+                      <Form.Item label="Username">
+                        <Input value={profileData?.name} />
+                      </Form.Item>
+                      <Form.Item label="Email">
+                        <Input value={profileData?.email} />
+                      </Form.Item>
+                      <Form.Item label="Bio">
+                        <Input.TextArea value={profileData?.bio || ""} />
+                      </Form.Item>
+                      <Button type="primary" block>
+                        Save Changes
+                      </Button>
+                    </Form>
+                  </Card>
+                </TabPane>
+
+                <TabPane tab="Activity" key="3">
+                  <Card title="Recent Activity" bordered={false}>
+                    <ul>
+                      <li>
+                        Logged in on <strong>Issued At:</strong>{" "}
+                        {profileData?.iat ?? "N/A"}
+                      </li>
+                      <li>
+                        Token expires on <strong>Issued At:</strong>{" "}
+                        {profileData?.exp ?? "N/A"}
+                      </li>
+                    </ul>
+                  </Card>
+                </TabPane>
+              </Tabs>
+            </Col>
+          </Row>
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 

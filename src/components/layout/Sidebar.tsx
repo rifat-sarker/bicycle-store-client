@@ -135,16 +135,20 @@ const Sidebar = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 10,
+            margin: "150px 0px"
           }}
         >
           <Button
             icon={<RightOutlined />}
+            color="default"
+            variant="solid"
             onClick={() => setCollapsed(!collapsed)}
             style={{
-              background: "#fff",
+              // background: "#fff",
               border: "none",
               padding: "0.5rem",
               borderRadius: "50%",
+              
             }}
           />
         </div>
