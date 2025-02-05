@@ -88,58 +88,28 @@ const ProductsManagement = () => {
     setIsModalOpen(false);
     form.resetFields();
   };
-
   const handleSubmit = async (values: any) => {
     try {
-      let imageUrl = editingProduct?.productImg || "";
-  
-      // Check if a new image is selected
-      if (Array.isArray(values.productImg) && values.productImg[0]?.originFileObj) {
-        const formData = new FormData();
-        formData.append("file", values.productImg[0].originFileObj);
-        formData.append("upload_preset", "hf9byf67");
-  
-        const response = await fetch("https://api.cloudinary.com/v1_1/dunfiptfi/image/upload", {
-          method: "POST",
-          body: formData,
-        });
-  
-        if (!response.ok) {
-          throw new Error("Image upload failed");
-        }
-  
-        const data = await response.json();
-        if (data.secure_url) {
-          imageUrl = data.secure_url;
-        } else {
-          throw new Error("Image upload response invalid");
-        }
-      }
-  
-      // Ensure stock is defined
-      const stock = values.stock ?? false; // Default to false if undefined
-  
-      // Prepare product data (with defaults if necessary)
       const productData = {
-        name: values.name || "",
-        brand: values.brand || "",
-        price: Number(values.price) || 0,
-        model: values.model || "",
-        category: values.category || "",
-        description: values.description || "",
-        quantity: Number(values.quantity) || 0,
-        stock: stock, // Ensure it's a boolean value
-        productImg: imageUrl || "", // Default to empty string if imageUrl is undefined
+        name: values.name,
+        brand: values.brand,
+        price: Number(values.price),
+        model: values.model,
+        category: values.category,
+        description: values.description,
+        quantity: Number(values.quantity),
+        stock: values.stock,
       };
-  
-      console.log("Product Data Before Stringifying:", productData);
-  
-      // Manually stringify the productData if needed
-      const requestBody = JSON.stringify(productData);
-  
-      console.log("Sending Product Data:", requestBody); // ✅ Debugging log
-  
-      // If editing, update the product
+
+      const formData = new FormData();
+      formData.append("data", JSON.stringify(productData));
+
+      if (values.productImg && values.productImg[0]?.originFileObj) {
+        formData.append("file", values.productImg[0].originFileObj);
+      } else if (!editingProduct?.productImg) {
+        formData.append("file", "");
+      }
+
       if (editingProduct) {
         await updateProduct({
           id: editingProduct._id,
@@ -147,19 +117,16 @@ const ProductsManagement = () => {
         }).unwrap();
         message.success("Product updated successfully!");
       } else {
-        // Otherwise, add a new product
-        await addProduct(productData).unwrap();
+        await addProduct(formData).unwrap();
         message.success("Product added successfully!");
       }
-  
+
       handleCancel();
       refetch();
     } catch (error) {
-      console.error("Error:", error);
-      message.error("Operation failed. Please try again.");
+      message.error("Operation failed");
     }
   };
-  
 
   const handleDelete = async (id: string) => {
     try {
