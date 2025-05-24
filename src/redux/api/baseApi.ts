@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-
+  // http://localhost:5000
+  //
   baseUrl: "https://bicycle-store-backend-livid.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
