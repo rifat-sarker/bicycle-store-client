@@ -9,7 +9,7 @@ const MainLayout = () => {
   return (
     <Layout>
       <Navbar />
-      <Content style={{ height: "100vh" }}>
+      <Content style={{ height: "100vh", marginTop: "100px" }}>
         <div style={{ minHeight: 280, padding: 24 }}>
           <Outlet />
         </div>

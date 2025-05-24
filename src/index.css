@@ -6,6 +6,13 @@
   /* background-color: #f9f9f9; */
 }
 
+/* link {
+  color: inherit;
+  text-decoration: none;
+} */
+a:hover {
+  color: #000;
+}
 
 /* Primary and Secondary Colors */
 .primary-color {
@@ -13,17 +20,15 @@
 }
 
 .primary-bg {
-  background-color: #007bff; 
+  background-color: #007bff;
 }
 
 .secondary-color {
-  color: #1A1A1A; 
+  color: #1a1a1a;
   /* color: #f4b400;  */
 }
 
 .secondary-bg {
-  background-color: #1A1A1A; 
+  background-color: #1a1a1a;
   /* background-color: #f4b400;  */
 }
-
-

@@ -1,199 +1,235 @@
 import { useEffect, useState } from "react";
-import { Layout, Menu, Button, Drawer } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
-import "antd/dist/reset.css";
-import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
-import { homePaths } from "../../routes/home.routes";
-import Logo from "../../utils/Logo";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  MenuOutlined,
+  CloseOutlined,
+  SearchOutlined,
+  DashboardOutlined,
+} from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/features/auth/authSlice";
-
-const { Header } = Layout;
-
-// Define primary and secondary colors
-const primaryColor = "#ffffff";
+import { homePaths } from "../../routes/home.routes";
+import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
+import { Button, Drawer, Menu } from "antd";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // Track if screen is mobile
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  // Get user data from Redux store
   const { user } = useAppSelector((state) => state.auth);
 
-  const toggleDrawer = () => {
-    setDrawerVisible(!drawerVisible);
-  };
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/");
-    // navigate("/login");
-  };
-
-  const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
-
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const toggleDrawer = () => setDrawerVisible(!drawerVisible);
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
+  const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
+
   return (
-    <Layout>
-      <Header
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backgroundColor: primaryColor,
-          padding: "0 16px",
-        }}
-      >
-        {/* Logo */}
-        <Link to="/">
-          <Logo />
+    <nav className="navbar">
+      <div className="top-bar">
+        <Link to="/" className="logo">
+          Cyclify
         </Link>
 
-        {/* Desktop Menu */}
         {!isMobile && (
-          <div className="desktop-menu">
-            <Menu
-              mode="horizontal"
-              items={navbarItemsGenerator(homePaths)}
-              style={{
-                backgroundColor: primaryColor,
-                color: "#C2C2C2",
-                borderBottom: "none",
-              }}
-            />
+          <div className="search-bar">
+            <input type="text" placeholder="Search..." />
+            <button>
+              <SearchOutlined />
+            </button>
           </div>
         )}
 
-        {/* Show Login/Register if not logged in, otherwise show Dashboard/Logout */}
-        <div style={{ gap: "10px" }} className="desktop-buttons">
-          {user ? (
-            <>
-              <Button
-                color="default"
-                variant="solid"
-                onClick={() => navigate(dashboardPath)}
-              >
-                Dashboard
-              </Button>
-              <Button color="default" variant="solid" onClick={handleLogout}>
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button color="default" variant="solid" href="/register">
-                Register
-              </Button>
-              <Button color="default" variant="solid" href="/login">
-                Login
-              </Button>
-            </>
-          )}
-        </div>
-
-        {/* Mobile menu toggle button */}
-        {isMobile && (
-          <Button
-            type="text"
-            icon={<MenuOutlined />}
-            onClick={toggleDrawer}
-            className="mobile-menu-toggle"
-          />
+        {!isMobile ? (
+          <div className="auth-buttons">
+            {user ? (
+              <>
+                <button onClick={() => navigate(dashboardPath)}>
+                  <DashboardOutlined />
+                </button>
+                <button onClick={handleLogout}>Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/register">
+                  <button>Register</button>
+                </Link>
+                <Link to="/login">
+                  <button>Login</button>
+                </Link>
+              </>
+            )}
+          </div>
+        ) : (
+          <button className="menu-toggle" onClick={toggleDrawer}>
+            {drawerVisible ? <CloseOutlined /> : <MenuOutlined />}
+          </button>
         )}
-      </Header>
+      </div>
 
-      {/* Mobile Drawer */}
+      {/* Large Screen Menu (Centered) */}
+      {!isMobile && (
+        <Menu
+          mode="horizontal"
+          items={navbarItemsGenerator(homePaths)}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            color: "#C2C2C2",
+            borderBottom: "none",
+          }}
+        />
+      )}
+
+      {/* Mobile Drawer Menu */}
       {isMobile && (
         <Drawer placement="right" onClose={toggleDrawer} open={drawerVisible}>
+          <div className="drawer-search">
+            <input type="text" placeholder="Search..." />
+            <button>
+              <SearchOutlined />
+            </button>
+          </div>
           <Menu
             theme="light"
             mode="vertical"
             items={navbarItemsGenerator(homePaths)}
           />
-          <div
-            style={{
-              padding: "16px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
-            }}
-          >
+          <div className="drawer-auth">
             {user ? (
               <>
-                <Button
-                  color="default"
-                  variant="solid"
-                  onClick={() => navigate(dashboardPath)}
-                >
-                  Dashboard
+                <Button onClick={() => navigate(dashboardPath)}>
+                  <DashboardOutlined/>
                 </Button>
-                <Button color="default" variant="solid" onClick={handleLogout}>
-                  Logout
-                </Button>
+                <Button onClick={handleLogout}>Logout</Button>
               </>
             ) : (
               <>
-                <Button color="default" variant="solid" href="/register">
-                  Register
-                </Button>
-                <Button color="default" variant="solid" href="/login">
-                  Login
-                </Button>
+                <Button href="/register">Register</Button>
+                <Button href="/login">Login</Button>
               </>
             )}
           </div>
         </Drawer>
       )}
 
-      <style>
-        {`
-          .desktop-menu,
-          .desktop-buttons {
+      <style>{`
+        .navbar {
+          position: fixed;
+          width: 100%;
+          top: 0;
+          z-index: 999;
+          background-color: #fff;
+          border-bottom: 1px solid #eee;
+        }
+
+        .top-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px;
+        }
+
+        .logo {
+          font-size: 22px;
+          font-weight: bold;
+          color: #000;
+          text-decoration: none;
+        }
+
+        .search-bar {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          margin: 0 24px;
+        }
+
+        .search-bar input {
+          width: 280px;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-right: none;
+          border-radius: 6px 0 0 6px;
+        }
+
+        .search-bar button {
+          background: #000;
+          color: #fff;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 0 6px 6px 0;
+          cursor: pointer;
+        }
+
+        .auth-buttons {
+          display: flex;
+          gap: 10px;
+        }
+
+        .auth-buttons button {
+          padding: 8px 12px;
+          font-size: 14px;
+          border: 1px solid #ddd;
+          background: #fff;
+          color: #000;
+          border-radius: 6px;
+          cursor: pointer;
+        }
+
+        .auth-buttons button:hover {
+          background: #f4f4f4;
+        }
+
+        .menu-toggle {
+          background: none;
+          border: none;
+          font-size: 22px;
+          cursor: pointer;
+        }
+
+        .drawer-search {
+          display: flex;
+        }
+
+        .drawer-search input {
+          flex: 1;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 6px 0 0 6px;
+        }
+
+        .drawer-search button {
+          padding: 8px 12px;
+          background-color: #000;
+          color: white;
+          border: none;
+          border-radius: 0 6px 6px 0;
+        }
+
+        .drawer-auth {
+          padding: 16px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+          .search-bar, .auth-buttons {
             display: none;
           }
-
-          .mobile-menu-toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 48px;
-            height: 48px;
-            padding: 0;
-            margin-left: auto;
-          }
-
-          .mobile-menu-toggle:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-          }
-
-          @media (min-width: 768px) {
-            .desktop-menu,
-            .desktop-buttons {
-              display: flex;
-            }
-            .mobile-menu-toggle {
-              display: none;
-            }
-          }
-        `}
-      </style>
-    </Layout>
+        }
+      `}</style>
+    </nav>
   );
 };
 
