@@ -5,12 +5,15 @@ import {
   CloseOutlined,
   SearchOutlined,
   DashboardOutlined,
+  LoginOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/features/auth/authSlice";
 import { homePaths } from "../../routes/home.routes";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
 import { Button, Drawer, Menu } from "antd";
+import { SiGnuprivacyguard } from "react-icons/si";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -44,9 +47,9 @@ const Navbar = () => {
         {!isMobile && (
           <div className="search-bar">
             <input type="text" placeholder="Search..." />
-            <button>
+            <Button color="default" variant="solid">
               <SearchOutlined />
-            </button>
+            </Button>
           </div>
         )}
 
@@ -54,26 +57,37 @@ const Navbar = () => {
           <div className="auth-buttons">
             {user ? (
               <>
-                <button onClick={() => navigate(dashboardPath)}>
-                  <DashboardOutlined />
-                </button>
-                <button onClick={handleLogout}>Logout</button>
+                <Button
+                  color="default"
+                  variant="solid"
+                  onClick={() => navigate(dashboardPath)}
+                >
+                  Dashboard <DashboardOutlined />
+                </Button>
+                <Button color="default" variant="solid" onClick={handleLogout}>
+                  Logout <LogoutOutlined />
+                </Button>
               </>
             ) : (
               <>
                 <Link to="/register">
-                  <button>Register</button>
+                  <Button color="default" variant="solid">
+                    Register
+                    <SiGnuprivacyguard />
+                  </Button>
                 </Link>
                 <Link to="/login">
-                  <button>Login</button>
+                  <Button color="default" variant="solid">
+                    Login <LoginOutlined />
+                  </Button>
                 </Link>
               </>
             )}
           </div>
         ) : (
-          <button className="menu-toggle" onClick={toggleDrawer}>
+          <Button className="menu-toggle" onClick={toggleDrawer}>
             {drawerVisible ? <CloseOutlined /> : <MenuOutlined />}
-          </button>
+          </Button>
         )}
       </div>
 
@@ -96,9 +110,9 @@ const Navbar = () => {
         <Drawer placement="right" onClose={toggleDrawer} open={drawerVisible}>
           <div className="drawer-search">
             <input type="text" placeholder="Search..." />
-            <button>
+            <Button color="default" variant="solid">
               <SearchOutlined />
-            </button>
+            </Button>
           </div>
           <Menu
             theme="light"
@@ -108,15 +122,27 @@ const Navbar = () => {
           <div className="drawer-auth">
             {user ? (
               <>
-                <Button onClick={() => navigate(dashboardPath)}>
-                  <DashboardOutlined/>
+                <Button
+                  color="default"
+                  variant="solid"
+                  onClick={() => navigate(dashboardPath)}
+                >
+                  Dashboard
+                  <DashboardOutlined />
                 </Button>
-                <Button onClick={handleLogout}>Logout</Button>
+                <Button color="default" variant="solid" onClick={handleLogout}>
+                  Logout
+                  <LogoutOutlined />
+                </Button>
               </>
             ) : (
               <>
-                <Button href="/register">Register</Button>
-                <Button href="/login">Login</Button>
+                <Button color="default" variant="solid" href="/register">
+                  Register <SiGnuprivacyguard />{" "}
+                </Button>
+                <Button color="default" variant="solid" href="/login">
+                  Login <LoginOutlined />
+                </Button>
               </>
             )}
           </div>
@@ -177,12 +203,12 @@ const Navbar = () => {
         }
 
         .auth-buttons button {
-          padding: 8px 12px;
-          font-size: 14px;
+          // padding: 8px 12px;
+          // font-size: 14px;
           border: 1px solid #ddd;
-          background: #fff;
-          color: #000;
-          border-radius: 6px;
+          // background: #fff;
+          // color: #000;
+          // border-radius: 6px;
           cursor: pointer;
         }
 
