@@ -1,31 +1,341 @@
-import { Carousel } from "antd";
-import banner1 from "../../assets/images/banner1.png";
-import banner2 from "../../assets/images/banner2.png";
-const contentStyle: React.CSSProperties = {
-  margin: 0,
-  height: "80%",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#364d79",
-};
+import { Carousel, Button, Typography } from "antd";
+import { motion } from "framer-motion"; // For animations
+import type { Variants } from "framer-motion";
+import "antd/dist/reset.css"; // Ant Design styles
+
+// import banner1 from "../../assets/images/banner1.png";
+// import banner2 from "../../assets/images/banner2.png";
+
+const { Title, Paragraph } = Typography;
 
 const Banner = () => {
-  
+  // High-quality, relevant Unsplash images for bicycle store
+  const banner1 =
+    "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"; // Cyclist in urban setting with vibrant energy
+  const banner2 =
+    "https://images.unsplash.com/photo-1444492417251-9c84a5fa18e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"; // Scenic trail ride with mountain bike
+
+  const contentStyle: React.CSSProperties = {
+    height: "80vh", // Increased to 80vh for a larger, more impactful banner
+    // position: "relative",
+    overflow: "hidden",
+    backgroundColor: "#000", // Dark fallback for loading
+  };
+
+  const overlayStyle: React.CSSProperties = {
+    // position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background:
+      "linear-gradient(135deg, rgba(0, 51, 102, 0.6), rgba(0, 153, 51, 0.4))", // Blue-green gradient for vibrant look
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-start", // Align left for unique layout
+    color: "#fff",
+    padding: "50px 80px", // Increased padding for larger layout
+    zIndex: 2,
+  };
+
+  const imageStyle: React.CSSProperties = {
+    width: "100%", // Increased for more noticeable parallax
+    height: "40vh", // Slightly taller than container for movement
+    objectFit: "cover", // Ensure image covers area
+    objectPosition: "center",
+    // position: "absolute",
+    top: "-5%", // Adjusted for better visibility
+    left: "-15%", // Enhanced offset for parallax
+  };
+
+  const titleStyle: React.CSSProperties = {
+    color: "#fff",
+    fontSize: "64px", // Increased for larger display
+    fontWeight: 800,
+    marginBottom: "20px",
+    textShadow: "4px 4px 8px rgba(0, 0, 0, 0.7)", // Stronger shadow for depth
+    letterSpacing: "1.5px",
+  };
+
+  const paragraphStyle: React.CSSProperties = {
+    color: "#e6e6e6",
+    fontSize: "24px", // Increased for better readability
+    marginBottom: "40px",
+    maxWidth: "550px", // Wider for larger layout
+    lineHeight: "1.6",
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    backgroundColor: "#ff4d4f", // Bold red for attention-grabbing CTA
+    borderColor: "#ff4d4f",
+    borderRadius: "10px",
+    padding: "12px 40px", // Larger button
+    fontSize: "20px", // Larger text
+    height: "auto",
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
+  };
+
+  // Animation variants for text and button
+  const textVariants: Variants = {
+    hidden: { opacity: 0, x: -150 }, // Increased slide distance
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 1, ease: "easeOut" }, // Smoother transition
+    },
+  };
+
+  const buttonVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.7 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.6, delay: 0.6, type: "spring" },
+    },
+  };
+
+  // Enhanced parallax effect for images
+  const imageVariants: Variants = {
+    initial: { scale: 1.1, x: 0, y: 0 },
+    animate: {
+      scale: 1.3, // More pronounced scaling
+      x: "-15%", // Increased movement
+      y: "-5%", // Vertical movement
+      transition: {
+        duration: 6, // Faster for visibility within slide duration
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "reverse",
+      },
+    },
+  };
+
   return (
-    <Carousel autoplay autoplaySpeed={2000}  draggable>
-      <div>
-        <h3 style={contentStyle}>
-          <img style={{ width: "100%", height: "80vh" }} src={banner1} alt="" />
-        </h3>
+    <Carousel
+      autoplay
+      autoplaySpeed={4000} // Slower for immersive experience
+      draggable
+      effect="fade" // Smooth fade transition
+      style={{
+        position: "relative",
+        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.5)", // Stronger shadow
+        width: "100%", // Ensure full width
+      }}
+    >
+      {/* Slide 1 */}
+      <div style={contentStyle}>
+        <motion.img
+          src={banner1}
+          alt="Cyclist in urban setting"
+          style={imageStyle}
+          variants={imageVariants}
+          initial="initial"
+          animate="animate"
+        />
+        <motion.div
+          style={overlayStyle}
+          initial="hidden"
+          animate="visible"
+          variants={textVariants}
+        >
+          <motion.div variants={textVariants}>
+            <Title level={1} style={titleStyle}>
+              Cycle Your City
+            </Title>
+          </motion.div>
+          <motion.div variants={textVariants}>
+            <Paragraph style={paragraphStyle}>
+              Transform your urban rides with our sleek, high-performance city
+              bikes built for style and speed.
+            </Paragraph>
+          </motion.div>
+          <motion.div variants={buttonVariants}>
+            <Button
+              type="primary"
+              size="large"
+              style={buttonStyle}
+              href="/shop/city-bikes"
+            >
+              Shop City Bikes
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
-      <div>
-        <h3 style={contentStyle}>
-          <img style={{ width: "100%", height: "80vh" }} src={banner2} alt="" />
-        </h3>
+
+      {/* Slide 2 */}
+      <div style={contentStyle}>
+        <motion.img
+          src={banner2}
+          alt="Mountain bike on scenic trail"
+          style={imageStyle}
+          variants={imageVariants}
+          initial="initial"
+          animate="animate"
+        />
+        <motion.div
+          style={overlayStyle}
+          initial="hidden"
+          animate="visible"
+          variants={textVariants}
+        >
+          <motion.div variants={textVariants}>
+            <Title level={1} style={titleStyle}>
+              Blaze New Trails
+            </Title>
+          </motion.div>
+          <motion.div variants={textVariants}>
+            <Paragraph style={paragraphStyle}>
+              Conquer rugged terrains with our durable mountain bikes, crafted
+              for epic adventures.
+            </Paragraph>
+          </motion.div>
+          <motion.div variants={buttonVariants}>
+            <Button
+              type="primary"
+              size="large"
+              style={buttonStyle}
+              href="/shop/mountain-bikes"
+            >
+              Shop Mountain Bikes
+            </Button>
+          </motion.div>
+        </motion.div>
       </div>
     </Carousel>
   );
 };
 
 export default Banner;
+
+// import { Button, Carousel } from "antd";
+// import banner1 from "../../assets/images/banner1.png";
+// import banner2 from "../../assets/images/banner2.png";
+
+// const Banner = () => {
+//   return (
+//     <div className="hero">
+//       <Carousel autoplay autoplaySpeed={3000} effect="fade">
+//         {/* Slide 1 */}
+//         <div className="slide">
+//           <img className="banner-img" src={banner1} alt="Adventure Awaits" />
+//           <div className="overlay">
+//             <h1 className="hero-title">🚴‍♂️ Find Your Next Ride!</h1>
+//             <p className="hero-text">Premium bicycles for every journey.</p>
+//             <Button
+//               color="default"
+//               variant="solid"
+//               size="large"
+//               className="cta-button"
+//             >
+//               Shop Now
+//             </Button>
+//           </div>
+//         </div>
+
+//         {/* Slide 2 */}
+//         <div className="slide">
+//           <img className="banner-img" src={banner2} alt="Ride Freely" />
+//           <div className="overlay">
+//             <h1 className="hero-title">🌍 Ride Towards Freedom!</h1>
+//             <p className="hero-text">Best-in-class cycling experience.</p>
+//             <Button
+//               color="default"
+//               variant="solid"
+//               size="large"
+//               className="cta-button"
+//             >
+//               Discover More
+//             </Button>
+//           </div>
+//         </div>
+//       </Carousel>
+
+//       <style>{`
+//         .hero {
+//           position: relative;
+//           width: 100%;
+//           height: 70vh;
+//           overflow: hidden;
+//         }
+
+//         .slide {
+//           position: relative;
+//           display: flex;
+//           justify-content: center;
+//           justify-item:center;
+//           align-items: center;
+//         }
+
+//         .banner-img {
+//           width: 100%;
+//           height: 70vh;
+//           object-fit: cover;
+//           filter: brightness(0.85);
+//           transition: transform 0.3s ease-in-out;
+//         }
+
+//         .slide:hover .banner-img {
+//           transform: scale(1.05);
+//         }
+
+//         .overlay {
+//           position: absolute;
+//           top: 50%;
+//           left: 50%;
+//           transform: translate(-50%, -50%);
+//           text-align: center;
+//           color: #fff;
+//           width: 80%;
+//           background: rgba(0, 0, 0, 0.4);
+//           padding: 20px;
+//           border-radius: 12px;
+//           backdrop-filter: blur(8px);
+//         }
+
+//         .hero-title {
+//           font-size: 2.8rem;
+//           font-weight: bold;
+//           animation: fadeIn 1.5s ease-in-out;
+//         }
+
+//         .hero-text {
+//           font-size: 1.4rem;
+//           margin-top: 10px;
+//           animation: slideUp 1.5s ease-in-out;
+//         }
+
+//         .cta-button {
+//           margin-top: 15px;
+//           padding: 12px 20px;
+//           // font-size: 1.2rem;
+//           font-weight: bold;
+//           // background: linear-gradient(45deg, #ff4d4d, #ff9100);
+//           // color: #fff;
+//           border: none;
+//           border-radius: 6px;
+//           cursor: pointer;
+//           transition: all 0.3s ease-in-out;
+//           box-shadow: 0px 4px 8px rgba(255, 77, 77, 0.3);
+//         }
+
+//         .cta-button:hover {
+//           transform: scale(1.05);
+//           box-shadow: 0px 6px 12px rgba(255, 77, 77, 0.5);
+//         }
+
+//         @keyframes fadeIn {
+//           from { opacity: 0; }
+//           to { opacity: 1; }
+//         }
+
+//         @keyframes slideUp {
+//           from { transform: translateY(20px); opacity: 0; }
+//           to { transform: translateY(0); opacity: 1; }
+//         }
+//       `}</style>
+//     </div>
+//   );
+// };
+
+// export default Banner;

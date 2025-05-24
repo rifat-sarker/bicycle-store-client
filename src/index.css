@@ -6,10 +6,10 @@
   /* background-color: #f9f9f9; */
 }
 
-/* link {
+a {
   color: inherit;
   text-decoration: none;
-} */
+}
 a:hover {
   color: #000;
 }
