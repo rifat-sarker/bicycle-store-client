@@ -4,26 +4,21 @@ import type { Variants } from "framer-motion";
 import "antd/dist/reset.css"; // Ant Design styles
 
 // import banner1 from "../../assets/images/banner1.png";
-// import banner2 from "../../assets/images/banner2.png";
+import banner2 from "../../assets/images/banner4.jpg";
+import banner1 from "../../assets/images/banner3.jpg";
 
 const { Title, Paragraph } = Typography;
 
 const Banner = () => {
-  // High-quality, relevant Unsplash images for bicycle store
-  const banner1 =
-    "https://images.unsplash.com/photo-1519751138087-5bf79df62d5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"; // Cyclist in urban setting with vibrant energy
-  const banner2 =
-    "https://images.unsplash.com/photo-1444492417251-9c84a5fa18e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"; // Scenic trail ride with mountain bike
-
   const contentStyle: React.CSSProperties = {
-    height: "80vh", // Increased to 80vh for a larger, more impactful banner
-    // position: "relative",
+    height: "70vh", 
+    position: "relative",
     overflow: "hidden",
-    backgroundColor: "#000", // Dark fallback for loading
+    backgroundColor: "#000", 
   };
 
   const overlayStyle: React.CSSProperties = {
-    // position: "absolute",
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -33,45 +28,42 @@ const Banner = () => {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start", // Align left for unique layout
+    alignItems: "flex-start", 
     color: "#fff",
-    padding: "50px 80px", // Increased padding for larger layout
+    padding: "50px 80px",
     zIndex: 2,
   };
 
   const imageStyle: React.CSSProperties = {
-    width: "100%", // Increased for more noticeable parallax
-    height: "40vh", // Slightly taller than container for movement
-    objectFit: "cover", // Ensure image covers area
+    width: "100%", 
+    height: "65vh",
+    objectFit: "cover", 
     objectPosition: "center",
     // position: "absolute",
-    top: "-5%", // Adjusted for better visibility
-    left: "-15%", // Enhanced offset for parallax
+    top: "-5%",   
+    left: "-15%", 
   };
 
   const titleStyle: React.CSSProperties = {
     color: "#fff",
-    fontSize: "64px", // Increased for larger display
+    fontSize: "64px",
     fontWeight: 800,
     marginBottom: "20px",
-    textShadow: "4px 4px 8px rgba(0, 0, 0, 0.7)", // Stronger shadow for depth
+    textShadow: "4px 4px 8px rgba(0, 0, 0, 0.7)", 
     letterSpacing: "1.5px",
   };
 
   const paragraphStyle: React.CSSProperties = {
     color: "#e6e6e6",
-    fontSize: "24px", // Increased for better readability
+    fontSize: "20px", 
     marginBottom: "40px",
-    maxWidth: "550px", // Wider for larger layout
+    maxWidth: "550px", 
     lineHeight: "1.6",
   };
 
   const buttonStyle: React.CSSProperties = {
-    backgroundColor: "#ff4d4f", // Bold red for attention-grabbing CTA
-    borderColor: "#ff4d4f",
     borderRadius: "10px",
-    padding: "12px 40px", // Larger button
-    fontSize: "20px", // Larger text
+    padding: "12px 40px", 
     height: "auto",
     boxShadow: "0 6px 12px rgba(0, 0, 0, 0.3)",
   };
@@ -153,9 +145,11 @@ const Banner = () => {
           <motion.div variants={buttonVariants}>
             <Button
               type="primary"
+              color="default"
+              variant="solid"
               size="large"
               style={buttonStyle}
-              href="/shop/city-bikes"
+              href="/all-product"
             >
               Shop City Bikes
             </Button>
@@ -190,12 +184,14 @@ const Banner = () => {
               for epic adventures.
             </Paragraph>
           </motion.div>
-          <motion.div variants={buttonVariants}>
+          <motion.div>
             <Button
               type="primary"
+              color="default"
+              variant="solid"
               size="large"
               style={buttonStyle}
-              href="/shop/mountain-bikes"
+              href="/all-product"
             >
               Shop Mountain Bikes
             </Button>
