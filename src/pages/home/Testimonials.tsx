@@ -57,7 +57,7 @@ const Testimonials = () => {
   };
 
   return (
-    <div style={{ marginTop: "60px", padding: "50px 20px" }}>
+    <div style={{ padding: "50px 20px" }}>
       <h1
         style={{ textAlign: "center", marginBottom: "40px", fontSize: "28px" }}
       >

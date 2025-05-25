@@ -45,17 +45,11 @@ const CategorySection = () => {
       className="site-layout"
       style={{
         padding: "50px 20px",
-        backgroundColor: "#ffffff",
-        borderRadius: "8px",
-        marginTop: "60px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
       }}
     >
       <div style={{ textAlign: "center", marginBottom: "40px" }}>
-        <AntTitle level={2} style={{ color: "#000000", fontWeight: 700 }}>
-          Explore Categories
-        </AntTitle>
-        <Text type="secondary" style={{ fontSize: "16px", color: "#888888" }}>
+        <AntTitle level={2}>Explore Categories</AntTitle>
+        <Text style={{ fontSize: 16 }}>
           Find the perfect bike for your journey
         </Text>
       </div>

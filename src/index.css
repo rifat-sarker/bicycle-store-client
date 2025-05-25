@@ -2,8 +2,34 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", serif;
+  /* font-family: "Inter", serif; */
   /* background-color: #f9f9f9; */
+}
+
+/* Font setup: Poppins for titles/buttons, Inter for body */
+body,
+p,
+span,
+input,
+textarea,
+label,
+select {
+  font-family: "Inter", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-title,
+.ant-btn,
+.ant-typography h1,
+.ant-typography h2,
+.ant-typography h3,
+.ant-typography h4 {
+  font-family: "Poppins", sans-serif;
 }
 
 a {

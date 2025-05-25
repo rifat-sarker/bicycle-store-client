@@ -15,6 +15,11 @@ export const homePaths = [
     element: <AllProduct />,
   },
   {
+    name: "Blog",
+    path: "blogs",
+    element: <AllProduct />,
+  },
+  {
     name: "About",
     path: "about",
     element: <About />,
