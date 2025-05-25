@@ -39,9 +39,9 @@ const Navbar = () => {
   const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
 
   return (
-    <nav style={{ backgroundColor: "#000" }} className="navbar">
+    <nav className="navbar">
       <div className="top-bar">
-        <Link style={{ color: "#fff" }} to="/" className="logo">
+        <Link to="/" className="logo">
           Cyclify
         </Link>
 
@@ -54,15 +54,13 @@ const Navbar = () => {
           </div>
         )}
 
-        {/* desktop view */}
         {!isMobile ? (
           <div className="auth-buttons">
             {user ? (
               <>
                 <Button
-                  // color="default"
-                  // variant="solid"
-
+                  color="default"
+                  variant="solid"
                   onClick={() => navigate(dashboardPath)}
                 >
                   Dashboard <DashboardOutlined />
@@ -74,26 +72,13 @@ const Navbar = () => {
             ) : (
               <>
                 <Link to="/register">
-                  <Button
-                    style={{
-                      backgroundColor: "#1F2937 ",
-                      color: "#fff",
-                      border: "none",
-                    }}
-                    size="large"
-                  >
+                  <Button color="default" variant="solid">
                     Register
                     <SiGnuprivacyguard />
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button
-                    style={{
-                      backgroundColor: "#1F2937 ",
-                      color: "#fff",
-                      border: "none",
-                    }}
-                  >
+                  <Button color="default" variant="solid">
                     Login <LoginOutlined />
                   </Button>
                 </Link>
@@ -185,7 +170,7 @@ const Navbar = () => {
         .logo {
           font-size: 22px;
           font-weight: bold;
-          // color: #000;
+          color: #000;
           text-decoration: none;
         }
 
@@ -205,7 +190,7 @@ const Navbar = () => {
         }
 
         .search-bar button {
-          // background: #000;
+          background: #000;
           color: #fff;
           padding: 8px 12px;
           border: none;
@@ -252,7 +237,7 @@ const Navbar = () => {
 
         .drawer-search button {
           padding: 8px 12px;
-          // background-color: #000;
+          background-color: #000;
           color: white;
           border: none;
           border-radius: 0 6px 6px 0;

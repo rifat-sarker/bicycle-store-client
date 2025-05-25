@@ -77,9 +77,9 @@ const Login = () => {
           <BSInput type="email" name="email" label="Email:" />
           <BSInput type="password" name="password" label="Password:" />
           <Button
+          className="primary-bg primary-c"
             icon={<LoginOutlined />}
-            color="default"
-            variant="solid"
+        
             style={{
               width: "100%",
               padding: "10px 0",
