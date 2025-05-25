@@ -1,3 +1,4 @@
+import { ICategory } from "../../../types/category";
 import { TQueryParam, TResponseRedux } from "../../../types/global";
 import { TProduct } from "../../../types/productManagement.type";
 import { baseApi } from "../../api/baseApi";
@@ -54,6 +55,15 @@ const productManagementApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+
+    getCategories: builder.query<ICategory[], void>({
+      query: () => ({
+        url: "/categories",
+        method: "GET",
+      }),
+      transformResponse: (response: TResponseRedux<ICategory[]>) =>
+        response.data ?? [],
+    }),
   }),
 });
 
@@ -63,4 +73,5 @@ export const {
   useAddProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useGetCategoriesQuery,
 } = productManagementApi;
