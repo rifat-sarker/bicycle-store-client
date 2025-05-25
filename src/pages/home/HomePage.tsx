@@ -3,6 +3,7 @@ import BlogSection from "./BlogSection";
 import CategorySection from "./Category";
 import FeaturedBicycles from "./FeaturedBicycles";
 import Footer from "./Footer";
+import NewsletterSection from "./NewsLetterSection";
 import OfferSection from "./OfferSection";
 import Testimonials from "./Testimonials";
 
@@ -15,6 +16,7 @@ const HomePage = () => {
       <OfferSection />
       <BlogSection />
       <Testimonials />
+      <NewsletterSection />
       <Footer />
     </div>
   );

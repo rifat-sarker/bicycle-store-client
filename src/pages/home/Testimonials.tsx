@@ -1,6 +1,7 @@
-import { Button, Card, Carousel } from "antd";
+import { Button, Card, Carousel, Flex } from "antd";
 import { useRef } from "react";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import Title from "antd/es/typography/Title";
 
 const testimonials = [
   {
@@ -58,18 +59,38 @@ const Testimonials = () => {
 
   return (
     <div style={{ padding: "50px 20px" }}>
-      <h1
-        style={{ textAlign: "center", marginBottom: "40px", fontSize: "28px" }}
+      {/* Header Row */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "20px",
+          margin: "0 auto 30px",
+          padding: "0 15px",
+        }}
       >
-        What Our Customers Say
-      </h1>
+        <Title level={2} style={{ margin: 0 }}>
+          What Our Customers Say
+        </Title>
+        <div>
+          <Button
+            icon={<LeftOutlined />}
+            onClick={handlePrev}
+            style={{
+              marginRight: 10,
+            }}
+          />
+          <Button icon={<RightOutlined />} onClick={handleNext} />
+        </div>
+      </div>
 
+      {/* Carousel */}
       <div
         style={{
           position: "relative",
-          maxWidth: "1200px",
-          margin: "0 auto",
           padding: "0 15px",
+          
         }}
       >
         <Carousel
@@ -99,17 +120,17 @@ const Testimonials = () => {
             <div
               key={testimonial.id}
               style={{
-                padding: "0 10px",
+                padding: "10 8px", 
                 boxSizing: "border-box",
+                display: Flex,
               }}
             >
               <Card
                 style={{
                   borderRadius: "10px",
                   boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                  height: "300px",
-                  width: "90%",
-                  margin: "0 auto",
+                  height: "320px",
+                  width: "100%",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -132,6 +153,7 @@ const Testimonials = () => {
                       width: "80px",
                       height: "80px",
                       borderRadius: "50%",
+                      objectFit: "cover",
                     }}
                   />
                   <h3 style={{ margin: "0 0 5px 0" }}>{testimonial.name}</h3>
@@ -142,7 +164,7 @@ const Testimonials = () => {
                 <p
                   style={{
                     fontSize: "14px",
-                    color: "#888",
+                    color: "#666",
                     marginTop: "15px",
                     padding: "0 10px",
                   }}
@@ -153,35 +175,6 @@ const Testimonials = () => {
             </div>
           ))}
         </Carousel>
-
-        <Button
-          color="default"
-          variant="solid"
-          shape="circle"
-          icon={<LeftOutlined />}
-          onClick={handlePrev}
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "-30px",
-            transform: "translateY(-50%)",
-            zIndex: 10,
-          }}
-        />
-        <Button
-          color="default"
-          variant="solid"
-          shape="circle"
-          icon={<RightOutlined />}
-          onClick={handleNext}
-          style={{
-            position: "absolute",
-            top: "50%",
-            right: "-30px",
-            transform: "translateY(-50%)",
-            zIndex: 10,
-          }}
-        />
       </div>
     </div>
   );

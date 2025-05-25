@@ -127,7 +127,7 @@ const BlogSection: React.FC = () => {
                 }}
               >
                 <Title level={4}>{blog.title}</Title>
-                <Paragraph style={{ color: "#444" }}>
+                <Paragraph >
                   {blog.description}
                 </Paragraph>
                 <div
