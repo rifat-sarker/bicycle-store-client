@@ -54,7 +54,7 @@ const Banner = () => {
   };
 
   const paragraphStyle: React.CSSProperties = {
-    color: "#e6e6e6",
+    color: "#fff",
     fontSize: "20px", 
     marginBottom: "40px",
     maxWidth: "550px", 
@@ -91,11 +91,11 @@ const Banner = () => {
   const imageVariants: Variants = {
     initial: { scale: 1.1, x: 0, y: 0 },
     animate: {
-      scale: 1.3, // More pronounced scaling
-      x: "-15%", // Increased movement
-      y: "-5%", // Vertical movement
+      scale: 1.3, 
+      x: "-15%",
+      y: "-5%", 
       transition: {
-        duration: 6, // Faster for visibility within slide duration
+        duration: 6, 
         ease: "linear",
         repeat: Infinity,
         repeatType: "reverse",
@@ -106,13 +106,13 @@ const Banner = () => {
   return (
     <Carousel
       autoplay
-      autoplaySpeed={4000} // Slower for immersive experience
+      autoplaySpeed={4000} 
       draggable
-      effect="fade" // Smooth fade transition
+      effect="fade" 
       style={{
         position: "relative",
-        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.5)", // Stronger shadow
-        width: "100%", // Ensure full width
+        boxShadow: "0 6px 16px rgba(0, 0, 0, 0.5)",
+        width: "100%", 
       }}
     >
       {/* Slide 1 */}

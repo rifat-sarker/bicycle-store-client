@@ -5,7 +5,7 @@ import { motion } from "framer-motion"; // For animations
 import "antd/dist/reset.css"; // Ant Design styles
 import Title from "antd/es/typography/Title";
 
-const { Title: AntTitle, Paragraph, Text } = Typography;
+const { Title: AntTitle, Text } = Typography;
 
 const FeaturedBicycles = () => {
   const { data: products, isLoading } = useGetAllProductsQuery(undefined);
@@ -29,17 +29,15 @@ const FeaturedBicycles = () => {
       className="site-layout"
       style={{
         padding: "50px 20px",
-        backgroundColor: "#ffffff",
-        borderRadius: "8px",
+
         marginTop: "60px",
-        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
       }}
     >
       <div style={{ textAlign: "center", marginBottom: "40px" }}>
         <AntTitle level={2} style={{ color: "#000000", fontWeight: 700 }}>
           Featured Bicycles
         </AntTitle>
-        <Text type="secondary" style={{ fontSize: "16px", color: "#888888" }}>
+        <Text style={{ fontSize: 16 }}>
           Discover our top picks for your next ride
         </Text>
       </div>
@@ -79,7 +77,7 @@ const FeaturedBicycles = () => {
         </Row>
       ) : (
         <Row gutter={[24, 24]} justify="center">
-          {products?.data?.slice(0, 6).map((product) => (
+          {products?.data?.slice(0, 8).map((product) => (
             <Col key={product._id} xs={24} sm={12} md={8} lg={6}>
               <motion.div
                 variants={cardVariants}
@@ -128,7 +126,7 @@ const FeaturedBicycles = () => {
                       e.currentTarget.style.transform = "scale(1)";
                     }}
                   />
-                  <Text style={{marginTop: 10, marginBottom: 10}}>
+                  <Text style={{ marginTop: 10, marginBottom: 10 }}>
                     {product.description.length > 150
                       ? `${product.description.substring(0, 150)}...`
                       : product.description}
