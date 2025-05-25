@@ -1,150 +1,156 @@
 import React, { useRef } from "react";
-import { Card, Typography, Button, Carousel } from "antd";
-import { motion } from "framer-motion";
+import { Carousel, Card, Typography, Avatar, Button, Row, Col } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 const blogs = [
   {
     id: 1,
     title: "Top 10 Bicycle Accessories You Must Have",
+    description:
+      "Upgrade your ride with these must-have accessories for comfort, safety, and style.",
     image: "/blog/blog1.jpg",
+    author: {
+      name: "John Doe",
+      avatar: "/authors/john.jpg",
+    },
   },
   {
     id: 2,
     title: "How to Maintain Your Bike Like a Pro",
+    description:
+      "Regular maintenance tips that can extend your bike’s life and improve performance.",
     image: "/blog/blog2.jpg",
+    author: {
+      name: "Emily Clark",
+      avatar: "/authors/emily.jpg",
+    },
   },
   {
     id: 3,
     title: "Best Biking Trails in Bangladesh",
+    description:
+      "Explore scenic and thrilling bike trails across the country for all skill levels.",
     image: "/blog/blog3.jpg",
+    author: {
+      name: "Arif Hossain",
+      avatar: "/authors/arif.jpg",
+    },
   },
   {
     id: 4,
-    title: "Choosing the Perfect Bike for Your Lifestyle",
+    title: "Choosing the Right Bike for Your Lifestyle",
+    description:
+      "Understand the key differences between road, mountain, and hybrid bikes.",
     image: "/blog/blog4.jpg",
+    author: {
+      name: "Nadia Rahman",
+      avatar: "/authors/nadia.jpg",
+    },
   },
 ];
 
 const BlogSection: React.FC = () => {
   const carouselRef = useRef<any>(null);
 
+  const handlePrev = () => carouselRef.current?.prev();
+  const handleNext = () => carouselRef.current?.next();
+
   return (
     <section
+      className=""
       style={{
-        background: "#fff",
-        padding: "60px 20px",
-       
-        margin: "0 auto",
-        position: "relative",
+        padding: "50px 20px",
       }}
     >
-      {/* Top section with title and navigation buttons */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          marginBottom: 40,
-        }}
-      >
-        <div>
-          <Title level={2} style={{ color: "#111", marginBottom: 8 }}>
-            From Our Blog
-          </Title>
-          <Paragraph style={{ color: "#666", fontSize: 16, maxWidth: 500 }}>
-            Explore tips, trails, and insights that help elevate your biking
-            experience.
+      {/* Header */}
+      <Row justify="space-between" align="middle" style={{ marginBottom: 30 }}>
+        <Col>
+          <Title level={2}>From Our Blog</Title>
+          <Paragraph style={{ fontSize: "16px" }}>
+            Tips, guides & cycling news — all in one place.
           </Paragraph>
-        </div>
+        </Col>
 
-        <div style={{ display: "flex", gap: 10 }}>
+        <Col>
           <Button
             icon={<LeftOutlined />}
-            onClick={() => carouselRef.current?.prev()}
+            onClick={handlePrev}
             style={{
-              borderRadius: "50%",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+              marginRight: 10,
             }}
           />
-          <Button
-            icon={<RightOutlined />}
-            onClick={() => carouselRef.current?.next()}
-            style={{
-              borderRadius: "50%",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            }}
-          />
-        </div>
-      </div>
+          <Button icon={<RightOutlined />} onClick={handleNext} style={{}} />
+        </Col>
+      </Row>
 
-      {/* Blog Cards Carousel */}
+      {/* Carousel with gap */}
       <Carousel
-        dots={false}
         ref={carouselRef}
         slidesToShow={3}
-        swipeToSlide
-        infinite
+        dots={false}
+        arrows={false}
+        infinite={false}
         responsive={[
           {
-            breakpoint: 992,
-            settings: {
-              slidesToShow: 2,
-            },
+            breakpoint: 1024,
+            settings: { slidesToShow: 2 },
           },
           {
-            breakpoint: 576,
-            settings: {
-              slidesToShow: 1,
-            },
+            breakpoint: 768,
+            settings: { slidesToShow: 1 },
           },
         ]}
       >
-        {blogs.map((blog, index) => (
-          <motion.div
-            key={blog.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.15, duration: 0.5 }}
-            viewport={{ once: true }}
-            style={{ padding: "0 12px", height: "100%" }}
-          >
-            <Card
-              hoverable
-              cover={
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  style={{
-                    height: 200,
-                    objectFit: "cover",
-                    borderTopLeftRadius: 8,
-                    borderTopRightRadius: 8,
-                  }}
-                />
-              }
-              style={{
-                borderRadius: 8,
-                overflow: "hidden",
-                height: "100%",
-                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
-              }}
-              bodyStyle={{ padding: 20, minHeight: 120 }}
-            >
-              <Title level={4} style={{ margin: 0, fontSize: 16 }}>
-                {blog.title}
-              </Title>
-              <Button
-                type="link"
-                style={{ padding: 0, marginTop: 12 }}
-                href={`/blog/${blog.id}`}
+        {blogs.map((blog) => (
+          <div key={blog.id}>
+            <div style={{ padding: "10px 8px", height: "100%" }}>
+              <Card
+                hoverable
+                cover={
+                  <img
+                    src="https://res.cloudinary.com/dunfiptfi/image/upload/v1747829895/l1x8ixz7qfedw19fixj2.jpg"
+                    alt={blog.title}
+                    style={{
+                      height: 200,
+                      objectFit: "cover",
+                      borderTopLeftRadius: 8,
+                      borderTopRightRadius: 8,
+                    }}
+                  />
+                }
+                style={{
+                  borderRadius: 8,
+                  overflow: "hidden",
+                  height: "100%",
+                }}
               >
-                Read Full Blog →
-              </Button>
-            </Card>
-          </motion.div>
+                <Title level={4}>{blog.title}</Title>
+                <Paragraph style={{ color: "#444" }}>
+                  {blog.description}
+                </Paragraph>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginTop: 20,
+                  }}
+                >
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 10 }}
+                  >
+                    <Avatar src={blog.author.avatar} />
+                    <Text>Rifat Sarker</Text>
+                  </div>
+                  <Button type="link" className="secondary-color">
+                    Read More
+                  </Button>
+                </div>
+              </Card>
+            </div>
+          </div>
         ))}
       </Carousel>
     </section>
