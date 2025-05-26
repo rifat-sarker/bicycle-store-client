@@ -47,7 +47,7 @@ const CategorySection = () => {
         padding: "50px 20px",
       }}
     >
-      <div style={{ textAlign: "center", marginBottom: "40px" }}>
+      <div style={{ marginBottom: "40px" }}>
         <AntTitle level={2}>Explore Categories</AntTitle>
         <Text style={{ fontSize: 16 }}>
           Find the perfect bike for your journey
@@ -109,17 +109,15 @@ const CategorySection = () => {
                       {category.name}
                     </AntTitle>
                     <Link
-                      to={`/category/${
-                        category.slug || category.name.toLowerCase()
-                      }`}
+                      to="/all-product"
                     >
                       <Button
-                        type="primary"
                         style={{
-                          backgroundColor: "#000000",
-                          borderColor: "#000000",
-                          borderRadius: "6px",
+                          backgroundColor: "#10b981",
+                          color: "#000",
                         }}
+
+                       
                       >
                         Explore
                       </Button>

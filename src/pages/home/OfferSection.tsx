@@ -81,11 +81,9 @@ const OfferSection = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        <div style={{ textAlign: "center", marginBottom: "40px" }}>
-          <AntTitle level={2} style={{ color: "#000000", fontWeight: 700 }}>
-            Special Offers
-          </AntTitle>
-          <Text style={{ fontSize: 16,}}>
+        <div style={{ marginBottom: "40px" }}>
+          <AntTitle level={2}>Special Offers</AntTitle>
+          <Text style={{ fontSize: 16 }}>
             Grab these limited-time deals on your favorite bikes!
           </Text>
         </div>

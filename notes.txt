@@ -12,8 +12,8 @@ In your screenshot, all buttons are solid black, which may confuse the user abou
 
 | Type            | Variable/Class Name | Hex Code  | Usage                                             |
 | --------------- | ------------------- | --------- | ------------------------------------------------- |
-| Primary Color   | `.primary-color`    | `#F59E0B` | CTAs (buttons), icons, highlights, price, ratings |
-| Primary BG      | `.primary-bg`       | `#F59E0B` | CTA button backgrounds, feature icons background  |
+| Primary Color   | `.primary-color`    | `#f59e0b` | CTAs (buttons), icons, highlights, price, ratings |
+| Primary BG      | `.primary-bg`       | `#f59e0b` | CTA button backgrounds, feature icons background  |
 | Secondary Color | `.secondary-color`  | `#10B981` | Secondary buttons, badges, active links           |
 | Secondary BG    | `.secondary-bg`     | `#10B981` | Secondary button background, success cards        |
 | Dark (Fixed)    | `.dark-bg`          | `#000000` | Navbar, footer, some section backgrounds          |
@@ -106,7 +106,7 @@ In your screenshot, all buttons are solid black, which may confuse the user abou
 
 Color Palette
 Navbar Background: #000000 (Pure Black) - Fixed at the top.
-Primary Color: #F59E0B (Warm Amber) - Main accent for key actions and highlights.
+Primary Color: #f59e0b (Warm Amber) - Main accent for key actions and highlights.
 Secondary Color: #10B981 (Teal-Green) - Secondary accent for supporting elements and subtle contrasts.
 Supporting Colors:
 White: #FFFFFF - Text on dark backgrounds (e.g., navbar, cards).
@@ -116,9 +116,9 @@ Sections and Color Usage
 Navbar
 Background: #000000 (Fixed black background).
 Text/Links: #FFFFFF (White for readability on black).
-Hover/Active Links: #F59E0B (Primary color for interactive states).
+Hover/Active Links: #f59e0b (Primary color for interactive states).
 Buttons (e.g., "Shop Now"):
-Background: #F59E0B (Primary color).
+Background: #f59e0b (Primary color).
 Text: #FFFFFF (White).
 Hover: #D17F00 (Slightly darker shade of primary for feedback).
 Purpose: Maintains a bold, professional look while highlighting actions.
@@ -132,7 +132,7 @@ Product Name (Title): #111111 (Dark gray), font-family: Poppins.
 Description: #666666 (Dark gray), truncated to 3 lines.
 Price: #111111 (Dark gray), font-family: Poppins.
 "View Details" Button:
-Background: #F59E0B (Primary color).
+Background: #f59e0b (Primary color).
 Text: #FFFFFF (White).
 Hover: #D17F00 (Darker primary shade).
 "View All Bicycles" Button: Same as above.
@@ -144,10 +144,10 @@ Title ("Special Offers"): #FFFFFF (White), font-family: Poppins.
 Subtitle Text: #CCCCCC (Light gray).
 Card Background: #1A1A1A (Dark gray for contrast).
 Offer Title: #FFFFFF (White), font-family: Poppins.
-Discount Text: #F59E0B (Primary color for emphasis).
+Discount Text: #f59e0b (Primary color for emphasis).
 Description: #CCCCCC (Light gray), truncated to 3 lines.
 "Shop Now" Button:
-Background: #F59E0B (Primary color).
+Background: #f59e0b (Primary color).
 Text: #FFFFFF (White).
 Hover: #D17F00 (Darker primary shade).
 "View All Offers" Button: Same as above, with a bounce animation.
@@ -162,10 +162,10 @@ Blog Title: #111111 (Dark gray), font-family: Poppins.
 Description: #666666 (Dark gray), truncated to 3 lines.
 Author Name: #10B981 (Secondary color for a unique touch).
 "Read More" Button:
-Background: #F59E0B (Primary color).
+Background: #f59e0b (Primary color).
 Text: #FFFFFF (White).
 Hover: #D17F00 (Darker primary shade).
-"View All Blogs" Link: #F59E0B (Primary color).
+"View All Blogs" Link: #f59e0b (Primary color).
 Carousel Buttons:
 Border: #10B981 (Secondary color).
 Background: #FFFFFF (White).
@@ -174,22 +174,22 @@ Purpose: Primary color drives action, secondary color highlights authors, aligni
 Footer (Hypothetical)
 Background: #000000 (Black, matching navbar).
 Text: #FFFFFF (White).
-Links: #F59E0B (Primary color).
+Links: #f59e0b (Primary color).
 Social Icons: #10B981 (Secondary color).
 Purpose: Consistent with navbar, using primary and secondary colors for interactivity.
 Global Elements
-Links: Default #F59E0B (Primary color), hover #D17F00 (Darker shade).
+Links: Default #f59e0b (Primary color), hover #D17F00 (Darker shade).
 Input Fields/Forms:
 Background: #FFFFFF (White).
 Text: #111111 (Dark gray).
 Border: #10B981 (Secondary color).
 Buttons (General):
-Primary: #F59E0B (Background), #FFFFFF (Text).
+Primary: #f59e0b (Background), #FFFFFF (Text).
 Secondary: #10B981 (Background), #FFFFFF (Text).
 Loading States: #CCCCCC (Light gray) for skeletons.
 Purpose: Ensures a cohesive UI across the site.
 Notes
-Contrast: All combinations meet WCAG AA standards (e.g., #F59E0B on #000000 has a 4.9:1 ratio).
+Contrast: All combinations meet WCAG AA standards (e.g., #f59e0b on #000000 has a 4.9:1 ratio).
 Flexibility: Adjust shades (e.g., #D17F00 for hover) if needed for specific sections.
 Testing: Verify colors on different devices and lighting conditions as of 11:35 PM +06, May 25, 2025.
 
