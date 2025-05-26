@@ -15,8 +15,8 @@ const HomePage = () => {
       <FeaturedBicycles />
       <OfferSection />
       <BlogSection />
-      <Testimonials />
       <NewsletterSection />
+      <Testimonials />
       <Footer />
     </div>
   );

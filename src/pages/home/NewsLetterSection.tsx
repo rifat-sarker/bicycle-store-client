@@ -51,11 +51,12 @@ const NewsletterSection: React.FC = () => {
 
   return (
     <section
-      className="navbar-bg"
+      className="dark-bg"
       style={{
-        padding: "60px 20px",
-        marginTop: "80px", // Adjusted for fixed navbar
+        padding: "50px 20px",
         textAlign: "center",
+        color: "#fff",
+        margin:"50px 20px"
       }}
     >
       <motion.div
@@ -64,13 +65,17 @@ const NewsletterSection: React.FC = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <Title level={2} className="white-text" style={{ marginBottom: 8 }}>
+        <div style={{ maxWidth: 600, margin: "0 auto", color: "#fff" }}>
+          <Title
+            level={2}
+            className=""
+            style={{ marginBottom: 8, color: "#fff" }}
+          >
             Join Our Newsletter
           </Title>
           <Paragraph
             className="light-gray"
-            style={{ fontSize: 16, marginBottom: 24 }}
+            style={{ fontSize: 16, marginBottom: 24, color: "#fff" }}
           >
             Stay updated with the latest bike deals, cycling tips, and exclusive
             offers!
@@ -101,9 +106,10 @@ const NewsletterSection: React.FC = () => {
             <motion.div variants={buttonVariants}>
               <Button
                 shape="round"
+                variant="outlined"
                 size="large"
-                className="primary-bg"
-                style={{ color: "#000" }}
+                className="secondary-color"
+                style={{ color: "#000", border: "none" }}
                 onClick={handleSubscribe}
                 loading={loading}
               >

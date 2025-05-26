@@ -77,22 +77,25 @@ const Login = () => {
           <BSInput type="email" name="email" label="Email:" />
           <BSInput type="password" name="password" label="Password:" />
           <Button
-          className="primary-bg primary-c"
+          type="default"
+            shape="round"
+            size="large"
+            className="primary-bg primary-color"
             icon={<LoginOutlined />}
-        
             style={{
               width: "100%",
-              padding: "10px 0",
-              borderRadius: "4px",
-              fontWeight: "600",
-              fontSize: "16px",
+              color: "#000",
+              // border: "none",
             }}
             htmlType="submit"
           >
             Login
           </Button>
           <p style={{ textAlign: "center", margin: "10px 0" }}>
-            Don't have an account? Please <Link to={"/register"}>Register</Link>
+            Don't have an account? Please{" "}
+            <Link style={{ color: "blueviolet" }} to={"/register"}>
+              Register
+            </Link>
           </p>
         </BSForm>
       </div>

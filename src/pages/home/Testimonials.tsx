@@ -1,181 +1,135 @@
-import { Button, Card, Carousel, Flex } from "antd";
-import { useRef } from "react";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import Title from "antd/es/typography/Title";
+import React, { useRef } from "react";
+import { Carousel, Card, Avatar, Button, Typography, Row, Col } from "antd";
+import { LeftOutlined, RightOutlined, StarFilled } from "@ant-design/icons";
+
+const { Title, Paragraph, Text } = Typography;
 
 const testimonials = [
   {
-    id: 1,
-    name: "John Doe",
-    image: "https://i.ibb.co.com/sFks9GW/Michael-Brown.png",
+    name: "Aarav Khan",
+    role: "Cycling Enthusiast",
+    image: "https://i.pravatar.cc/150?img=12",
     feedback:
-      "This is the best bicycle I have ever purchased. It's smooth, stylish, and worth every penny!",
-    position: "Cyclist",
+      "Cyclify made my bicycle shopping super easy! Great selection, smooth checkout, and fast delivery.",
+    rating: 5,
   },
   {
-    id: 2,
-    name: "Jane Smith",
-    image: "https://i.ibb.co.com/yYN8Pvk/Emily-Johnson-Profile.jpg",
+    name: "Maya Rahman",
+    role: "Fitness Trainer",
+    image: "https://i.pravatar.cc/150?img=45",
     feedback:
-      "Amazing quality and performance. Customer service was excellent. Highly recommended!",
-    position: "Fitness Enthusiast",
+      "I recommend Cyclify to all my clients. Reliable service and awesome quality cycles!",
+    rating: 4,
   },
   {
-    id: 3,
-    name: "Alex Johnson",
-    image: "https://i.ibb.co.com/bB1mLF9/brown-michael.jpg",
+    name: "Tanvir Hasan",
+    role: "Mountain Biker",
+    image: "https://i.pravatar.cc/150?img=33",
     feedback:
-      "I love the durability and design of these bicycles. Perfect for city and off-road rides.",
-    position: "Mountain Biker",
+      "Loved the gear options and customer support. Will definitely buy again!",
+    rating: 5,
   },
   {
-    id: 4,
-    name: "Emily Brown",
-    image: "https://i.ibb.co/G9WyKbW/download.jpg",
+    name: "Zara Ahmed",
+    role: "Urban Commuter",
+    image: "https://i.pravatar.cc/150?img=31",
     feedback:
-      "Incredible experience! The bicycles are lightweight and easy to handle, perfect for long rides.",
-    position: "Tourist",
+      "The perfect place to buy stylish and affordable bikes. Cyclify is now my go-to!",
+    rating: 4,
   },
   {
-    id: 5,
-    name: "Mark Wilson",
-    image: "https://i.ibb.co.com/jgvGKSJ/Sample-Male-Principal.jpg",
+    name: "Rahim Uddin",
+    role: "Road Racer",
+    image: "https://i.pravatar.cc/150?img=38",
     feedback:
-      "Superb quality and attention to detail. I'm happy with my purchase. Highly recommend this brand!",
-    position: "Professional Cyclist",
+      "Fast delivery and quality service. I love the community vibe Cyclify provides.",
+    rating: 5,
   },
 ];
 
-const Testimonials = () => {
+const chunkArray = (arr: any[], size: number) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+};
+
+const Testimonials: React.FC = () => {
   const carouselRef = useRef<any>(null);
 
-  const handlePrev = () => {
-    carouselRef.current?.prev();
-  };
+  const next = () => carouselRef.current?.next();
+  const prev = () => carouselRef.current?.prev();
 
-  const handleNext = () => {
-    carouselRef.current?.next();
-  };
+  const testimonialGroups = chunkArray(testimonials, 2); // 2 per slide
 
   return (
-    <div style={{ padding: "50px 20px" }}>
-      {/* Header Row */}
+    <div style={{ padding: "50px 20px", }}>
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
-          gap: "20px",
-          margin: "0 auto 30px",
-          padding: "0 15px",
+          alignItems: "flex-start",
+          marginBottom: 24,
+          flexWrap: "wrap",
         }}
       >
-        <Title level={2} style={{ margin: 0 }}>
-          What Our Customers Say
-        </Title>
         <div>
-          <Button
-            icon={<LeftOutlined />}
-            onClick={handlePrev}
-            style={{
-              marginRight: 10,
-            }}
-          />
-          <Button icon={<RightOutlined />} onClick={handleNext} />
+          <Title level={2} style={{ marginBottom: 4 }}>
+            What Our Riders Say
+          </Title>
+          <Text style={{fontSize: "16px"}}>Real feedback from Cyclify customers</Text>
+        </div>
+        <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+          <Button icon={<LeftOutlined />} onClick={prev} />
+          <Button icon={<RightOutlined />} onClick={next} />
         </div>
       </div>
 
-      {/* Carousel */}
-      <div
-        style={{
-          position: "relative",
-          padding: "0 15px",
-          
-        }}
-      >
-        <Carousel
-          ref={carouselRef}
-          slidesToShow={3}
-          slidesToScroll={1}
-          dots={false}
-          arrows={false}
-          responsive={[
-            {
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1,
-              },
-            },
-            {
-              breakpoint: 768,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-              },
-            },
-          ]}
-        >
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              style={{
-                padding: "10 8px", 
-                boxSizing: "border-box",
-                display: Flex,
-              }}
-            >
-              <Card
-                style={{
-                  borderRadius: "10px",
-                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                  height: "320px",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  textAlign: "center",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    style={{
-                      width: "80px",
-                      height: "80px",
-                      borderRadius: "50%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <h3 style={{ margin: "0 0 5px 0" }}>{testimonial.name}</h3>
-                  <p style={{ fontStyle: "italic", color: "#555" }}>
-                    {testimonial.position}
-                  </p>
-                </div>
-                <p
-                  style={{
-                    fontSize: "14px",
-                    color: "#666",
-                    marginTop: "15px",
-                    padding: "0 10px",
-                  }}
-                >
-                  "{testimonial.feedback}"
-                </p>
-              </Card>
-            </div>
-          ))}
-        </Carousel>
-      </div>
+      <Carousel ref={carouselRef} dots autoplay>
+        {testimonialGroups.map((group, idx) => (
+          <div key={idx}>
+            <Row gutter={[24, 24]} justify="center">
+              {group.map((testimonial, index) => (
+                <Col key={index} xs={24} sm={24} md={12} lg={12} xl={12}>
+                  <Card bordered={false} style={{ borderRadius: 12 }}>
+                    <Paragraph style={{ fontStyle: "italic" }}>
+                      “{testimonial.feedback}”
+                    </Paragraph>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: 24,
+                      }}
+                    >
+                      <Avatar
+                        size={64}
+                        src={testimonial.image}
+                        style={{ marginRight: 16 }}
+                      />
+                      <div>
+                        <Text strong>{testimonial.name}</Text>
+                        <br />
+                        <Text type="secondary" style={{ fontSize: 13 }}>
+                          {testimonial.role}
+                        </Text>
+                      </div>
+                      <div style={{ marginLeft: "auto", color: "#faad14" }}>
+                        {Array.from({ length: testimonial.rating }).map(
+                          (_, i) => (
+                            <StarFilled key={i} />
+                          )
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </div>
+        ))}
+      </Carousel>
     </div>
   );
 };

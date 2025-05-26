@@ -14,7 +14,6 @@ import { logout } from "../../redux/features/auth/authSlice";
 import { homePaths } from "../../routes/home.routes";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
 import { Button, Drawer, Menu } from "antd";
-import { SiGnuprivacyguard } from "react-icons/si";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -39,17 +38,17 @@ const Navbar = () => {
   const dashboardPath = user?.role === "admin" ? "/admin" : "/customer";
 
   return (
-    <nav className="navbar">
+    <nav style={{ backgroundColor: "#000" }} className="navbar dark-bg">
       <div className="top-bar">
-        <Link to="/" className="logo">
+        <Link style={{ color: "#fff" }} to="/" className="logo">
           Cyclify
         </Link>
 
         {!isMobile && (
           <div className="search-bar">
             <input type="text" placeholder="Search..." />
-            <Button color="default" variant="solid">
-              <SearchOutlined />
+            <Button style={{ backgroundColor: "#f59e0b" }}>
+              <SearchOutlined className="bg-primary" />
             </Button>
           </div>
         )}
@@ -70,19 +69,15 @@ const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <Link to="/register">
-                  <Button color="default" variant="solid">
-                    Register
-                    <SiGnuprivacyguard />
-                  </Button>
-                </Link>
-                <Link to="/login">
-                  <Button color="default" variant="solid">
-                    Login <LoginOutlined />
-                  </Button>
-                </Link>
-              </>
+              <Button
+                className="primary-bg primary-color"
+                style={{ color: "#000", border: "none" }}
+                shape="round"
+                size="large"
+                href="/login"
+              >
+                Login <LoginOutlined />
+              </Button>
             )}
           </div>
         ) : (
@@ -95,12 +90,12 @@ const Navbar = () => {
       {/* Large Screen Menu (Centered) */}
       {!isMobile && (
         <Menu
+          className="dar-bg"
           mode="horizontal"
           items={navbarItemsGenerator(homePaths)}
           style={{
             display: "flex",
             justifyContent: "center",
-            color: "#C2C2C2",
             borderBottom: "none",
           }}
         />
@@ -111,7 +106,7 @@ const Navbar = () => {
         <Drawer placement="right" onClose={toggleDrawer} open={drawerVisible}>
           <div className="drawer-search">
             <input type="text" placeholder="Search..." />
-            <Button color="default" variant="solid">
+            <Button style={{ backgroundColor: "#f59e0b" }}>
               <SearchOutlined />
             </Button>
           </div>
@@ -137,14 +132,15 @@ const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <Button color="default" variant="solid" href="/register">
-                  Register <SiGnuprivacyguard />{" "}
-                </Button>
-                <Button color="default" variant="solid" href="/login">
-                  Login <LoginOutlined />
-                </Button>
-              </>
+              <Button
+                className="primary-bg primary-color"
+                style={{ color: "#000", border: "none" }}
+                shape="round"
+                size="large"
+                href="/login"
+              >
+                Login <LoginOutlined />
+              </Button>
             )}
           </div>
         </Drawer>
