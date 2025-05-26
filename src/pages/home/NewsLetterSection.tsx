@@ -108,8 +108,8 @@ const NewsletterSection: React.FC = () => {
                 shape="round"
                 variant="outlined"
                 size="large"
-                className="secondary-color"
-                style={{ color: "#000", border: "none" }}
+                className="primary-bg"
+                style={{ color: "#000",border: "none" }}
                 onClick={handleSubscribe}
                 loading={loading}
               >

@@ -2,21 +2,22 @@ import { Layout } from "antd";
 import { Outlet } from "react-router-dom";
 
 import Navbar from "./Navbar";
+import Footer from "../../pages/home/Footer";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const MainLayout = () => {
   return (
     <Layout>
       <Navbar />
-      <Content style={{ height: "100vh", marginTop: "100px" }}>
+      <Content>
         <div style={{ minHeight: 280, padding: 24 }}>
           <Outlet />
         </div>
       </Content>
-      <Footer style={{ textAlign: "center" }}>
-        {/* Ant Design ©{new Date().getFullYear()} Created by Ant UED */}
-      </Footer>
+      <div >
+        <Footer />
+      </div>
     </Layout>
   );
 };
