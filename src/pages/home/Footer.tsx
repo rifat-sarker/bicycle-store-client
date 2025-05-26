@@ -78,6 +78,19 @@ const Footer = () => {
             </li>
             <li>
               <a
+                href="/blogs"
+                style={{
+                  textDecoration: "none",
+                  display: "block",
+                  marginBottom: "8px",
+                  color: "gray",
+                }}
+              >
+                Blog
+              </a>
+            </li>
+            <li>
+              <a
                 href="/about"
                 style={{
                   textDecoration: "none",
@@ -149,6 +162,7 @@ const Footer = () => {
               style={{
                 maxWidth: 300,
                 height: 40,
+                borderRadius: "20px",
               }}
             />
 

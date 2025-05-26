@@ -4,16 +4,19 @@ import {
   MenuOutlined,
   CloseOutlined,
   SearchOutlined,
-  DashboardOutlined,
   LoginOutlined,
   LogoutOutlined,
+  AppstoreOutlined,
+  ShoppingCartOutlined,
+  SettingOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/features/auth/authSlice";
 import { homePaths } from "../../routes/home.routes";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
-import { Button, Drawer, Menu } from "antd";
+import { Avatar, Button, Drawer, Dropdown, Menu, Space, Tooltip } from "antd";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -22,6 +25,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
 
   const { user } = useAppSelector((state) => state.auth);
+  console.log(user);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -40,14 +44,21 @@ const Navbar = () => {
   return (
     <nav style={{ backgroundColor: "#000" }} className="navbar dark-bg">
       <div className="top-bar">
-        <Link style={{ color: "#fff" }} to="/" className="logo">
+        <Link
+          style={{ color: "#f59e0b" }}
+          to="/"
+          className="primary-color logo"
+        >
           Cyclify
         </Link>
 
         {!isMobile && (
           <div className="search-bar">
             <input type="text" placeholder="Search..." />
-            <Button style={{ backgroundColor: "#f59e0b" }}>
+            <Button
+              size="large"
+              style={{ backgroundColor: "#f59e0b", color: "#000" }}
+            >
               <SearchOutlined className="bg-primary" />
             </Button>
           </div>
@@ -56,18 +67,82 @@ const Navbar = () => {
         {!isMobile ? (
           <div className="auth-buttons">
             {user ? (
-              <>
-                <Button
-                  color="default"
-                  variant="solid"
-                  onClick={() => navigate(dashboardPath)}
+              <Space>
+                <Tooltip title="Cart">
+                  <Button
+                    icon={<ShoppingCartOutlined style={{ fontSize: 24 }} />}
+                    shape="circle"
+                    size="large"
+                    onClick={() => navigate("/cart")}
+                    style={{
+                      color: "#f59e0b",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                  />
+                </Tooltip>
+                <Tooltip title="Dashboard">
+                  <Button
+                    icon={<AppstoreOutlined style={{ fontSize: 24 }} />}
+                    shape="circle"
+                    size="large"
+                    onClick={() => navigate(dashboardPath)}
+                    style={{
+                      color: "#f59e0b",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                  />
+                </Tooltip>
+
+                <Dropdown
+                  placement="bottomRight"
+                  trigger={["hover"]}
+                  menu={{
+                    items: [
+                      {
+                        key: "profile",
+                        label: (
+                          <div style={{ padding: "8px 12px" }}>
+                            <div style={{ fontWeight: "bold" }}>
+                              {user.name || "User"}
+                            </div>
+                            <div style={{ fontSize: "12px", color: "#888" }}>
+                              {user.email}
+                            </div>
+                          </div>
+                        ),
+                        disabled: true,
+                        icon: <UserOutlined />,
+                      },
+                      {
+                        type: "divider",
+                      },
+                      {
+                        key: "settings",
+                        label: "Settings",
+                        icon: <SettingOutlined />,
+                        onClick: () => navigate("/settings"),
+                      },
+                      {
+                        key: "logout",
+                        label: "Logout",
+                        icon: <LogoutOutlined />,
+                        onClick: handleLogout,
+                      },
+                    ],
+                  }}
                 >
-                  Dashboard <DashboardOutlined />
-                </Button>
-                <Button color="default" variant="solid" onClick={handleLogout}>
-                  Logout <LogoutOutlined />
-                </Button>
-              </>
+                  <Avatar
+                    style={{
+                      backgroundColor: "#f59e0b",
+                      color: "#000",
+                      cursor: "pointer",
+                    }}
+                    icon={<UserOutlined />}
+                  />
+                </Dropdown>
+              </Space>
             ) : (
               <Button
                 className="primary-bg primary-color"
@@ -87,7 +162,6 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Large Screen Menu (Centered) */}
       {!isMobile && (
         <Menu
           className="dar-bg"
@@ -101,12 +175,14 @@ const Navbar = () => {
         />
       )}
 
-      {/* Mobile Drawer Menu */}
       {isMobile && (
         <Drawer placement="right" onClose={toggleDrawer} open={drawerVisible}>
           <div className="drawer-search">
             <input type="text" placeholder="Search..." />
-            <Button style={{ backgroundColor: "#f59e0b" }}>
+            <Button
+              size="large"
+              style={{ backgroundColor: "#f59e0b", color: "#000" }}
+            >
               <SearchOutlined />
             </Button>
           </div>
@@ -118,17 +194,63 @@ const Navbar = () => {
           <div className="drawer-auth">
             {user ? (
               <>
+                <div
+                  style={{ padding: "8px 0", borderBottom: "1px solid #eee" }}
+                >
+                  <div style={{ fontWeight: "bold" }}>
+                    {user.name || "User"}
+                  </div>
+                  <div style={{ fontSize: "12px", color: "#666" }}>
+                    {user.email}
+                  </div>
+                </div>
                 <Button
-                  color="default"
-                  variant="solid"
                   onClick={() => navigate(dashboardPath)}
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    color: "#000",
+                    fontWeight: 500,
+                    border: "none",
+                  }}
+                  icon={<AppstoreOutlined style={{ fontSize: 24 }} />}
                 >
                   Dashboard
-                  <DashboardOutlined />
                 </Button>
-                <Button color="default" variant="solid" onClick={handleLogout}>
+                <Button
+                  onClick={() => navigate("/cart")}
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    color: "#000",
+                    fontWeight: 500,
+                    border: "none",
+                  }}
+                  icon={<ShoppingCartOutlined style={{ fontSize: 24 }} />}
+                >
+                  Cart
+                </Button>
+                <Button
+                  onClick={() => navigate("/settings")}
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    color: "#000",
+                    fontWeight: 500,
+                    border: "none",
+                  }}
+                  icon={<SettingOutlined />}
+                >
+                  Settings
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    color: "#000",
+                    fontWeight: 500,
+                    border: "none",
+                  }}
+                  icon={<LogoutOutlined />}
+                >
                   Logout
-                  <LogoutOutlined />
                 </Button>
               </>
             ) : (
@@ -213,12 +335,13 @@ const Navbar = () => {
           background: #f4f4f4;
         }
 
-        .menu-toggle {
-          background: none;
-          border: none;
-          font-size: 22px;
-          cursor: pointer;
-        }
+          .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #f59e0b;
+          }
 
         .drawer-search {
           display: flex;
@@ -231,13 +354,21 @@ const Navbar = () => {
           border-radius: 6px 0 0 6px;
         }
 
-        .drawer-search button {
-          padding: 8px 12px;
-          background-color: #000;
-          color: white;
-          border: none;
-          border-radius: 0 6px 6px 0;
-        }
+                  .drawer-search button {
+            padding: 8px 12px;
+            background-color: #f59e0b;
+            color: #000;
+            border: none;
+            border-radius: 0 6px 6px 0;
+          }
+
+
+          .drawer-search button:hover,
+          .auth-buttons button:hover,
+          .drawer-auth button:hover {
+            opacity: 0.9;
+          }
+
 
         .drawer-auth {
           padding: 16px;
