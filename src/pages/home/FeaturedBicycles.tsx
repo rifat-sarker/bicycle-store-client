@@ -5,6 +5,7 @@ import { ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../../redux/features/admin/productManagementApi";
+import { GoArrowRight } from "react-icons/go";
 
 const { Title: AntTitle, Text } = Typography;
 
@@ -284,16 +285,8 @@ const FeaturedBicycles = () => {
             marginTop: "50px",
           }}
         >
-          <Button
-            type="link"
-            size="large"
-            style={{
-              backgroundColor: "#10b981",
-              color: "#000",
-            }}
-            href="/all-product"
-          >
-            View All Bicycles
+          <Button color="default" variant="link" href="/all-product">
+           <GoArrowRight />  View All Bicycles
           </Button>
         </motion.div>
       </motion.div>

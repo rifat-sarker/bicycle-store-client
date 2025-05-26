@@ -5,8 +5,9 @@ import {
   InstagramOutlined,
   LinkedinOutlined,
 } from "@ant-design/icons";
-import Logo from "../../utils/Logo";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Logo from "../../utils/Logo";
 
 const Footer = () => {
   const [email, setEmail] = useState<string>("");
@@ -41,7 +42,13 @@ const Footer = () => {
     >
       <Row gutter={[16, 16]} justify="space-between" align="middle">
         <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
-          <Logo />
+          <Link
+            // style={{ backgroundColor: "#fff" }}
+            to="/"
+            // className="primary-color logo"
+          >
+            <Logo size={100} />
+          </Link>
           <p style={{ fontSize: "14px" }}>
             Premium Bicycles for Every Adventure
           </p>
@@ -127,10 +134,7 @@ const Footer = () => {
             >
               <FacebookOutlined />
             </a>
-            <a
-              href="https://www.x.com/rifatswd/"
-              style={{ color: "gray" }}
-            >
+            <a href="https://www.x.com/rifatswd/" style={{ color: "gray" }}>
               <TwitterOutlined />
             </a>
             <a
@@ -183,9 +187,7 @@ const Footer = () => {
 
       <Row justify="center" style={{ marginTop: "20px" }}>
         <Col span={24} style={{ textAlign: "center" }}>
-          <p>
-            © {new Date().getFullYear()} Bicycle Store. All rights reserved.
-          </p>
+          <p>© {new Date().getFullYear()} Cyclify. All rights reserved.</p>
         </Col>
       </Row>
     </div>

@@ -1,9 +1,16 @@
-import logo from "../assets/images/logo.png";
+// Logo.jsx
 
-const Logo = () => {
+import logoImage from "../assets/images/logo.png"
+
+const Logo = ({ className = "", size = 150 }) => {
   return (
-    <div>
-      <img style={{ height: "120px", width: "150px" }} src={logo} alt="" />
+    <div className={`logo-container ${className}`}>
+      <img
+        src={logoImage}
+        alt="Cyclify Logo"
+        className="logo"
+        style={{ width: `${size}px`, height: "auto" }}
+      />
     </div>
   );
 };

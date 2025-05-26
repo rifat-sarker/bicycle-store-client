@@ -1,7 +1,8 @@
 import { Card, Col, Row, Button, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion"; // For animations
+import { motion } from "framer-motion";
 import "antd/dist/reset.css"; // Ant Design styles
+import { GoArrowRight } from "react-icons/go";
 
 const { Title: AntTitle, Text } = Typography;
 
@@ -129,7 +130,7 @@ const OfferSection = () => {
                       style={{
                         fontSize: 24,
                         fontWeight: 700,
-                        color: "#ff4d4f",
+                        color: "#f59e0b",
                         marginBottom: 15,
                       }}
                     >
@@ -154,8 +155,13 @@ const OfferSection = () => {
                     <Button
                       color="default"
                       variant="solid"
-                      size="middle"
-                      style={{ margin: "10px 0px" }}
+                      size="small"
+                      style={{
+                        borderRadius: "8px",
+                        color: "#000",
+                        backgroundColor: "#10b981",
+                        margin: "10px 0",
+                      }}
                     >
                       Shop Now
                     </Button>
@@ -169,8 +175,8 @@ const OfferSection = () => {
         <div style={{ textAlign: "center", marginTop: "40px" }}>
           <motion.div variants={buttonVariants}>
             <Link to="/all-offers">
-              <Button color="default" variant="solid" size="large">
-                View All Offers
+              <Button color="default" variant="link" size="large">
+                <GoArrowRight /> View All Offers
               </Button>
             </Link>
           </motion.div>

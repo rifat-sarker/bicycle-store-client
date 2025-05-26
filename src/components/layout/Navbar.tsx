@@ -17,6 +17,7 @@ import { logout } from "../../redux/features/auth/authSlice";
 import { homePaths } from "../../routes/home.routes";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
 import { Avatar, Button, Drawer, Dropdown, Menu, Space, Tooltip } from "antd";
+import Logo from "../../utils/Logo";
 
 const Navbar = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -43,13 +44,9 @@ const Navbar = () => {
 
   return (
     <nav style={{ backgroundColor: "#000" }} className="navbar dark-bg">
-      <div className="top-bar">
-        <Link
-          style={{ color: "#f59e0b" }}
-          to="/"
-          className="primary-color logo"
-        >
-          Cyclify
+      <div style={{ padding: "15px 50px" }} className="top-bar">
+        <Link to="/">
+          <Logo size={30} />
         </Link>
 
         {!isMobile && (

@@ -88,3 +88,23 @@ a:hover {
   background-color: #f59e0b;
   color: #fff;
 }
+
+/* Logo.css */
+.logo-container {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Semi-transparent black for light bg */
+  /* padding: 5px; */
+  /* border-radius: 8px; */
+  /* border: 2px solid #f59e0b;  */
+  /* box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); */
+  display: inline-block;
+}
+
+.logo {
+  display: block;
+  filter: brightness(0) invert(1); /* Invert black logo to white for light mode */
+}
