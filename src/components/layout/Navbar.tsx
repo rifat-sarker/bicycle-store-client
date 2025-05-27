@@ -26,7 +26,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
 
   const { user } = useAppSelector((state) => state.auth);
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
