@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
 import { Carousel, Card, Typography, Avatar, Button, Row, Col } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { useBlogQuery } from "../../redux/features/admin/blogApi";
 import { Blog } from "../../types/blog";
+import { useGetAllBlogsQuery } from "../../redux/features/admin/blogApi";
 
 const { Title, Paragraph, Text } = Typography;
 
 const BlogSection: React.FC = () => {
-  const { data: blogs } = useBlogQuery(undefined);
+  const { data: blogs } = useGetAllBlogsQuery(undefined);
   const carouselRef = useRef<any>(null);
 
   // console.log(blogs);
@@ -102,7 +102,7 @@ const BlogSection: React.FC = () => {
                   </div>
                   <Button
                     type="link"
-                    href={`/blog/${blog._id}`}
+                    href={`/blogs/${blog._id}`}
                     className="secondary-color"
                   >
                     Read More

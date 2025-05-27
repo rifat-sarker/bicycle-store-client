@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     children: [
       ...routesGenerator(homePaths),
       { path: "product/:id", element: <ProductDetails /> },
-      { path: "blogs:/:id", element: <BlogDetails /> },
+      { path: "blogs/:id", element: <BlogDetails /> },
       { path: "product/checkout/:id", element: <CheckoutPage /> },
       { path: "orders/verify", element: <VerificationOrder /> },
     ],

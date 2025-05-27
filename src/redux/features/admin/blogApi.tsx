@@ -2,7 +2,15 @@ import { baseApi } from "../../api/baseApi";
 
 const blogApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    blog: builder.query({
+    getBlogById: builder.query({
+      query: (id) => ({
+        url: `/blogs/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (response) => response,
+    }),
+
+    getAllBlogs: builder.query({
       query: () => ({
         url: "/blogs",
         method: "GET",
@@ -11,4 +19,4 @@ const blogApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useBlogQuery } = blogApi;
+export const { useGetBlogByIdQuery, useGetAllBlogsQuery } = blogApi;
