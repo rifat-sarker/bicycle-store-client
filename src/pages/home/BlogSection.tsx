@@ -1,58 +1,16 @@
 import React, { useRef } from "react";
 import { Carousel, Card, Typography, Avatar, Button, Row, Col } from "antd";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { useBlogQuery } from "../../redux/features/admin/blogApi";
+import { Blog } from "../../types/blog";
 
 const { Title, Paragraph, Text } = Typography;
 
-const blogs = [
-  {
-    id: 1,
-    title: "Top 10 Bicycle Accessories You Must Have",
-    description:
-      "Upgrade your ride with these must-have accessories for comfort, safety, and style.",
-    image: "/blog/blog1.jpg",
-    author: {
-      name: "John Doe",
-      avatar: "/authors/john.jpg",
-    },
-  },
-  {
-    id: 2,
-    title: "How to Maintain Your Bike Like a Pro",
-    description:
-      "Regular maintenance tips that can extend your bike’s life and improve performance.",
-    image: "/blog/blog2.jpg",
-    author: {
-      name: "Emily Clark",
-      avatar: "/authors/emily.jpg",
-    },
-  },
-  {
-    id: 3,
-    title: "Best Biking Trails in Bangladesh",
-    description:
-      "Explore scenic and thrilling bike trails across the country for all skill levels.",
-    image: "/blog/blog3.jpg",
-    author: {
-      name: "Arif Hossain",
-      avatar: "/authors/arif.jpg",
-    },
-  },
-  {
-    id: 4,
-    title: "Choosing the Right Bike for Your Lifestyle",
-    description:
-      "Understand the key differences between road, mountain, and hybrid bikes.",
-    image: "/blog/blog4.jpg",
-    author: {
-      name: "Nadia Rahman",
-      avatar: "/authors/nadia.jpg",
-    },
-  },
-];
-
 const BlogSection: React.FC = () => {
+  const { data: blogs } = useBlogQuery(undefined);
   const carouselRef = useRef<any>(null);
+
+  // console.log(blogs);
 
   const handlePrev = () => carouselRef.current?.prev();
   const handleNext = () => carouselRef.current?.next();
@@ -103,14 +61,14 @@ const BlogSection: React.FC = () => {
           },
         ]}
       >
-        {blogs.map((blog) => (
-          <div key={blog.id}>
+        {blogs?.data.map((blog: Blog) => (
+          <div key={blog._id}>
             <div style={{ padding: "10px 8px", height: "100%" }}>
               <Card
                 hoverable
                 cover={
                   <img
-                    src="https://res.cloudinary.com/dunfiptfi/image/upload/v1747829895/l1x8ixz7qfedw19fixj2.jpg"
+                    src={blog.image || "https://via.placeholder.com/300"}
                     alt={blog.title}
                     style={{
                       height: 200,
@@ -127,9 +85,7 @@ const BlogSection: React.FC = () => {
                 }}
               >
                 <Title level={4}>{blog.title}</Title>
-                <Paragraph >
-                  {blog.description}
-                </Paragraph>
+                <Paragraph>{blog.content}</Paragraph>
                 <div
                   style={{
                     display: "flex",
@@ -141,10 +97,14 @@ const BlogSection: React.FC = () => {
                   <div
                     style={{ display: "flex", alignItems: "center", gap: 10 }}
                   >
-                    <Avatar src={blog.author.avatar} />
+                    <Avatar src={`blog.author.avatar || "AuthorImg"`} />
                     <Text>Rifat Sarker</Text>
                   </div>
-                  <Button type="link" className="secondary-color">
+                  <Button
+                    type="link"
+                    href={`/blog/${blog._id}`}
+                    className="secondary-color"
+                  >
                     Read More
                   </Button>
                 </div>

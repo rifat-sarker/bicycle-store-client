@@ -80,7 +80,6 @@ const Register = () => {
             style={{ color: "#000", width: "100%" }}
             shape="round"
             size="large"
-            href="/login"
             htmlType="submit"
           >
             Register

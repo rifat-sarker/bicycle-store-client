@@ -1,4 +1,5 @@
 import About from "../pages/About";
+import AllBlog from "../pages/blog/AllBlog";
 import Contact from "../pages/Contact";
 import HomePage from "../pages/home/HomePage";
 import AllProduct from "../pages/product/AllProduct";
@@ -17,7 +18,7 @@ export const homePaths = [
   {
     name: "Blog",
     path: "blogs",
-    element: <AllProduct />,
+    element: <AllBlog />,
   },
   {
     name: "About",

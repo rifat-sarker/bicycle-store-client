@@ -11,6 +11,7 @@ import ProtectedRoute from "../components/layout/ProtectedRoute";
 import CheckoutPage from "../pages/checkout/Checkout";
 import VerificationOrder from "../pages/order/VerificationOrder";
 import MainLayout from "../components/layout/MainLayout";
+import BlogDetails from "../pages/blog/BlogDetails";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
     children: [
       ...routesGenerator(homePaths),
       { path: "product/:id", element: <ProductDetails /> },
+      { path: "blogs:/:id", element: <BlogDetails /> },
       { path: "product/checkout/:id", element: <CheckoutPage /> },
       { path: "orders/verify", element: <VerificationOrder /> },
     ],
