@@ -1,5 +1,5 @@
 import { Tabs, Row, Button } from "antd";
-import { useState, } from "react";
+import { useState } from "react";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
@@ -58,7 +58,6 @@ const CredentialTabs = () => {
   );
 };
 
-
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -97,7 +96,7 @@ const Login = () => {
           width: "100%",
         }}
       >
-        <h2 style={{ textAlign: "center", marginBottom: 16 }}>
+        <h2 style={{ textAlign: "center", marginBottom: 16, fontWeight: 600 }}>
           Login <UserOutlined />
         </h2>
 
@@ -120,7 +119,8 @@ const Login = () => {
             style={{
               width: "100%",
               color: "#000",
-              backgroundColor: "#e0e7ff",
+              backgroundColor: "#f59e0b",
+              border: "none",
               fontWeight: 600,
               marginTop: 10,
             }}
@@ -130,7 +130,7 @@ const Login = () => {
 
           <p style={{ textAlign: "center", margin: "14px 0 0" }}>
             Don&apos;t have an account?{" "}
-            <Link style={{ color: "blueviolet" }} to={"/register"}>
+            <Link style={{ color: "#10b981" }} to={"/register"}>
               Register
             </Link>
           </p>

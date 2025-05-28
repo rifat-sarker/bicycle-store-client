@@ -76,17 +76,23 @@ const Register = () => {
           <BSInput type="password" name="password" label="Password:" />
           <Button
             icon={<UserAddOutlined />}
-            className="primary-bg primary-color"
-            style={{ color: "#000", width: "100%" }}
+            type="default"
             shape="round"
             size="large"
-            htmlType="submit"
+            style={{
+              width: "100%",
+              color: "#000",
+              backgroundColor: "#f59e0b",
+              border: "none",
+              fontWeight: 600,
+              marginTop: 10,
+            }}
           >
             Register
           </Button>
           <p style={{ textAlign: "center", margin: "10px 0" }}>
             Already have an account? Please{" "}
-            <Link style={{ color: "blueviolet" }} to={"/login"}>
+            <Link style={{ color: "#10b981" }} to={"/login"}>
               Login
             </Link>
           </p>
