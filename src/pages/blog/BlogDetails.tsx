@@ -108,7 +108,7 @@ const BlogDetails: React.FC = () => {
         <Title level={3}>Blog Not Found</Title>
         <Button
           type="primary"
-          href="/"
+          href="/blogs"
           style={{ backgroundColor: "#f59e0b", borderColor: "#f59e0b" }}
         >
           Back to Blog
@@ -151,7 +151,7 @@ const BlogDetails: React.FC = () => {
           {/* Back Button */}
           <Button
             type="link"
-            href="/"
+            href="/blogs"
             icon={<ArrowLeftOutlined />}
             style={{ marginBottom: 20, color: "#f59e0b" }}
           >

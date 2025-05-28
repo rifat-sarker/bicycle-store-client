@@ -10,6 +10,7 @@ import {
   Select,
   Spin,
   Input,
+  Grid,
 } from "antd";
 import { ArrowLeftOutlined, SearchOutlined } from "@ant-design/icons";
 import { useGetAllBlogsQuery } from "../../redux/features/admin/blogApi";
@@ -17,14 +18,17 @@ import { Blog } from "../../types/blog";
 
 const { Title, Paragraph, Text } = Typography;
 const { Option } = Select;
+const { useBreakpoint } = Grid;
 
 const AllBlogs: React.FC = () => {
   const { data: blogResponse, isLoading } = useGetAllBlogsQuery(undefined);
   const blogs: Blog[] = blogResponse?.data || [];
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6);
+  const pageSize = 6; // Removed setPageSize
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const screens = useBreakpoint();
 
   const categories = [
     "All",
@@ -41,7 +45,7 @@ const AllBlogs: React.FC = () => {
 
   const filteredBlogs = blogs
     .filter(
-      (blog) => blog.category === categoryFilter || categoryFilter === null
+      (blog) => categoryFilter === null || blog.category === categoryFilter
     )
     .filter(
       (blog) =>
@@ -73,60 +77,61 @@ const AllBlogs: React.FC = () => {
             Back to Home
           </Button>
 
-          <Title level={2} style={{ marginBottom: 10, color: "#1a2a44" }}>
-            All Blog Posts
-          </Title>
-          <Paragraph style={{ fontSize: "16px", color: "#666" }}>
+          <Title level={2}>All Blog Posts</Title>
+          <Paragraph style={{ fontSize: "16px" }}>
             Explore the latest tips, guides, and news from the cycling world.
           </Paragraph>
 
           <div
             style={{
               display: "flex",
+              flexDirection: screens.md ? "row" : "column",
               justifyContent: "space-between",
               marginTop: 30,
               gap: 24,
             }}
           >
             {/* Left Sidebar */}
-            <div
-              style={{
-                width: 250,
-                position: "sticky",
-                top: 100,
-                height: "fit-content",
-                flexShrink: 0,
-              }}
-            >
-              <Card style={{ marginBottom: 20, borderRadius: 12 }}>
-                <Input
-                  placeholder="Search blogs..."
-                  prefix={<SearchOutlined />}
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                />
-              </Card>
+            {screens.md && (
+              <div
+                style={{
+                  width: 250,
+                  position: "sticky",
+                  top: 120,
+                  height: "fit-content",
+                  flexShrink: 0,
+                }}
+              >
+                <Card style={{ marginBottom: 20, borderRadius: 12 }}>
+                  <Input
+                    placeholder="Search blogs..."
+                    prefix={<SearchOutlined />}
+                    value={searchTerm}
+                    onChange={(e) => {
+                      setSearchTerm(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                  />
+                </Card>
 
-              <Card title="Filter by Category" style={{ borderRadius: 12 }}>
-                <Select
-                  style={{ width: "100%" }}
-                  onChange={(value) => {
-                    setCategoryFilter(value === "All" ? null : value);
-                    setCurrentPage(1);
-                  }}
-                  value={categoryFilter || "All"}
-                >
-                  {categories.map((cat) => (
-                    <Option key={cat} value={cat}>
-                      {cat}
-                    </Option>
-                  ))}
-                </Select>
-              </Card>
-            </div>
+                <Card title="Filter by Category" style={{ borderRadius: 12 }}>
+                  <Select
+                    style={{ width: "100%" }}
+                    onChange={(value) => {
+                      setCategoryFilter(value === "All" ? null : value);
+                      setCurrentPage(1);
+                    }}
+                    value={categoryFilter || "All"}
+                  >
+                    {categories.map((cat) => (
+                      <Option key={cat} value={cat}>
+                        {cat}
+                      </Option>
+                    ))}
+                  </Select>
+                </Card>
+              </div>
+            )}
 
             {/* Center Content */}
             <div style={{ flex: 1, minWidth: 0 }}>
@@ -144,7 +149,7 @@ const AllBlogs: React.FC = () => {
                 <>
                   <Row gutter={[24, 24]}>
                     {paginatedBlogs.map((blog) => (
-                      <Col xs={24} key={blog._id}>
+                      <Col xs={24} sm={24} md={24} key={blog._id}>
                         <Card
                           hoverable
                           style={{
@@ -157,7 +162,7 @@ const AllBlogs: React.FC = () => {
                             <img
                               src={
                                 blog.image ||
-                                "https://via.placeholder.com/1200x300"
+                                "https://i.ibb.co/MkbyPSHB/360-F-229758328-7x8jw-Cwjt-BMm-C6rg-Fz-LFh-Zo-Ep-Lob-B6-L8.jpg"
                               }
                               alt={blog.title}
                               style={{
@@ -190,7 +195,10 @@ const AllBlogs: React.FC = () => {
                                 zIndex: 1,
                               }}
                             >
-                              <Text strong style={{ fontSize: 24 }}>
+                              <Text
+                                strong
+                                style={{ fontSize: 24, color: "#fff" }}
+                              >
                                 {blog.title}
                               </Text>
                             </div>
@@ -207,14 +215,11 @@ const AllBlogs: React.FC = () => {
                               }}
                             >
                               <Avatar
-                                src={
-                                  blog.author?.avatar ||
-                                  "https://via.placeholder.com/40"
-                                }
+                                src={"https://via.placeholder.com/40"}
                                 size={32}
                               />
                               <Text type="secondary">
-                                {blog.author?.name || "Rifat Sarker"} -{" "}
+                                Rifat Sarker ·{" "}
                                 {new Date(
                                   blog.createdAt || Date.now()
                                 ).toLocaleDateString()}
@@ -222,7 +227,7 @@ const AllBlogs: React.FC = () => {
                             </div>
                             <Button
                               type="primary"
-                              href={`/blog/${blog._id}`}
+                              href={`/blogs/${blog._id}`}
                               style={{
                                 marginTop: 16,
                                 backgroundColor: "#f59e0b",
@@ -248,25 +253,52 @@ const AllBlogs: React.FC = () => {
             </div>
 
             {/* Right Banner */}
-            <div
-              style={{
-                width: 250,
-                position: "sticky",
-                top: 100,
-                height: "fit-content",
-                flexShrink: 0,
-              }}
-            >
-              <Card
-                title="Featured"
-                style={{ borderRadius: 12, backgroundColor: "#fffbea" }}
+            {screens.md && (
+              <div
+                style={{
+                  width: 250,
+                  position: "sticky",
+                  top: 120,
+                  height: "fit-content",
+                  flexShrink: 0,
+                }}
               >
-                <Paragraph>
-                  Get exclusive cycling tips, tricks, and news by staying tuned
-                  to our featured blogs!
-                </Paragraph>
-              </Card>
-            </div>
+                <Card
+                  style={{
+                    borderRadius: 12,
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                    backgroundColor: "#f59e0b",
+                    color: "#000",
+                    padding: "20px",
+                    textAlign: "center",
+                  }}
+                >
+                  <Title level={4} style={{ marginBottom: 16 }}>
+                    Join Our Cycling Community!
+                  </Title>
+                  <Paragraph
+                    style={{
+                      color: "#fff",
+                      fontSize: "14px",
+                      marginBottom: 20,
+                    }}
+                  >
+                    Get the latest updates, exclusive tips, and join events with
+                    fellow cycling enthusiasts.
+                  </Paragraph>
+                  <Button
+                    className="secondary-bg"
+                    href="/register"
+                    style={{
+                      border: "none",
+                      color: "#000",
+                    }}
+                  >
+                    Sign Up Now
+                  </Button>
+                </Card>
+              </div>
+            )}
           </div>
         </Col>
       </Row>
