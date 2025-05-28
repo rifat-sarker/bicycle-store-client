@@ -7,6 +7,7 @@ import {
   Select,
   Skeleton,
   Pagination,
+  Slider,
 } from "antd";
 import {
   useGetAllProductsQuery,
@@ -14,56 +15,42 @@ import {
 } from "../../redux/features/admin/productManagementApi";
 import { TProduct } from "../../types/productManagement.type";
 import { TQueryParam } from "../../types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const { Meta } = Card;
 const { Option } = Select;
 
-export type TTableData = Pick<
-  TProduct,
-  | "name"
-  | "brand"
-  | "model"
-  | "price"
-  | "description"
-  | "category"
-  | "productImg"
->;
-
 const AllProduct = () => {
   const [page, setPage] = useState(1);
-  const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedModel, setSelectedModel] = useState<string | undefined>();
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]); // Initial price range, adjust max as needed
 
   const { data: categories = [] } = useGetCategoriesQuery();
 
-  useEffect(() => {
-    const queryParams: TQueryParam[] = [
-      { name: "limit", value: 10 },
-      { name: "page", value: page.toString() },
-      { name: "sort", value: "id" },
-    ];
-
-    if (searchQuery)
-      queryParams.push({ name: "searchTerm", value: searchQuery });
-    if (selectedModel)
-      queryParams.push({ name: "model", value: selectedModel });
-    if (selectedCategory)
-      queryParams.push({ name: "category", value: selectedCategory });
-
-    setParams(queryParams);
-  }, [page, searchQuery, selectedModel, selectedCategory]);
+  const queryParams: TQueryParam[] = [
+    { name: "limit", value: "9" },
+    { name: "page", value: page.toString() },
+    ...(searchQuery ? [{ name: "searchTerm", value: searchQuery }] : []),
+    ...(selectedCategory
+      ? [{ name: "category", value: selectedCategory }]
+      : []),
+    ...(priceRange[0] > 0
+      ? [{ name: "minPrice", value: priceRange[0].toString() }]
+      : []),
+    ...(priceRange[1] < 1000
+      ? [{ name: "maxPrice", value: priceRange[1].toString() }]
+      : []),
+  ];
 
   const {
     data: productData,
     isLoading,
     isFetching,
-  } = useGetAllProductsQuery(params);
+  } = useGetAllProductsQuery(queryParams);
 
   const products = productData?.data?.map(
     ({
@@ -75,7 +62,7 @@ const AllProduct = () => {
       description,
       category,
       productImg,
-    }) => ({
+    }: TProduct) => ({
       key: _id,
       name,
       brand,
@@ -90,15 +77,18 @@ const AllProduct = () => {
   const metaData = productData?.meta;
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPage(1);
     setSearchQuery(e.target.value);
   };
 
-  const handleModelChange = (value: string) => {
-    setSelectedModel(value);
+  const handleCategoryChange = (value: string) => {
+    setPage(1);
+    setSelectedCategory(value);
   };
 
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
+  const handlePriceRangeChange = (value: number[]) => {
+    setPage(1);
+    setPriceRange([value[0], value[1]]);
   };
 
   if (isLoading) {
@@ -126,10 +116,10 @@ const AllProduct = () => {
 
   return (
     <Row gutter={24} style={{ marginTop: 50 }}>
-      {/* Left Sidebar Filters */}
+      {/* Left Filter Section */}
       <Col xs={24} sm={24} md={6}>
         <Input
-          placeholder="Search products"
+          placeholder="Search by name"
           value={searchQuery}
           onChange={handleSearch}
           style={{ marginBottom: 16 }}
@@ -137,20 +127,6 @@ const AllProduct = () => {
 
         <Select
           style={{ width: "100%", marginBottom: 16 }}
-          placeholder="Filter by Model"
-          value={selectedModel}
-          onChange={handleModelChange}
-          allowClear
-        >
-          <Option value="Mountain">Mountain</Option>
-          <Option value="Road">Road</Option>
-          <Option value="Hybrid">Hybrid</Option>
-          <Option value="BMX">BMX</Option>
-          <Option value="Electric">Electric</Option>
-        </Select>
-
-        <Select
-          style={{ width: "100%" }}
           placeholder="Filter by Category"
           value={selectedCategory}
           onChange={handleCategoryChange}
@@ -162,9 +138,24 @@ const AllProduct = () => {
             </Option>
           ))}
         </Select>
+
+        <div style={{ marginBottom: 16 }}>
+          <Slider
+            range
+            min={0}
+            max={1000} // Adjust max price based on your product price range
+            value={priceRange}
+            onChange={handlePriceRangeChange}
+          
+          />
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <span>Min: ${priceRange[0]}</span>
+            <span>Max: ${priceRange[1]}</span>
+          </div>
+        </div>
       </Col>
 
-      {/* Product Grid */}
+      {/* Right Product Display Section */}
       <Col xs={24} sm={24} md={18}>
         <Row gutter={[16, 16]}>
           {products?.map((product) => (
@@ -196,7 +187,7 @@ const AllProduct = () => {
                         <strong>Model:</strong> {product.model}
                       </p>
                       <p>
-                        <strong>Price:</strong> {product.price}
+                        <strong>Price:</strong> ${product.price}
                       </p>
                       <p>
                         <strong>Category:</strong> {product.category}
@@ -206,9 +197,8 @@ const AllProduct = () => {
                 />
                 <Link to={`/product/${product.key}`}>
                   <Button
-                    color="default"
-                    variant="solid"
-                    style={{ marginTop: "16px", width: "100%" }}
+                    type="primary"
+                    style={{ marginTop: 16, width: "100%" }}
                   >
                     View Details
                   </Button>
@@ -218,7 +208,6 @@ const AllProduct = () => {
           ))}
         </Row>
 
-        {/* Pagination */}
         <Row justify="center" style={{ marginTop: 24, marginBottom: 24 }}>
           <Pagination
             current={page}
