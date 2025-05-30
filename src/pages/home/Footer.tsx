@@ -35,18 +35,14 @@ const Footer = () => {
         backgroundColor: "#000",
         color: "#fff",
         width: "100%",
-        padding: "40px 20px", // 👈 Added padding
-        boxSizing: "border-box", // 👈 Ensure no overflow
-        overflowX: "hidden", // 👈 Prevent horizontal scroll
+        padding: "40px 20px", 
+        boxSizing: "border-box", 
+        overflowX: "hidden", 
       }}
     >
       <Row gutter={[16, 16]} justify="space-between" align="middle">
         <Col xs={24} sm={12} md={6} style={{ textAlign: "center" }}>
-          <Link
-            // style={{ backgroundColor: "#fff" }}
-            to="/"
-            // className="primary-color logo"
-          >
+          <Link to="/">
             <Logo size={100} />
           </Link>
           <p style={{ fontSize: "14px" }}>
