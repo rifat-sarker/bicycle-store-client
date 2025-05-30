@@ -27,7 +27,7 @@ const AllProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]); // Initial price range, adjust max as needed
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]); 
 
   const { data: categories = [] } = useGetCategoriesQuery();
 
@@ -143,7 +143,7 @@ const AllProduct = () => {
           <Slider
             range
             min={0}
-            max={1000} // Adjust max price based on your product price range
+            max={1000} 
             value={priceRange}
             onChange={handlePriceRangeChange}
           
