@@ -1,4 +1,4 @@
-"use client";
+
 
 import { Card, Col, Row, Button, Skeleton, Typography, Rate } from "antd";
 import { ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";

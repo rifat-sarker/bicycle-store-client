@@ -8,7 +8,11 @@ import {
   Skeleton,
   Pagination,
   Slider,
+  Typography,
+  Rate,
 } from "antd";
+import { ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";
+import { motion } from "framer-motion";
 import {
   useGetAllProductsQuery,
   useGetCategoriesQuery,
@@ -18,8 +22,8 @@ import { TQueryParam } from "../../types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const { Meta } = Card;
 const { Option } = Select;
+const { Title: AntTitle } = Typography;
 
 const AllProduct = () => {
   const [page, setPage] = useState(1);
@@ -27,7 +31,8 @@ const AllProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]); 
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const { data: categories = [] } = useGetCategoriesQuery();
 
@@ -62,6 +67,7 @@ const AllProduct = () => {
       description,
       category,
       productImg,
+      rating,
     }: TProduct) => ({
       key: _id,
       name,
@@ -71,6 +77,7 @@ const AllProduct = () => {
       description,
       category,
       productImg,
+      rating,
     })
   );
 
@@ -91,21 +98,50 @@ const AllProduct = () => {
     setPriceRange([value[0], value[1]]);
   };
 
+  const handleAddToCart = (product: any) => {
+    console.log(`${product.name} added to cart!`);
+    // Add your cart logic here
+  };
+
+  // Animation variants for cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
+  };
+
   if (isLoading) {
     return (
-      <Row gutter={[16, 16]}>
+      <Row gutter={[24, 32]} justify="center">
         {Array.from({ length: 8 }).map((_, index) => (
-          <Col key={index} xs={24} sm={12} md={8} lg={6}>
-            <Card>
+          <Col key={index} xs={24} sm={12} md={8} lg={6} xl={4.8}>
+            <Card
+              bordered={false}
+              style={{
+                height: "360px",
+                borderRadius: "12px",
+                overflow: "hidden",
+                background: "#fff",
+                boxShadow: "0 2px 12px rgba(0, 0, 0, 0.06)",
+                border: "1px solid #e8e8e8",
+              }}
+            >
               <Skeleton.Image
-                style={{ width: "100%", height: 200, borderRadius: "8px" }}
+                style={{
+                  width: "100%",
+                  height: "200px",
+                  borderRadius: "10px",
+                }}
                 active
               />
               <Skeleton
                 active
-                title={{ width: "70%" }}
-                paragraph={{ rows: 2, width: ["80%", "90%"] }}
-                style={{ marginTop: "16px" }}
+                title={{ width: "80%" }}
+                paragraph={{ rows: 2, width: ["70%", "90%"] }}
+                style={{ padding: "16px 0" }}
               />
             </Card>
           </Col>
@@ -115,95 +151,254 @@ const AllProduct = () => {
   }
 
   return (
-    <Row gutter={24} style={{ marginTop: 50 }}>
+    <Row gutter={24} style={{ marginTop: 50, padding: "0 24px" }}>
       {/* Left Filter Section */}
       <Col xs={24} sm={24} md={6}>
-        <Input
-          placeholder="Search by name"
-          value={searchQuery}
-          onChange={handleSearch}
-          style={{ marginBottom: 16 }}
-        />
-
-        <Select
-          style={{ width: "100%", marginBottom: 16 }}
-          placeholder="Filter by Category"
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          allowClear
+        <Card
+          style={{
+            padding: 16,
+            borderRadius: 12,
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
+          }}
+          bodyStyle={{ padding: 0 }}
         >
-          {categories?.map((cat: any) => (
-            <Option key={cat._id || cat.name} value={cat.name}>
-              {cat.name}
-            </Option>
-          ))}
-        </Select>
-
-        <div style={{ marginBottom: 16 }}>
-          <Slider
-            range
-            min={0}
-            max={1000} 
-            value={priceRange}
-            onChange={handlePriceRangeChange}
-          
-          />
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span>Min: ${priceRange[0]}</span>
-            <span>Max: ${priceRange[1]}</span>
+          <div style={{ padding: 16 }}>
+            <h3 style={{ marginBottom: 12 }}>Search Products</h3>
+            <Input
+              placeholder="Search by name"
+              value={searchQuery}
+              onChange={handleSearch}
+              allowClear
+            />
           </div>
-        </div>
+
+          <div style={{ padding: "0 16px 16px" }}>
+            <h3 style={{ marginBottom: 12 }}>Filter by Category</h3>
+            <Select
+              style={{ width: "100%" }}
+              placeholder="Select a category"
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+              allowClear
+            >
+              {categories?.map((cat: any) => (
+                <Option key={cat._id || cat.name} value={cat.name}>
+                  {cat.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ padding: "0 16px 16px" }}>
+            <h3 style={{ marginBottom: 12 }}>Price Range</h3>
+            <Slider
+              range
+              min={0}
+              max={1000}
+              value={priceRange}
+              onChange={handlePriceRangeChange}
+              tooltip={{ formatter: (value) => `$${value}` }}
+            />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: 12,
+                marginTop: 8,
+              }}
+            >
+              <span>Min: ${priceRange[0]}</span>
+              <span>Max: ${priceRange[1]}</span>
+            </div>
+          </div>
+        </Card>
       </Col>
 
       {/* Right Product Display Section */}
       <Col xs={24} sm={24} md={18}>
-        <Row gutter={[16, 16]}>
+        <Row gutter={[24, 32]} justify="center">
           {products?.map((product) => (
-            <Col key={product.key} xs={24} sm={12} md={12} lg={8}>
-              <Card
-                hoverable
-                style={{ width: "100%" }}
-                cover={
-                  isFetching ? (
-                    <Skeleton.Image active />
-                  ) : (
-                    <img
-                      alt="product"
-                      src={product.productImg}
-                      style={{ height: "200px", objectFit: "cover" }}
-                    />
-                  )
-                }
-                loading={isFetching}
+            <Col key={product.key} xs={24} sm={12} md={8} lg={6} xl={4.8}>
+              <motion.div
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                onHoverStart={() => setHoveredCard(product.key)}
+                onHoverEnd={() => setHoveredCard(null)}
               >
-                <Meta
-                  title={product.name}
-                  description={
-                    <>
-                      <p>
-                        <strong>Brand:</strong> {product.brand}
-                      </p>
-                      <p>
-                        <strong>Model:</strong> {product.model}
-                      </p>
-                      <p>
-                        <strong>Price:</strong> ${product.price}
-                      </p>
-                      <p>
-                        <strong>Category:</strong> {product.category}
-                      </p>
-                    </>
-                  }
-                />
-                <Link to={`/product/${product.key}`}>
-                  <Button
-                    type="primary"
-                    style={{ marginTop: 16, width: "100%" }}
+                <Card
+                  bordered={false}
+                  style={{
+                    height: "360px",
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    background: "#ffffff",
+                    boxShadow:
+                      hoveredCard === product.key
+                        ? "0 6px 24px rgba(0, 0, 0, 0.1)"
+                        : "0 2px 12px rgba(0, 0, 0, 0.06)",
+                    border: "1px solid #e8e8e8",
+                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    cursor: "pointer",
+                    position: "relative",
+                  }}
+                  bodyStyle={{
+                    padding: 0,
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {/* Image Container with Padding */}
+                  <div
+                    style={{
+                      position: "relative",
+                      height: "200px",
+                      padding: "16px",
+                      backgroundColor: "#f8f9fa",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
                   >
-                    View Details
-                  </Button>
-                </Link>
-              </Card>
+                    {isFetching ? (
+                      <Skeleton.Image
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "10px",
+                        }}
+                        active
+                      />
+                    ) : (
+                      <img
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "contain",
+                          borderRadius: "10px",
+                          transition: "transform 0.3s ease",
+                        }}
+                        src={product.productImg || "/placeholder.svg"}
+                        alt={product.name}
+                      />
+                    )}
+
+                    {/* Hover Buttons */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: hoveredCard === product.key ? 1 : 0,
+                        y: hoveredCard === product.key ? 0 : 20,
+                      }}
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      style={{
+                        position: "absolute",
+                        left: 0,
+                        bottom: 0,
+                        top: 205,
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: "10px",
+                        pointerEvents:
+                          hoveredCard === product.key ? "auto" : "none",
+                        zIndex: 10,
+                      }}
+                    >
+                      <Button
+                        type="link"
+                        variant="solid"
+                        icon={<EyeOutlined style={{ fontSize: "18px" }} />}
+                        size="small"
+                        style={{
+                          borderRadius: "6px",
+                          color: "#fff",
+                          backgroundColor: "#10b981",
+                          boxShadow: "0 2px 8px rgba(22, 119, 255, 0.2)",
+                          fontWeight: "500",
+                          padding: "4px 12px",
+                        }}
+                      >
+                        <Link to={`/product/${product.key}`}>Details</Link>
+                      </Button>
+                      <Button
+                        type="link"
+                        variant="solid"
+                        icon={
+                          <ShoppingCartOutlined style={{ fontSize: "18px" }} />
+                        }
+                        size="small"
+                        style={{
+                          borderRadius: "6px",
+                          backgroundColor: "#f59e0b",
+                          color: "#fff",
+                          fontWeight: "500",
+                          padding: "4px 12px",
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
+                      >
+                        Cart
+                      </Button>
+                    </motion.div>
+                  </div>
+
+                  {/* Product Info - Centered */}
+                  <div
+                    style={{
+                      padding: "16px",
+                      flex: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    {/* Product Name */}
+                    <AntTitle
+                      level={5}
+                      style={{
+                        margin: 0,
+                        fontSize: "16px",
+                        lineHeight: "1.4",
+                      }}
+                    >
+                      {product.name}
+                    </AntTitle>
+
+                    {/* Rating - Centered */}
+                    <Rate
+                      disabled
+                      allowHalf
+                      value={product.rating || 4.5}
+                      style={{
+                        fontSize: "12px",
+                        color: "#f59e0b",
+                      }}
+                    />
+
+                    {/* Price - Centered */}
+                    <AntTitle
+                      level={4}
+                      style={{
+                        color: "#f59e0b",
+                        fontWeight: 600,
+                        fontSize: "18px",
+                        margin: 0,
+                      }}
+                    >
+                      ${product.price}
+                    </AntTitle>
+                  </div>
+                </Card>
+              </motion.div>
             </Col>
           ))}
         </Row>
