@@ -12,6 +12,7 @@ import CheckoutPage from "../pages/checkout/Checkout";
 import VerificationOrder from "../pages/order/VerificationOrder";
 import MainLayout from "../components/layout/MainLayout";
 import BlogDetails from "../pages/blog/BlogDetails";
+import CategoryProducts from "../pages/product/CategoryProducts";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       ...routesGenerator(homePaths),
       { path: "product/:id", element: <ProductDetails /> },
       { path: "blogs/:id", element: <BlogDetails /> },
+      { path: "/products/category/:slug", element: <CategoryProducts /> },
       { path: "product/checkout/:id", element: <CheckoutPage /> },
       { path: "orders/verify", element: <VerificationOrder /> },
     ],

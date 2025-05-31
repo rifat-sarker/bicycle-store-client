@@ -108,16 +108,11 @@ const CategorySection = () => {
                     >
                       {category.name}
                     </AntTitle>
-                    <Link
-                      to="/all-product"
-                    >
+                    <Link to={`/products/category/${category.slug}`}>
                       <Button
                         style={{
-                          backgroundColor: "#10b981",
-                          color: "#000",
+                          color: "#10b981",
                         }}
-
-                       
                       >
                         Explore
                       </Button>

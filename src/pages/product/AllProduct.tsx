@@ -37,7 +37,7 @@ const AllProduct = () => {
   const { data: categories = [] } = useGetCategoriesQuery();
 
   const queryParams: TQueryParam[] = [
-    { name: "limit", value: "9" },
+    { name: "limit", value: "12" },
     { name: "page", value: page.toString() },
     ...(searchQuery ? [{ name: "searchTerm", value: searchQuery }] : []),
     ...(selectedCategory
@@ -282,7 +282,7 @@ const AllProduct = () => {
                             style={{
                               maxWidth: "100%",
                               maxHeight: "100%",
-                              objectFit: "cover",
+                              objectFit: "contain",
                               borderRadius: "10px 10px 0 0",
                               display: "block",
                             }}

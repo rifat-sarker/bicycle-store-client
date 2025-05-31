@@ -64,6 +64,10 @@ const productManagementApi = baseApi.injectEndpoints({
       transformResponse: (response: TResponseRedux<ICategory[]>) =>
         response.data ?? [],
     }),
+
+    getProductsByCategorySlug: builder.query({
+      query: (slug) => `categories/${slug}/products`,
+    }),
   }),
 });
 
@@ -74,4 +78,5 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetCategoriesQuery,
+  useGetProductsByCategorySlugQuery
 } = productManagementApi;
