@@ -33,7 +33,6 @@ const AllProduct = () => {
   >();
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
 
-
   const { data: categories = [] } = useGetCategoriesQuery();
 
   const queryParams: TQueryParam[] = [
@@ -182,7 +181,7 @@ const AllProduct = () => {
               allowClear
             >
               {categories?.map((cat: any) => (
-                <Option key={cat._id || cat.name} value={cat.name}>
+                <Option key={cat._id} value={cat._id}>
                   {cat.name}
                 </Option>
               ))}
@@ -243,53 +242,52 @@ const AllProduct = () => {
                     flexDirection: "column",
                   }}
                 >
-                 
-                    {/* Image Container */}
-                    <div
-                      style={{
-                        height: "220px",
-                        backgroundColor: "#f9fafb",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "8px",
-                        overflow: "hidden", // Prevent overflow if image is larger
-                      }}
-                    >
-                      {isFetching ? (
-                        <Skeleton.Image
+                  {/* Image Container */}
+                  <div
+                    style={{
+                      height: "220px",
+                      backgroundColor: "#f9fafb",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "8px",
+                      overflow: "hidden", // Prevent overflow if image is larger
+                    }}
+                  >
+                    {isFetching ? (
+                      <Skeleton.Image
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "10px 10px 0 0",
+                        }}
+                        active
+                      />
+                    ) : (
+                      <Link
+                        to={`/product/${product.key}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <img
+                          src={product.productImg || "/placeholder.svg"}
+                          alt={product.name}
                           style={{
-                            width: "100%",
-                            height: "100%",
+                            maxWidth: "100%",
+                            maxHeight: "100%",
+                            objectFit: "contain",
                             borderRadius: "10px 10px 0 0",
+                            display: "block",
                           }}
-                          active
                         />
-                      ) : (
-                        <Link
-                          to={`/product/${product.key}`}
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                        >
-                          <img
-                            src={product.productImg || "/placeholder.svg"}
-                            alt={product.name}
-                            style={{
-                              maxWidth: "100%",
-                              maxHeight: "100%",
-                              objectFit: "contain",
-                              borderRadius: "10px 10px 0 0",
-                              display: "block",
-                            }}
-                          />
-                        </Link>
-                      )}
-                    </div>
+                      </Link>
+                    )}
+                  </div>
 
                   {/* Product Info */}
                   <div style={{ padding: "12px" }}>
