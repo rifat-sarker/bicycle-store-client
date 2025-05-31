@@ -11,7 +11,6 @@ import {
   Typography,
   Rate,
 } from "antd";
-import { ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import {
   useGetAllProductsQuery,
@@ -21,6 +20,7 @@ import { TProduct } from "../../types/productManagement.type";
 import { TQueryParam } from "../../types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { MoreOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const { Title: AntTitle } = Typography;
@@ -32,7 +32,7 @@ const AllProduct = () => {
     string | undefined
   >();
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+
 
   const { data: categories = [] } = useGetCategoriesQuery();
 
@@ -67,8 +67,8 @@ const AllProduct = () => {
       description,
       category,
       productImg,
-      rating,
-    }: TProduct) => ({
+    }: // rating,
+    TProduct) => ({
       key: _id,
       name,
       brand,
@@ -77,7 +77,7 @@ const AllProduct = () => {
       description,
       category,
       productImg,
-      rating,
+      // rating,
     })
   );
 
@@ -132,16 +132,16 @@ const AllProduct = () => {
               <Skeleton.Image
                 style={{
                   width: "100%",
-                  height: "200px",
-                  borderRadius: "10px",
+                  height: "320px",
+                  borderRadius: "10px 10px 0 0",
                 }}
                 active
               />
               <Skeleton
                 active
                 title={{ width: "80%" }}
-                paragraph={{ rows: 2, width: ["70%", "90%"] }}
-                style={{ padding: "16px 0" }}
+                paragraph={{ rows: 1, width: ["70%"] }}
+                style={{ padding: "4px 8px" }}
               />
             </Card>
           </Col>
@@ -224,24 +224,17 @@ const AllProduct = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "-100px" }}
-                onHoverStart={() => setHoveredCard(product.key)}
-                onHoverEnd={() => setHoveredCard(null)}
               >
                 <Card
                   bordered={false}
                   style={{
-                    height: "360px",
+                    height: "350px",
                     borderRadius: "12px",
+                    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                    border: "1px solid #f0f0f0",
+                    transition: "box-shadow 0.3s ease",
                     overflow: "hidden",
-                    background: "#ffffff",
-                    boxShadow:
-                      hoveredCard === product.key
-                        ? "0 6px 24px rgba(0, 0, 0, 0.1)"
-                        : "0 2px 12px rgba(0, 0, 0, 0.06)",
-                    border: "1px solid #e8e8e8",
-                    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                    cursor: "pointer",
-                    position: "relative",
+                    background: "#fff",
                   }}
                   bodyStyle={{
                     padding: 0,
@@ -250,152 +243,123 @@ const AllProduct = () => {
                     flexDirection: "column",
                   }}
                 >
-                  {/* Image Container with Padding */}
-                  <div
-                    style={{
-                      position: "relative",
-                      height: "200px",
-                      padding: "16px",
-                      backgroundColor: "#f8f9fa",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {isFetching ? (
-                      <Skeleton.Image
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "10px",
-                        }}
-                        active
-                      />
-                    ) : (
-                      <img
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "contain",
-                          borderRadius: "10px",
-                          transition: "transform 0.3s ease",
-                        }}
-                        src={product.productImg || "/placeholder.svg"}
-                        alt={product.name}
-                      />
-                    )}
-
-                    {/* Hover Buttons */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{
-                        opacity: hoveredCard === product.key ? 1 : 0,
-                        y: hoveredCard === product.key ? 0 : 20,
-                      }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
+                 
+                    {/* Image Container */}
+                    <div
                       style={{
-                        position: "absolute",
-                        left: 0,
-                        bottom: 0,
-                        top: 205,
-                        width: "100%",
+                        height: "220px",
+                        backgroundColor: "#f9fafb",
                         display: "flex",
-                        justifyContent: "center",
                         alignItems: "center",
-                        gap: "10px",
-                        pointerEvents:
-                          hoveredCard === product.key ? "auto" : "none",
-                        zIndex: 10,
+                        justifyContent: "center",
+                        padding: "8px",
+                        overflow: "hidden", // Prevent overflow if image is larger
                       }}
                     >
-                      <Button
-                        type="link"
-                        variant="solid"
-                        icon={<EyeOutlined style={{ fontSize: "18px" }} />}
-                        size="small"
-                        style={{
-                          borderRadius: "6px",
-                          color: "#fff",
-                          backgroundColor: "#10b981",
-                          boxShadow: "0 2px 8px rgba(22, 119, 255, 0.2)",
-                          fontWeight: "500",
-                          padding: "4px 12px",
-                        }}
-                      >
-                        <Link to={`/product/${product.key}`}>Details</Link>
-                      </Button>
-                      <Button
-                        type="link"
-                        variant="solid"
-                        icon={
-                          <ShoppingCartOutlined style={{ fontSize: "18px" }} />
-                        }
-                        size="small"
-                        style={{
-                          borderRadius: "6px",
-                          backgroundColor: "#f59e0b",
-                          color: "#fff",
-                          fontWeight: "500",
-                          padding: "4px 12px",
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAddToCart(product);
-                        }}
-                      >
-                        Cart
-                      </Button>
-                    </motion.div>
-                  </div>
+                      {isFetching ? (
+                        <Skeleton.Image
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: "10px 10px 0 0",
+                          }}
+                          active
+                        />
+                      ) : (
+                        <Link
+                          to={`/product/${product.key}`}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <img
+                            src={product.productImg || "/placeholder.svg"}
+                            alt={product.name}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "100%",
+                              objectFit: "cover",
+                              borderRadius: "10px 10px 0 0",
+                              display: "block",
+                            }}
+                          />
+                        </Link>
+                      )}
+                    </div>
 
-                  {/* Product Info - Centered */}
-                  <div
-                    style={{
-                      padding: "16px",
-                      flex: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textAlign: "center",
-                      gap: "8px",
-                    }}
-                  >
-                    {/* Product Name */}
+                  {/* Product Info */}
+                  <div style={{ padding: "12px" }}>
                     <AntTitle
                       level={5}
                       style={{
                         margin: 0,
-                        fontSize: "16px",
-                        lineHeight: "1.4",
+                        // fontSize: "14px",
+                        lineHeight: "1.2",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
                       }}
                     >
-                      {product.name}
+                      <Link
+                        to={`/product/${product.key}`}
+                        style={{ color: "#000" }}
+                      >
+                        {product.name}
+                      </Link>
                     </AntTitle>
 
-                    {/* Rating - Centered */}
-                    <Rate
-                      disabled
-                      allowHalf
-                      value={product.rating || 4.5}
-                      style={{
-                        fontSize: "12px",
-                        color: "#f59e0b",
-                      }}
-                    />
+                    <div style={{ fontSize: "12px", margin: "6px 0" }}>
+                      <Rate
+                        disabled
+                        allowHalf
+                        value={4.5}
+                        style={{ fontSize: "12px", color: "#f59e0b" }}
+                      />
+                    </div>
 
-                    {/* Price - Centered */}
-                    <AntTitle
-                      level={4}
+                    <div
                       style={{
-                        color: "#f59e0b",
-                        fontWeight: 600,
-                        fontSize: "18px",
-                        margin: 0,
+                        fontSize: "30px",
+                        // fontWeight: 600,
+                        color: "#000",
                       }}
                     >
                       ${product.price}
-                    </AntTitle>
+                    </div>
+
+                    {/* Buttons */}
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        marginTop: "12px",
+                      }}
+                    >
+                      <Button
+                        type="primary"
+                        shape="round"
+                        style={{
+                          backgroundColor: "#f59e0b",
+                          borderColor: "#f59e0b",
+                          color: "#000",
+                          fontSize: "12px",
+                        }}
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        Add to Cart
+                      </Button>
+
+                      <Link to={`/product/${product.key}`}>
+                        <MoreOutlined
+                          style={{ fontSize: "20px", color: "#666" }}
+                        />
+                      </Link>
+                    </div>
                   </div>
                 </Card>
               </motion.div>
@@ -403,6 +367,7 @@ const AllProduct = () => {
           ))}
         </Row>
 
+        {/* Pagination */}
         <Row justify="center" style={{ marginTop: 24, marginBottom: 24 }}>
           <Pagination
             current={page}
