@@ -54,27 +54,32 @@ const CategoryProducts = () => {
     isFetching,
   } = useGetAllProductsQuery(queryParams);
 
-  const products = productData?.data?.map(
-    ({
-      _id,
-      name,
-      brand,
-      model,
-      price,
-      description,
-      category,
-      productImg,
-    }: TProduct) => ({
-      key: _id,
-      name,
-      brand,
-      model,
-      price,
-      description,
-      category,
-      productImg,
-    })
-  );
+  const rawProducts = productData?.data || [];
+
+  const products = rawProducts.length
+    ? rawProducts.map(
+        ({
+          _id,
+          name,
+          brand,
+          model,
+          price,
+          description,
+          category,
+          productImg,
+        }: TProduct) => ({
+          key: _id,
+          name,
+          brand,
+          model,
+          price,
+          description,
+          category,
+          productImg,
+        })
+      )
+    : [];
+  
 
 //   console.log(products);
 //   console.log(categoryName);
@@ -139,8 +144,7 @@ const CategoryProducts = () => {
   return (
     <div style={{ padding: "0 24px", marginTop: 40 }}>
       <AntTitle level={3} style={{ textAlign: "center", marginBottom: 32 }}>
-        Products in <span style={{ color: "#f59e0b" }}>{slug}</span>{" "}
-        Category
+        Products in <span style={{ color: "#f59e0b" }}>{slug}</span> Category
       </AntTitle>
 
       <Row gutter={[24, 32]} justify="center">
@@ -286,7 +290,7 @@ const CategoryProducts = () => {
       </Row>
 
       {/* Fallback if no product found */}
-      {!isFetching && products?.length === 0 && (
+      {!isFetching && products.length === 0 && (
         <div style={{ textAlign: "center", marginTop: 40 }}>
           <AntTitle level={4}>No products found in this category.</AntTitle>
         </div>
