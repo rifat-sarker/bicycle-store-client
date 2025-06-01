@@ -352,7 +352,7 @@ const AllProduct = () => {
                         Add to Cart
                       </Button>
 
-                      <Link to={`/product/${product.key}`}>
+                      <Link to={`/products/${product.key}`}>
                         <MoreOutlined
                           style={{ fontSize: "20px", color: "#666" }}
                         />

@@ -12,6 +12,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import cartReducer from "../redux//features//cart/cartSlice";
 
 const persistConfig = {
   key: "auth",
@@ -22,6 +23,7 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
+    cart: cartReducer,
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedReducer,
   },

@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <MainLayout />, // Apply Navbar once at the root
     children: [
       ...routesGenerator(homePaths),
-      { path: "product/:id", element: <ProductDetails /> },
+      { path: "products/:id", element: <ProductDetails /> },
       { path: "blogs/:id", element: <BlogDetails /> },
       { path: "/products/category/:slug", element: <CategoryProducts /> },
       { path: "product/checkout/:id", element: <CheckoutPage /> },

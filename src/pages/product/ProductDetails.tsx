@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams,  Link } from "react-router-dom";
 import {
   Card,
   Skeleton,
@@ -16,13 +16,12 @@ import {
   useGetProductByIdQuery,
   useGetAllProductsQuery,
 } from "../../redux/features/admin/productManagementApi";
-import { addToCart } from "../../redux/features/cart/cartSlice"; // Adjust path if needed
+import { addToCart } from "../../redux/features/cart/cartSlice";
 
 const { Title, Paragraph } = Typography;
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { data: product, isLoading } = useGetProductByIdQuery(id as string);
@@ -30,7 +29,9 @@ const ProductDetails = () => {
 
   const productData = product?.data;
 
+
   const handleAddToCart = () => {
+    if (!productData) return;
     dispatch(addToCart(productData));
     message.success("Added to cart");
   };
@@ -144,33 +145,34 @@ const ProductDetails = () => {
       </Card>
 
       {/* --- Related Products --- */}
-      {relatedProducts?.length > 0 && (
+      {(relatedProducts ?? []).length > 0 && (
         <div style={{ marginTop: "24px" }}>
           <Title level={3}>Related Products</Title>
           <Row gutter={[16, 16]}>
-            {relatedProducts.map((item: any) => (
+            {(relatedProducts ?? []).map((item: any) => (
               <Col key={item._id} xs={24} sm={12} md={6}>
-                <Card
-                  hoverable
-                  cover={
-                    <img
-                      alt={item.name}
-                      src={item.productImg}
-                      style={{
-                        height: "200px",
-                        objectFit: "cover",
-                        borderRadius: "8px 8px 0 0",
-                      }}
-                    />
-                  }
-                  onClick={() => navigate(`/products/${item._id}`)}
-                >
-                  <Title level={5}>{item.name}</Title>
-                  <Paragraph>${item.price}</Paragraph>
-                  <Tag color={item.stock ? "green" : "red"}>
-                    {item.stock ? "In Stock" : "Out of Stock"}
-                  </Tag>
-                </Card>
+                <Link to={`/products/${item._id}`}>
+                  <Card
+                    hoverable
+                    cover={
+                      <img
+                        alt={item.name}
+                        src={item.productImg}
+                        style={{
+                          height: "200px",
+                          objectFit: "cover",
+                          borderRadius: "8px 8px 0 0",
+                        }}
+                      />
+                    }
+                  >
+                    <Title level={5}>{item.name}</Title>
+                    <Paragraph>${item.price}</Paragraph>
+                    <Tag color={item.stock ? "green" : "red"}>
+                      {item.stock ? "In Stock" : "Out of Stock"}
+                    </Tag>
+                  </Card>
+                </Link>
               </Col>
             ))}
           </Row>
