@@ -31,7 +31,15 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     if (!productData) return;
-    dispatch(addToCart(productData));
+    // Map productData to CartItem shape
+    const cartItem = {
+      _id: productData._id,
+      name: productData.name,
+      price: productData.price,
+      productImg: productData.productImg,
+      availableQty: productData.quantity, // assuming 'quantity' is the available stock
+    };
+    dispatch(addToCart(cartItem));
     message.success("Added to cart");
   };
 
@@ -98,7 +106,7 @@ const ProductDetails = () => {
                 type="primary"
                 block
                 size="large"
-                disabled={!productData?.stock}
+                disabled={!productData?.quantity || productData.quantity <= 0}
                 onClick={handleAddToCart}
                 style={{ backgroundColor: "#f59e0b", color: "#000" }}
               >
@@ -132,7 +140,9 @@ const ProductDetails = () => {
               </li>
               <li>
                 <strong>Status:</strong>{" "}
-                {productData?.stock ? "In Stock" : "Out of Stock"}
+                {productData?.quantity && productData.quantity > 0
+                  ? "In Stock"
+                  : "Out of Stock"}
               </li>
             </ul>
           </Tabs.TabPane>
