@@ -5,8 +5,8 @@ interface CartItem {
   name: string;
   price: number;
   productImg: string;
-  quantity: number;
-  stock: number;
+  quantity: number; // In cart
+  availableQty: number; // From product's actual quantity
 }
 
 interface CartState {
@@ -26,7 +26,7 @@ const cartSlice = createSlice({
         (item) => item._id === action.payload._id
       );
       if (existingItem) {
-        if (existingItem.quantity < existingItem.stock) {
+        if (existingItem.quantity < existingItem.availableQty) {
           existingItem.quantity += 1;
         }
       } else {
@@ -49,7 +49,7 @@ const cartSlice = createSlice({
       const item = state.items.find((i) => i._id === action.payload.productId);
       if (
         item &&
-        action.payload.quantity <= item.stock &&
+        action.payload.quantity <= item.availableQty &&
         action.payload.quantity > 0
       ) {
         item.quantity = action.payload.quantity;

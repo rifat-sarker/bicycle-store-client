@@ -82,7 +82,7 @@ const ProductDetails = () => {
 
               <Paragraph>
                 <strong>Status:</strong>{" "}
-                {productData?.stock ? (
+                {productData?.quantity && productData.quantity > 0 ? (
                   <Tag color="green">In Stock</Tag>
                 ) : (
                   <Tag color="red">Out of Stock</Tag>
@@ -167,8 +167,14 @@ const ProductDetails = () => {
                   >
                     <Title level={5}>{item.name}</Title>
                     <Paragraph>${item.price}</Paragraph>
-                    <Tag color={item.stock ? "green" : "red"}>
-                      {item.stock ? "In Stock" : "Out of Stock"}
+                    <Tag
+                      color={
+                        item.quantity && item.quantity > 0 ? "green" : "red"
+                      }
+                    >
+                      {item.quantity && item.quantity > 0
+                        ? "In Stock"
+                        : "Out of Stock"}
                     </Tag>
                   </Card>
                 </Link>

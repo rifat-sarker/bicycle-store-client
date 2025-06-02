@@ -8,7 +8,6 @@ export type TProduct = {
   model: string;
   description: string;
   quantity: number;
-  stock: number;
   createdAt: string;
   updatedAt: string;
 };
