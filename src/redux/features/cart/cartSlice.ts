@@ -5,7 +5,7 @@ interface CartItem {
   name: string;
   price: number;
   productImg: string;
-  quantity: boolean;
+  quantity: number;
   stock: number;
 }
 

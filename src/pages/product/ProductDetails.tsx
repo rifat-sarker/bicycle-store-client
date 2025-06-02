@@ -1,4 +1,4 @@
-import { useParams,  Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   Card,
   Skeleton,
@@ -28,7 +28,6 @@ const ProductDetails = () => {
   const { data: allProducts } = useGetAllProductsQuery(undefined);
 
   const productData = product?.data;
-
 
   const handleAddToCart = () => {
     if (!productData) return;
@@ -80,9 +79,7 @@ const ProductDetails = () => {
               <Paragraph>
                 <strong>Model:</strong> {productData?.model}
               </Paragraph>
-              <Paragraph>
-                <strong>Category:</strong> {productData?.category}
-              </Paragraph>
+
               <Paragraph>
                 <strong>Status:</strong>{" "}
                 {productData?.stock ? (
@@ -97,11 +94,13 @@ const ProductDetails = () => {
 
               <Divider />
               <Button
+                shape="round"
                 type="primary"
                 block
                 size="large"
                 disabled={!productData?.stock}
                 onClick={handleAddToCart}
+                style={{ backgroundColor: "#f59e0b", color: "#000" }}
               >
                 Add to Cart
               </Button>
