@@ -17,6 +17,7 @@ import {
   useGetAllProductsQuery,
 } from "../../redux/features/admin/productManagementApi";
 import { addToCart } from "../../redux/features/cart/cartSlice";
+import ReactImageMagnify from "react-image-magnify";
 
 const { Title, Paragraph } = Typography;
 
@@ -61,17 +62,43 @@ const ProductDetails = () => {
       <Card>
         <Row gutter={[24, 24]}>
           <Col xs={24} md={12}>
-            <img
-              alt="bicycle_img"
-              src={productData?.productImg}
+            <div
               style={{
                 width: "100%",
                 height: "100%",
                 maxHeight: "500px",
-                objectFit: "cover",
                 borderRadius: "8px",
+                overflow: "hidden",
               }}
-            />
+            >
+              <ReactImageMagnify
+                {...{
+                  smallImage: {
+                    alt: "bicycle_img",
+                    isFluidWidth: true,
+                    src: productData?.productImg,
+                  },
+                  largeImage: {
+                    src: productData?.productImg,
+                    width: 1200,
+                    height: 1200,
+                  },
+                  enlargedImageContainerStyle: {
+                    borderRadius: "8px",
+                    zIndex: 9,
+                  },
+                  imageStyle: {
+                    width: "100%",
+                    height: "100%",
+                    maxHeight: "500px",
+                    objectFit: "cover",
+                    borderRadius: "8px",
+                  },
+                  isHintEnabled: true,
+                  shouldUsePositiveSpaceLens: true,
+                }}
+              />
+            </div>
           </Col>
 
           <Col xs={24} md={12}>
