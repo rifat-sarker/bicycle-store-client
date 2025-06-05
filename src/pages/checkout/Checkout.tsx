@@ -1,119 +1,154 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Drawer, Button, Divider, InputNumber, Empty } from "antd";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
-  Card,
-  InputNumber,
-  Button,
-  Typography,
-  Skeleton,
-  Row,
-  Col,
-  Divider,
-} from "antd";
-import { useGetProductByIdQuery } from "../../redux/features/admin/productManagementApi";
-import { useCreateOrderMutation } from "../../redux/features/customer/customerOrderApi";
-import { toast } from "sonner";
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+} from "../../redux/features/cart/cartSlice";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const { Text } = Typography;
+const Cart = () => {
+  const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
+  const cartItems = useAppSelector((state) => state.cart.items);
 
-const Checkout = () => {
-  const { id } = useParams();
-  const { data: product, isLoading } = useGetProductByIdQuery(id as string);
-  const [quantity, setQuantity] = useState(1);
-  const [
-    createOrder,
-    { isSuccess, isLoading: orderLoading, data, isError, error },
-  ] = useCreateOrderMutation();
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
-  const handlePlaceOrder = async () => {
-    await createOrder({
-      products: [{ product: id, quantity }],
-    });
+  const handleQuantityChange = (productId: string, value: number) => {
+    dispatch(updateQuantity({ productId, quantity: value }));
   };
 
-  const toastId = "order";
-  if (orderLoading) toast.loading("Processing your order...", { id: toastId });
-  if (isSuccess) {
-    toast.success(data?.message, { id: toastId });
-    if (data?.data) {
-      setTimeout(() => {
-        window.location.href = data.data;
-      }, 1000);
-    }
-  }
-  if (isError) {
-    const errorMessage =
-      (error as any)?.data?.message ||
-      "Something went wrong! Please try again.";
-    toast.error(errorMessage, { id: toastId });
-  }
-
-  if (isLoading) return <Skeleton active />;
+  const handleRemove = (id: string) => dispatch(removeFromCart(id));
+  const handleClear = () => dispatch(clearCart());
 
   return (
-    <Row justify="center" style={{ padding: "20px" }}>
-      <Col xs={24} sm={18} md={16} lg={12}>
-        <Card
-          style={{
-            width: "100%",
-            borderRadius: "12px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-            padding: "20px",
-            textAlign: "center",
-          }}
-        >
-          <h1 style={{ marginBottom: "10px" }}>Checkout</h1>
-          <Divider />
-          <Row gutter={[16, 16]} align="middle">
-            <Col xs={24} md={12}>
-              <img
-                src={product?.data?.productImg}
-                alt="Product"
+    <>
+      <Button
+        type="primary"
+        icon={<ShoppingCartOutlined />}
+        onClick={() => setOpen(true)}
+      >
+        Cart ({cartItems.length})
+      </Button>
+      <Drawer
+        title="Your Cart"
+        placement="right"
+        closable
+        onClose={() => setOpen(false)}
+        open={open}
+        width={400}
+      >
+        {cartItems.length === 0 ? (
+          <Empty description="Cart is empty" />
+        ) : (
+          <>
+            <div
+              style={{
+                maxHeight: "calc(100vh - 200px)",
+                overflowY: "auto",
+                paddingRight: 8,
+              }}
+            >
+              {cartItems.map((item) => (
+                <div
+                  key={item._id}
+                  style={{
+                    display: "flex",
+                    marginBottom: "16px",
+                    borderBottom: "1px solid #f0f0f0",
+                    paddingBottom: "10px",
+                  }}
+                >
+                  <img
+                    src={item.productImg}
+                    alt={item.name}
+                    style={{
+                      width: 64,
+                      height: 64,
+                      objectFit: "cover",
+                      marginRight: 16,
+                      borderRadius: 8,
+                    }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <Link
+                      to={`/product/${item._id}`}
+                      style={{ fontWeight: "bold", color: "#1677ff" }}
+                    >
+                      {item.name}
+                    </Link>
+                    <p style={{ margin: "4px 0" }}>${item.price}</p>
+                    <InputNumber
+                      min={1}
+                      max={item.availableQty}
+                      value={item.quantity}
+                      onChange={(value) =>
+                        handleQuantityChange(item._id, value ?? 1)
+                      }
+                      style={{ width: 100 }}
+                    />
+                    {item.availableQty <= 10 && (
+                      <p
+                        style={{ fontSize: 12, color: "#fa8c16", marginTop: 4 }}
+                      >
+                        Only {item.availableQty} left
+                      </p>
+                    )}
+                    <Button
+                      type="link"
+                      danger
+                      onClick={() => handleRemove(item._id)}
+                      style={{ paddingLeft: 0 }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Sticky Footer */}
+            <div
+              style={{
+                position: "sticky",
+                bottom: 0,
+                background: "#fff",
+                paddingTop: 12,
+                paddingBottom: 16,
+                borderTop: "1px solid #f0f0f0",
+              }}
+            >
+              <div
                 style={{
-                  width: "100%",
-                  height: "auto",
-                  borderRadius: "10px",
-                  objectFit: "cover",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: 12,
                 }}
-              />
-            </Col>
-            <Col xs={24} md={12} style={{ textAlign: "left" }}>
-              <h2>{product?.data?.name}</h2>
-              <Text strong>Price: </Text> ${product?.data?.price}
-              <br />
-              <Text strong>Quantity:</Text>
-              <InputNumber
-                min={1}
-                max={10}
-                value={quantity}
-                onChange={(value) => setQuantity(value ?? 1)}
-                style={{
-                  marginLeft: "10px",
-                  width: "80px",
-                  borderRadius: "8px",
-                  padding: "5px",
-                }}
-              />
-              <Divider />
-              <Button
-                color="default"
-                variant="solid"
-                onClick={handlePlaceOrder}
-                style={{
-                  width: "100%",
-                  border: "none",
-                  borderRadius: "8px",
-                }}
-                loading={orderLoading}
               >
-                Order Now
-              </Button>
-            </Col>
-          </Row>
-        </Card>
-      </Col>
-    </Row>
+                <strong>Total:</strong>
+                <span>${totalPrice.toFixed(2)}</span>
+              </div>
+              <div style={{ display: "flex", gap: 8 }}>
+                <Button onClick={handleClear} danger block>
+                  Clear Cart
+                </Button>
+                <Link to="/checkout" style={{ flex: 1 }}>
+                  <Button type="primary" block>
+                    Checkout
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
+      </Drawer>
+    </>
   );
 };
 
-export default Checkout;
+export default Cart;

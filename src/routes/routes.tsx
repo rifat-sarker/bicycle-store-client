@@ -8,11 +8,11 @@ import { homePaths } from "./home.routes";
 import SidebarLayout from "../components/layout/SidebarLayout";
 import ProductDetails from "../pages/product/ProductDetails";
 import ProtectedRoute from "../components/layout/ProtectedRoute";
-import CheckoutPage from "../pages/checkout/Checkout";
 import VerificationOrder from "../pages/order/VerificationOrder";
 import MainLayout from "../components/layout/MainLayout";
 import BlogDetails from "../pages/blog/BlogDetails";
 import CategoryProducts from "../pages/product/CategoryProducts";
+import Cart from "../pages/checkout/Checkout";  
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
       { path: "products/:id", element: <ProductDetails /> },
       { path: "blogs/:id", element: <BlogDetails /> },
       { path: "/products/category/:slug", element: <CategoryProducts /> },
-      { path: "product/checkout/:id", element: <CheckoutPage /> },
+      { path: "cart/", element: <Cart /> },
       { path: "orders/verify", element: <VerificationOrder /> },
     ],
   },

@@ -24,6 +24,21 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [cartDrawerVisible, setCartDrawerVisible] = useState(false);
+
+  <Drawer
+    title="Your Cart"
+    placement="right"
+    onClose={() => setCartDrawerVisible(false)}
+    open={cartDrawerVisible}
+  >
+    {/* Your cart content goes here */}
+    <p>Item 1</p>
+    <p>Item 2</p>
+    <Button type="primary" onClick={() => navigate("/cart")}>
+      Go to Full Cart Page
+    </Button>
+  </Drawer>;
 
   const { user } = useAppSelector((state) => state.auth);
   // console.log(user);
@@ -70,7 +85,7 @@ const Navbar = () => {
                     icon={<ShoppingCartOutlined style={{ fontSize: 24 }} />}
                     shape="circle"
                     size="large"
-                    onClick={() => navigate("/cart")}
+                    onClick={() => setCartDrawerVisible(true)}
                     style={{
                       color: "#f59e0b",
                       backgroundColor: "transparent",
@@ -214,7 +229,7 @@ const Navbar = () => {
                   Dashboard
                 </Button>
                 <Button
-                  onClick={() => navigate("/cart")}
+                  onClick={() => setCartDrawerVisible(true)}
                   style={{
                     backgroundColor: "#f59e0b",
                     color: "#000",
@@ -264,6 +279,21 @@ const Navbar = () => {
           </div>
         </Drawer>
       )}
+
+      {/* ✅ Cart Drawer now inside JSX */}
+      <Drawer
+        title="Your Cart"
+        placement="right"
+        onClose={() => setCartDrawerVisible(false)}
+        open={cartDrawerVisible}
+      >
+        {/* Your cart content goes here */}
+        <p>Item 1</p>
+        <p>Item 2</p>
+        <Button type="primary" onClick={() => navigate("/cart")}>
+          Go to Full Cart Page
+        </Button>
+      </Drawer>
 
       <style>{`
         .navbar {
@@ -359,13 +389,11 @@ const Navbar = () => {
             border-radius: 0 6px 6px 0;
           }
 
-
           .drawer-search button:hover,
           .auth-buttons button:hover,
           .drawer-auth button:hover {
             opacity: 0.9;
           }
-
 
         .drawer-auth {
           padding: 16px;
@@ -379,7 +407,7 @@ const Navbar = () => {
             display: none;
           }
         }
-      `}</style>
+     `}</style>
     </nav>
   );
 };

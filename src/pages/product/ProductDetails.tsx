@@ -68,7 +68,7 @@ const ProductDetails = () => {
                 height: "100%",
                 maxHeight: "500px",
                 borderRadius: "8px",
-                overflow: "hidden",
+                // overflow: "hidden",
               }}
             >
               <ReactImageMagnify
@@ -76,10 +76,10 @@ const ProductDetails = () => {
                   smallImage: {
                     alt: "bicycle_img",
                     isFluidWidth: true,
-                    src: productData?.productImg,
+                    src: productData?.productImg ?? "",
                   },
                   largeImage: {
-                    src: productData?.productImg,
+                    src: productData?.productImg ?? "",
                     width: 1200,
                     height: 1200,
                   },
