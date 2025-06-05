@@ -1,4 +1,4 @@
-import { Drawer, Button, Divider, InputNumber, Empty } from "antd";
+import { Drawer, Button, InputNumber, Empty } from "antd";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   removeFromCart,
