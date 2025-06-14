@@ -16,7 +16,16 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logout } from "../../redux/features/auth/authSlice";
 import { homePaths } from "../../routes/home.routes";
 import { navbarItemsGenerator } from "../../utils/navbarItemsGenerator";
-import { Avatar, Button, Drawer, Dropdown, Menu, Space, Tooltip } from "antd";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Drawer,
+  Dropdown,
+  Menu,
+  Space,
+  Tooltip,
+} from "antd";
 import Logo from "../../utils/Logo";
 
 const Navbar = () => {
@@ -24,24 +33,12 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [cartDrawerVisible, setCartDrawerVisible] = useState(false);
-
-  <Drawer
-    title="Your Cart"
-    placement="right"
-    onClose={() => setCartDrawerVisible(false)}
-    open={cartDrawerVisible}
-  >
-    {/* Your cart content goes here */}
-    <p>Item 1</p>
-    <p>Item 2</p>
-    <Button type="primary" onClick={() => navigate("/cart")}>
-      Go to Full Cart Page
-    </Button>
-  </Drawer>;
 
   const { user } = useAppSelector((state) => state.auth);
   // console.log(user);
+
+  // Get cart items from Redux store
+  const cartItems = useAppSelector((state) => state.cart?.items || []);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -82,12 +79,22 @@ const Navbar = () => {
               <Space>
                 <Tooltip title="Cart">
                   <Button
-                    icon={<ShoppingCartOutlined style={{ fontSize: 24 }} />}
+                    icon={
+                      <Badge
+                        count={cartItems.length}
+                        size="small"
+                        offset={[0, 5]}
+                      >
+                        <ShoppingCartOutlined
+                          style={{ fontSize: 24, color: "#fff" }}
+                        />
+                      </Badge>
+                    }
                     shape="circle"
                     size="large"
-                    onClick={() => setCartDrawerVisible(true)}
+                    onClick={() => navigate("/cart")}
                     style={{
-                      color: "#f59e0b",
+                      color: "#fff", 
                       backgroundColor: "transparent",
                       border: "none",
                     }}
@@ -100,7 +107,7 @@ const Navbar = () => {
                     size="large"
                     onClick={() => navigate(dashboardPath)}
                     style={{
-                      color: "#f59e0b",
+                      color: "#fff",
                       backgroundColor: "transparent",
                       border: "none",
                     }}
@@ -147,9 +154,11 @@ const Navbar = () => {
                 >
                   <Avatar
                     style={{
-                      backgroundColor: "#f59e0b",
-                      color: "#000",
+                      color: "#fff",
+                      backgroundColor: "transparent",
                       cursor: "pointer",
+                      // marginBottom: "5px",
+                      fontSize: "24px",
                     }}
                     icon={<UserOutlined />}
                   />
@@ -229,17 +238,25 @@ const Navbar = () => {
                   Dashboard
                 </Button>
                 <Button
-                  onClick={() => setCartDrawerVisible(true)}
+                  icon={
+                    <Badge
+                      count={cartItems.length}
+                      size="small"
+                      offset={[0, 5]}
+                    >
+                      <ShoppingCartOutlined style={{ fontSize: 24 }} />
+                    </Badge>
+                  }
+                  size="large"
+                  onClick={() => navigate("/cart")}
                   style={{
                     backgroundColor: "#f59e0b",
-                    color: "#000",
-                    fontWeight: 500,
-                    border: "none",
+                    border: "",
                   }}
-                  icon={<ShoppingCartOutlined style={{ fontSize: 24 }} />}
                 >
                   Cart
                 </Button>
+
                 <Button
                   onClick={() => navigate("/settings")}
                   style={{
@@ -279,21 +296,6 @@ const Navbar = () => {
           </div>
         </Drawer>
       )}
-
-      {/* ✅ Cart Drawer now inside JSX */}
-      <Drawer
-        title="Your Cart"
-        placement="right"
-        onClose={() => setCartDrawerVisible(false)}
-        open={cartDrawerVisible}
-      >
-        {/* Your cart content goes here */}
-        <p>Item 1</p>
-        <p>Item 2</p>
-        <Button type="primary" onClick={() => navigate("/cart")}>
-          Go to Full Cart Page
-        </Button>
-      </Drawer>
 
       <style>{`
         .navbar {

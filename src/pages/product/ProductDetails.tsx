@@ -19,6 +19,7 @@ import {
 import { addToCart } from "../../redux/features/cart/cartSlice";
 import ReactImageMagnify from "react-image-magnify";
 
+
 const { Title, Paragraph } = Typography;
 
 const ProductDetails = () => {
@@ -38,10 +39,10 @@ const ProductDetails = () => {
       name: productData.name,
       price: productData.price,
       productImg: productData.productImg,
-      availableQty: productData.quantity, // assuming 'quantity' is the available stock
+      availableQty: productData.quantity, 
     };
     dispatch(addToCart(cartItem));
-    message.success("Added to cart");
+    // message.success("Added to cart");
   };
 
   if (isLoading) {

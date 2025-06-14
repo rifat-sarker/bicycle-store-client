@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { toast } from "sonner"; // Optional: add notifications
+import { toast } from "sonner";
 
 interface CartItem {
   _id: string;
@@ -12,10 +12,12 @@ interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  savedItems: CartItem[];
 }
 
 const initialState: CartState = {
   items: [],
+  savedItems: [],
 };
 
 const cartSlice = createSlice({
@@ -34,7 +36,7 @@ const cartSlice = createSlice({
         }
       } else {
         state.items.push({ ...action.payload, quantity: 1 });
-        // toast.success("Added to cart");
+        toast.success("Added to cart");
       }
     },
 
@@ -56,7 +58,6 @@ const cartSlice = createSlice({
       if (!item) return;
 
       const newQty = action.payload.quantity;
-
       if (newQty > 0 && newQty <= item.availableQty) {
         item.quantity = newQty;
         // toast.info("Quantity updated");
@@ -78,6 +79,47 @@ const cartSlice = createSlice({
         // toast.info("Decreased quantity");
       }
     },
+
+    // Save for later (remove from cart, add to saved)
+    saveForLater: (state, action: PayloadAction<string>) => {
+      const itemIndex = state.items.findIndex(
+        (item) => item._id === action.payload
+      );
+      if (itemIndex !== -1) {
+        const [item] = state.items.splice(itemIndex, 1);
+        state.savedItems.push(item);
+        toast.info("Saved for later");
+      }
+    },
+
+    // Move from savedItems to cart
+    moveToCartFromSaved: (state, action: PayloadAction<string>) => {
+      const itemIndex = state.savedItems.findIndex(
+        (item) => item._id === action.payload
+      );
+      if (itemIndex !== -1) {
+        const [item] = state.savedItems.splice(itemIndex, 1);
+        const existingCartItem = state.items.find(
+          (cartItem) => cartItem._id === item._id
+        );
+        if (existingCartItem) {
+          if (existingCartItem.quantity < existingCartItem.availableQty) {
+            existingCartItem.quantity += 1;
+          }
+        } else {
+          state.items.push({ ...item, quantity: 1 });
+        }
+        toast.success("Moved to cart");
+      }
+    },
+
+    // Remove item from savedItems
+    removeFromSaved: (state, action: PayloadAction<string>) => {
+      state.savedItems = state.savedItems.filter(
+        (item) => item._id !== action.payload
+      );
+      toast.info("Removed from saved items");
+    },
   },
 });
 
@@ -88,6 +130,9 @@ export const {
   updateQuantity,
   increaseQuantity,
   decreaseQuantity,
+  saveForLater,
+  moveToCartFromSaved,
+  removeFromSaved,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -12,7 +12,8 @@ import VerificationOrder from "../pages/order/VerificationOrder";
 import MainLayout from "../components/layout/MainLayout";
 import BlogDetails from "../pages/blog/BlogDetails";
 import CategoryProducts from "../pages/product/CategoryProducts";
-import Cart from "../pages/checkout/Checkout";  
+import CartPage from "../pages/cart/cartPage";
+
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
       { path: "products/:id", element: <ProductDetails /> },
       { path: "blogs/:id", element: <BlogDetails /> },
       { path: "/products/category/:slug", element: <CategoryProducts /> },
-      { path: "cart/", element: <Cart /> },
+      { path: "cart/", element: <CartPage /> },
       { path: "orders/verify", element: <VerificationOrder /> },
     ],
   },

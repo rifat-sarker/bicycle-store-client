@@ -28,14 +28,14 @@ const CategoryProducts = () => {
   const { data: categoryData, isLoading: categoryLoading } =
     useGetCategoriesQuery();
 
-    console.log("params", useParams());
-    console.log("All categories:", categoryData);
-    console.log("categoryName from URL:", slug);
+    // console.log("params", useParams());
+    // console.log("All categories:", categoryData);
+    // console.log("categoryName from URL:", slug);
     
 
   // Find category by name to get the _id
   const matchedCategory = categoryData?.find((cat) => cat.slug === slug);
-  console.log("Matched category:", matchedCategory);
+  // console.log("Matched category:", matchedCategory);
   const categoryId = matchedCategory?._id;
   
 
@@ -276,7 +276,7 @@ const CategoryProducts = () => {
                       Add to Cart
                     </Button>
 
-                    <Link to={`/product/${product.key}`}>
+                    <Link to={`/products/${product.key}`}>
                       <MoreOutlined
                         style={{ fontSize: "20px", color: "#666" }}
                       />
