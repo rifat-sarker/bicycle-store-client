@@ -9,25 +9,27 @@ import {
   Tabs,
   Tag,
   Typography,
-  message,
 } from "antd";
-import { useDispatch } from "react-redux";
+import { message } from "antd";
 import {
   useGetProductByIdQuery,
   useGetAllProductsQuery,
 } from "../../redux/features/admin/productManagementApi";
-import { addToCart } from "../../redux/features/cart/cartSlice";
-import ReactImageMagnify from "react-image-magnify";
 
+import ReactImageMagnify from "react-image-magnify";
+import { useAddOrUpdateCartMutation } from "../../redux/features/cart/cartApi";
+import { toast } from "sonner";
 
 const { Title, Paragraph } = Typography;
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
+  
 
   const { data: product, isLoading } = useGetProductByIdQuery(id as string);
   const { data: allProducts } = useGetAllProductsQuery(undefined);
+  const [addOrUpdateCart, { isLoading: isAdding }] =
+    useAddOrUpdateCartMutation();
 
   const productData = product?.data;
 
@@ -39,10 +41,11 @@ const ProductDetails = () => {
       name: productData.name,
       price: productData.price,
       productImg: productData.productImg,
-      availableQty: productData.quantity, 
+      availableQty: productData.quantity,
+      productId: productData._id,
     };
-    dispatch(addToCart(cartItem));
-    // message.success("Added to cart");
+    addOrUpdateCart(cartItem);
+    toast.success("Added to cart");
   };
 
   if (isLoading) {
@@ -137,6 +140,7 @@ const ProductDetails = () => {
                 disabled={!productData?.quantity || productData.quantity <= 0}
                 onClick={handleAddToCart}
                 style={{ backgroundColor: "#f59e0b", color: "#000" }}
+                loading={isAdding}
               >
                 Add to Cart
               </Button>

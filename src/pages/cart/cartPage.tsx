@@ -1,145 +1,186 @@
-import { Button, Divider, Checkbox } from "antd";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+"use client";
+
+import { toast } from "sonner";
+import { Button, Spin } from "antd";
 import {
-  decreaseQuantity,
-  increaseQuantity,
-  moveToCartFromSaved,
-  removeFromCart,
-  saveForLater,
-  removeFromSaved,
-} from "../../redux/features/cart/cartSlice";
+  useDeleteCartItemMutation,
+  useGetCartQuery,
+  useToggleSaveCartItemMutation,
+  useUpdateCartItemQuantityMutation,
+} from "../../redux/features/cart/cartApi";
 
 export default function CartPage() {
-  const dispatch = useAppDispatch();
+  const { data: cart, isLoading, isError } = useGetCartQuery({});
+  const [updateQuantity, { isLoading: isUpdating }] =
+    useUpdateCartItemQuantityMutation();
+  const [deleteItem, { isLoading: isDeleting }] = useDeleteCartItemMutation();
+  const [toggleSave, { isLoading: isSaving }] = useToggleSaveCartItemMutation();
 
-  const cartItems = useAppSelector((state) => state.cart.items || []);
-  const savedItems = useAppSelector((state) => state.cart.savedItems || []);
+  if (isLoading)
+    return (
+      <div className="flex justify-center items-center h-40">
+        <Spin size="large" />
+      </div>
+    );
+  if (isError || !cart)
+    return <p className="text-red-500 text-center">Failed to load cart.</p>;
 
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+  const cartItems = cart.data.cartItems || [];
+  const savedItems = cart.data.savedItems || [];
+
+  console.log(cartItems,"rifat");
+  // Fix NaN issue
+  const totalPrice = cartItems.reduce(
+    (acc, item) => acc + (item.product?.price || 0) * item.quantity,
     0
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 md:px-12">
-      <h1 className="text-2xl font-bold mb-6">Shopping Cart</h1>
-
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Left Section */}
-        <div className="flex-1 space-y-4">
+    <div className="max-w-7xl mx-auto mt-6 px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+      {/* Left Section: Cart + Saved Items */}
+      <div className="lg:col-span-2 space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold mb-4">My Cart</h1>
           {cartItems.length === 0 ? (
-            <p className="text-gray-600">Your cart is empty.</p>
+            <p className="text-gray-500">Your cart is empty.</p>
           ) : (
-            cartItems.map((item) => (
-              <div
-                key={item._id}
-                className="flex flex-col sm:flex-row gap-4 items-start sm:items-center border-b py-4"
-              >
-                <img
-                  src={item.productImg}
-                  alt={item.name}
-                  className="w-16 h-16 rounded"
-                />
-                <div className="flex-1">
-                  <h4 className="text-sm font-medium">{item.name}</h4>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Button
-                      size="small"
-                      onClick={() => dispatch(decreaseQuantity(item._id))}
-                    >
-                      -
-                    </Button>
-                    <span className="px-2">{item.quantity}</span>
-                    <Button
-                      size="small"
-                      onClick={() => dispatch(increaseQuantity(item._id))}
-                    >
-                      +
-                    </Button>
-                  </div>
-                  <div className="mt-2 text-sm text-gray-600 space-x-2">
-                    <Button
-                      type="link"
-                      size="small"
-                      onClick={() => dispatch(removeFromCart(item._id))}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      type="link"
-                      size="small"
-                      onClick={() => dispatch(saveForLater(item._id))}
-                    >
-                      Save for later
-                    </Button>
-                  </div>
-                </div>
-                <div className="text-base font-semibold text-right min-w-[60px]">
-                  ${(item.price * item.quantity).toFixed(2)}
-                </div>
-              </div>
-            ))
-          )}
+            cartItems.map((item) => {
+              const product = item.productId;
+              console.log(product);
+              const price = product?.price || 0;
+              const image = product?.productImg || "https://via.placeholder.com/100";
 
-          {/* Saved for Later Section */}
-          {savedItems.length > 0 && (
-            <>
-              <Divider className="my-6" />
-              <h3 className="text-lg font-semibold">Saved for Later</h3>
-              {savedItems.map((item) => (
+              return (
                 <div
                   key={item._id}
-                  className="flex flex-col sm:flex-row gap-4 items-start sm:items-center border-b py-4"
+                  className="flex items-center gap-4 p-4 border rounded-md shadow-sm"
                 >
                   <img
-                    src={item.productImg}
-                    alt={item.name}
-                    className="w-16 h-16 object-cover rounded"
+                    src={image}
+                    alt={product?.name}
+                    className="w-24 h-24 object-cover rounded-md"
                   />
                   <div className="flex-1">
-                    <h4 className="text-sm font-medium">{item.name}</h4>
-                    <div className="mt-2 text-sm text-gray-600 space-x-2">
+                    <h2 className="font-semibold text-lg">{product?.name}</h2>
+                    <p className="text-sm text-gray-600">
+                      ${price} × {item.quantity} = ${price * item.quantity}
+                    </p>
+                    <div className="mt-2 flex gap-2">
                       <Button
-                        type="link"
                         size="small"
-                        onClick={() => dispatch(moveToCartFromSaved(item._id))}
+                        onClick={() =>
+                          updateQuantity({
+                            cartItemId: item._id,
+                            quantity: item.quantity + 1,
+                          })
+                        }
+                        disabled={isUpdating}
                       >
-                        Move to cart
+                        +
                       </Button>
                       <Button
-                        type="link"
                         size="small"
-                        onClick={() => dispatch(removeFromSaved(item._id))}
+                        onClick={() =>
+                          item.quantity > 1 &&
+                          updateQuantity({
+                            cartItemId: item._id,
+                            quantity: item.quantity - 1,
+                          })
+                        }
+                        disabled={isUpdating || item.quantity <= 1}
+                      >
+                        -
+                      </Button>
+                      <Button
+                        danger
+                        size="small"
+                        onClick={() => deleteItem(item._id)}
+                        loading={isDeleting}
+                      >
+                        Remove
+                      </Button>
+                      <Button
+                        size="small"
+                        onClick={() => toggleSave(item._id)}
+                        loading={isSaving}
+                      >
+                        Save for Later
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* Saved Items */}
+        {savedItems.length > 0 && (
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">Saved for Later</h2>
+            {savedItems.map((item) => {
+              const product = item.product;
+              const price = product?.price || 0;
+              const image = product?.image || "https://via.placeholder.com/100";
+
+              return (
+                <div
+                  key={item._id}
+                  className="flex items-center gap-4 p-4 border rounded-md shadow-sm"
+                >
+                  <img
+                    src={image}
+                    alt={product?.name}
+                    className="w-24 h-24 object-cover rounded-md"
+                  />
+                  <div className="flex-1">
+                    <h2 className="font-semibold text-lg">{product?.name}</h2>
+                    <p className="text-sm text-gray-600">${price}</p>
+                    <div className="mt-2 flex gap-2">
+                      <Button
+                        size="small"
+                        onClick={() => toggleSave(item._id)}
+                        loading={isSaving}
+                      >
+                        Move to Cart
+                      </Button>
+                      <Button
+                        danger
+                        size="small"
+                        onClick={() => deleteItem(item._id)}
+                        loading={isDeleting}
                       >
                         Remove
                       </Button>
                     </div>
                   </div>
-                  <div className="text-sm font-semibold text-right min-w-[60px]">
-                    ${item.price.toFixed(2)}
-                  </div>
                 </div>
-              ))}
-            </>
-          )}
-        </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
-        {/* Right Sidebar */}
-        <div className="lg:w-[350px] fixed top-16 right-4 bg-white rounded-xl shadow-md p-6">
-          <h3 className="text-base font-semibold mb-2">
-            Subtotal ({cartItems.length} item
-            {cartItems.length !== 1 && "s"}):
-          </h3>
-          <p className="text-xl font-bold text-orange-600 mb-3">
-            ${subtotal.toFixed(2)}
-          </p>
-          <Checkbox className="text-sm mb-4">
-            This order contains a gift
-          </Checkbox>
-          <Button type="primary" block className="mt-4 w-full">
-            Proceed to Checkout
-          </Button>
+      {/* Right Section: Checkout Box */}
+      <div className="border rounded-lg shadow-md p-6 h-fit sticky top-24 bg-white">
+        <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+        <div className="flex justify-between mb-2">
+          <span>Total Items:</span>
+          <span>{cartItems.length}</span>
         </div>
+        <div className="flex justify-between font-medium text-lg">
+          <span>Total Price:</span>
+          <span>${totalPrice.toFixed(2)}</span>
+        </div>
+        <Button
+          type="primary"
+          className="mt-6 w-full"
+          size="large"
+          disabled={cartItems.length === 0}
+          onClick={() => toast.success("Proceeding to checkout...")}
+        >
+          Proceed to Checkout
+        </Button>
       </div>
     </div>
   );
