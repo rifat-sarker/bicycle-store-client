@@ -1,5 +1,5 @@
 import { Carousel, Button, Typography } from "antd";
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { useState, useEffect } from "react";
 import "antd/dist/reset.css";
@@ -88,7 +88,7 @@ const Banner = () => {
     visible: {
       opacity: 1,
       x: 0,
-      transition: { duration: 1, ease: "easeOut" },
+      transition: { duration: 1, ease: easeOut },
     },
   };
 

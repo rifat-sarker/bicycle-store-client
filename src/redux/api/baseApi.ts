@@ -4,7 +4,7 @@ import { RootState } from "../store";
 const baseQuery = fetchBaseQuery({
   // http://localhost:5000
   // https://bicycle-store-backend-livid.vercel.app
-  baseUrl: "http://localhost:5000/api",
+  baseUrl: "https://bicycle-store-backend-livid.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;

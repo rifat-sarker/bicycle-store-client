@@ -5,14 +5,14 @@ import { TCartItem } from "../../types";
 const CartPage = () => {
   const { data: cartData, isLoading } = useGetCartQuery(undefined);
 
-  console.log(cartData);
+  // console.log(cartData);
 
   const cartItems: TCartItem[] = Array.isArray(cartData?.data?.cartItems)
     ? cartData.data.cartItems
     : [];
 
     // console.log(cartData?.data?.cartItems);
-    console.log(cartItems);
+    // console.log(cartItems);
 
 
   const validCartItems = cartItems.filter((item) => item.product); // ✅ Filter items with missing product

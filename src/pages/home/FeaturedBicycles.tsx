@@ -1,6 +1,6 @@
 import { Card, Col, Row, Button, Skeleton, Typography, Rate } from "antd";
 import { ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../../redux/features/admin/productManagementApi";
 import { GoArrowRight } from "react-icons/go";
@@ -20,7 +20,7 @@ const FeaturedBicycles = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.2 },
+      transition: { duration: 0.8, ease: easeOut, staggerChildren: 0.2 },
     },
   };
 
@@ -29,7 +29,7 @@ const FeaturedBicycles = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: easeOut },
     },
   };
 

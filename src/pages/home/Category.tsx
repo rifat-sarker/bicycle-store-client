@@ -1,7 +1,7 @@
 import { Card, Col, Row, Button, Typography, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../redux/features/admin/productManagementApi";
-import { motion } from "framer-motion"; // For animations
+import { easeInOut, easeOut, motion } from "framer-motion"; // For animations
 import "antd/dist/reset.css"; // Ant Design styles
 import { getAntIcon } from "../../getAntIcon";
 
@@ -16,11 +16,11 @@ const CategorySection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: easeOut },
     },
     hover: {
       scale: 1.03,
-      transition: { duration: 0.3, ease: "easeInOut" },
+      transition: { duration: 0.3, ease: easeInOut },
     },
   };
 

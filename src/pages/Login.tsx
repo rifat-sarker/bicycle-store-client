@@ -6,7 +6,6 @@ import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
 import {
   Link,
-  replace,
   useLocation,
   useNavigate,
   useSearchParams,

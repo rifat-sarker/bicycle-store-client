@@ -8,7 +8,7 @@ import {
   Button,
   Pagination,
 } from "antd";
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import {
   useGetAllProductsQuery,
@@ -79,7 +79,7 @@ const CategoryProducts = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: easeOut },
     },
   };
 

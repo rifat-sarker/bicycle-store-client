@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, Button, Typography, message } from "antd";
-import { motion } from "framer-motion";
+import { easeOut, motion } from "framer-motion";
 
 const { Title, Paragraph } = Typography;
 
@@ -29,7 +29,7 @@ const NewsletterSection: React.FC = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: { duration: 0.8, ease: easeOut },
     },
   };
 
@@ -38,7 +38,7 @@ const NewsletterSection: React.FC = () => {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.6, ease: "easeOut", delay: 0.2 },
+      transition: { duration: 0.6, ease: easeOut, delay: 0.2 },
     },
   };
 
