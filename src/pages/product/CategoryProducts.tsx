@@ -18,26 +18,26 @@ import { TQueryParam } from "../../types";
 import { useState } from "react";
 import { TProduct } from "../../types/productManagement.type";
 import { MoreOutlined } from "@ant-design/icons";
+import { useAddToCartHandler } from "../../hooks/useAddToCartHandler";
 
 const { Title: AntTitle } = Typography;
 
 const CategoryProducts = () => {
+  const { handleAddToCart } = useAddToCartHandler();
   const { slug } = useParams();
   const [page, setPage] = useState(1);
 
   const { data: categoryData, isLoading: categoryLoading } =
     useGetCategoriesQuery();
 
-    // console.log("params", useParams());
-    // console.log("All categories:", categoryData);
-    // console.log("categoryName from URL:", slug);
-    
+  // console.log("params", useParams());
+  // console.log("All categories:", categoryData);
+  // console.log("categoryName from URL:", slug);
 
   // Find category by name to get the _id
   const matchedCategory = categoryData?.find((cat) => cat.slug === slug);
   // console.log("Matched category:", matchedCategory);
   const categoryId = matchedCategory?._id;
-  
 
   const queryParams: TQueryParam[] = [
     { name: "limit", value: "12" },
@@ -57,38 +57,22 @@ const CategoryProducts = () => {
   const rawProducts = productData?.data || [];
 
   const products = rawProducts.length
-    ? rawProducts.map(
-        ({
-          _id,
-          name,
-          brand,
-          model,
-          price,
-          description,
-          category,
-          productImg,
-        }: TProduct) => ({
-          key: _id,
-          name,
-          brand,
-          model,
-          price,
-          description,
-          category,
-          productImg,
-        })
-      )
+    ? rawProducts.map((product: TProduct) => ({
+        key: product._id,
+        name: product.name,
+        brand: product.brand,
+        model: product.model,
+        price: product.price,
+        description: product.description,
+        category: product.category,
+        productImg: product.productImg,
+        fullProduct: product,
+      }))
     : [];
-  
 
-//   console.log(products);
-//   console.log(categoryName);
+  //   console.log(products);
+  //   console.log(categoryName);
   const metaData = productData?.meta;
-
-  const handleAddToCart = (product: any) => {
-    console.log(`${product.name} added to cart!`);
-    // Add your cart logic here
-  };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -103,7 +87,6 @@ const CategoryProducts = () => {
     return <div>Loading...</div>;
   }
 
-  
   if (isLoading) {
     return (
       <Row gutter={[24, 32]} justify="center">
@@ -271,7 +254,7 @@ const CategoryProducts = () => {
                         color: "#000",
                         fontSize: "12px",
                       }}
-                      onClick={() => handleAddToCart(product)}
+                      onClick={() => handleAddToCart(product.fullProduct)}
                     >
                       Add to Cart
                     </Button>
