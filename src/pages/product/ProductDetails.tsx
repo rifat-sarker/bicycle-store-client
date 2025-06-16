@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
+import { useParams, Link,} from "react-router-dom";
 import {
   Card,
   Skeleton,
@@ -16,9 +16,7 @@ import {
 } from "../../redux/features/admin/productManagementApi";
 
 import ReactImageMagnify from "react-image-magnify";
-import { useAddOrUpdateCartMutation } from "../../redux/features/cart/cartApi";
-import { toast } from "sonner";
-import { useAppSelector } from "../../redux/hooks";
+import { useAddToCartHandler } from "../../hooks/useAddToCartHandler";
 
 const { Title, Paragraph } = Typography;
 
@@ -26,40 +24,9 @@ const ProductDetails = () => {
   const { id } = useParams();
   const { data: product, isLoading } = useGetProductByIdQuery(id as string);
   const { data: allProducts } = useGetAllProductsQuery(undefined);
-  const [addOrUpdateCart, { isLoading: isAdding }] =
-    useAddOrUpdateCartMutation();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  
-
-  const { user } = useAppSelector((state) => state.auth);
-  console.log(user);
+  const { handleAddToCart } = useAddToCartHandler();
 
   const productData = product?.data;
-
-  const handleAddToCart = () => {
-    if (!productData) return;
-    // Map productData to CartItem shape
-    const cartItem = {
-      _id: productData._id,
-      name: productData.name,
-      price: productData.price,
-      productImg: productData.productImg,
-      availableQty: productData.quantity,
-      productId: productData._id,
-    };
-
-    if (!user) {
-      toast.error("Please login to add items to cart");
-      navigate(`/login?redirect=${location.pathname}`);
-
-      return;
-    }
-    // Add or update the cart item
-    addOrUpdateCart(cartItem);
-    toast.success("Added to cart");
-  };
 
   if (isLoading) {
     return <Skeleton active />;
@@ -151,9 +118,9 @@ const ProductDetails = () => {
                 block
                 size="large"
                 disabled={!productData?.quantity || productData.quantity <= 0}
-                onClick={handleAddToCart}
+                onClick={() => handleAddToCart(productData)}
                 style={{ backgroundColor: "#f59e0b", color: "#000" }}
-                loading={isAdding}
+                // loading={isAdding}
               >
                 Add to Cart
               </Button>
