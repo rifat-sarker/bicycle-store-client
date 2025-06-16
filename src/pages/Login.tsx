@@ -4,7 +4,13 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  replace,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import BSForm from "../components/form/BSForm";
 import { verifyToken } from "../utils/verifyToken";
 import BSInput from "../components/form/BSInput";
@@ -62,6 +68,9 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [login] = useLoginMutation();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  console.log(location);
 
   const onSubmit = async (data: any) => {
     const toastId = toast.loading("Logging in...");
@@ -70,7 +79,8 @@ const Login = () => {
       const user = verifyToken(res.data.accessToken) as TUser;
       dispatch(setUser({ user, token: res.data.accessToken }));
       toast.success("Login successful!", { id: toastId });
-      navigate(`/${user.role}/dashboard`);
+      const redirect = searchParams.get("redirect");
+      navigate(redirect || `/${user.role}/dashboard`);
     } catch (error) {
       toast.error("Login failed!", { id: toastId });
     }

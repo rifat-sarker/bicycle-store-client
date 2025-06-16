@@ -14,7 +14,6 @@ import BlogDetails from "../pages/blog/BlogDetails";
 import CategoryProducts from "../pages/product/CategoryProducts";
 import CartPage from "../pages/cart/cartPage";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,7 +23,14 @@ const router = createBrowserRouter([
       { path: "products/:id", element: <ProductDetails /> },
       { path: "blogs/:id", element: <BlogDetails /> },
       { path: "/products/category/:slug", element: <CategoryProducts /> },
-      { path: "cart/", element: <CartPage /> },
+      {
+        path: "cart/",
+        element: (
+          <ProtectedRoute role="customer">
+            <CartPage />
+          </ProtectedRoute>
+        ),
+      },
       { path: "orders/verify", element: <VerificationOrder /> },
     ],
   },
