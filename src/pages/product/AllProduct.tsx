@@ -21,18 +21,19 @@ import { TQueryParam } from "../../types";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MoreOutlined } from "@ant-design/icons";
+import { useAddToCartHandler } from "../../hooks/useAddToCartHandler";
 
 const { Option } = Select;
 const { Title: AntTitle } = Typography;
 
 const AllProduct = () => {
+  const { handleAddToCart } = useAddToCartHandler();
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
-
   const { data: categories = [] } = useGetCategoriesQuery();
 
   const queryParams: TQueryParam[] = [
@@ -56,29 +57,18 @@ const AllProduct = () => {
     isFetching,
   } = useGetAllProductsQuery(queryParams);
 
-  const products = productData?.data?.map(
-    ({
-      _id,
-      name,
-      brand,
-      model,
-      price,
-      description,
-      category,
-      productImg,
-    }: // rating,
-    TProduct) => ({
-      key: _id,
-      name,
-      brand,
-      model,
-      price,
-      description,
-      category,
-      productImg,
-      // rating,
-    })
-  );
+  const products = productData?.data?.map((product: TProduct) => ({
+    key: product._id,
+    name: product.name,
+    brand: product.brand,
+    model: product.model,
+    price: product.price,
+    description: product.description,
+    category: product.category,
+    productImg: product.productImg,
+    fullProduct: product,
+  }));
+  
 
   const metaData = productData?.meta;
 
@@ -95,11 +85,6 @@ const AllProduct = () => {
   const handlePriceRangeChange = (value: number[]) => {
     setPage(1);
     setPriceRange([value[0], value[1]]);
-  };
-
-  const handleAddToCart = (product: any) => {
-    console.log(`${product.name} added to cart!`);
-    // Add your cart logic here
   };
 
   // Animation variants for cards
@@ -347,7 +332,7 @@ const AllProduct = () => {
                           color: "#000",
                           fontSize: "12px",
                         }}
-                        onClick={() => handleAddToCart(product)}
+                        onClick={() => handleAddToCart(product.fullProduct)}
                       >
                         Add to Cart
                       </Button>
