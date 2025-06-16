@@ -13,12 +13,12 @@ export type TProduct = {
   updatedAt: string;
 };
 
-
 export type TCartItem = {
-  _id: string; 
+  _id: string;
   product: TProduct;
   quantity: number;
   user: string;
+  price: number;
   createdAt?: string;
   updatedAt?: string;
 };
