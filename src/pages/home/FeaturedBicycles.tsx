@@ -1,27 +1,19 @@
-
-
 import { Card, Col, Row, Button, Skeleton, Typography, Rate } from "antd";
 import { ShoppingCartOutlined, EyeOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../../redux/features/admin/productManagementApi";
 import { GoArrowRight } from "react-icons/go";
+import { useAddToCartHandler } from "../../hooks/useAddToCartHandler";
+import { TProduct } from "../../types";
 
 const { Title: AntTitle, Text } = Typography;
 
-interface Product {
-  _id: string;
-  name: string;
-  productImg: string;
-  description: string;
-  price: number;
-  rating?: number;
-}
 
 const FeaturedBicycles = () => {
   const { data: products, isLoading } = useGetAllProductsQuery(undefined);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-
+  const { handleAddToCart } = useAddToCartHandler();
   // Animation variants for section and cards
   const sectionVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -39,12 +31,6 @@ const FeaturedBicycles = () => {
       y: 0,
       transition: { duration: 0.6, ease: "easeOut" },
     },
-  };
-
-  // Simulate adding to cart (replace with actual cart logic)
-  const handleAddToCart = (product: Product) => {
-    console.log(`${product.name} added to cart!`);
-    // Add your cart logic here (e.g., dispatch to Redux store)
   };
 
   return (
@@ -107,7 +93,7 @@ const FeaturedBicycles = () => {
           </Row>
         ) : (
           <Row gutter={[24, 32]} justify="center">
-            {products?.data?.slice(0, 8).map((product: Product) => (
+            {products?.data?.slice(0, 8).map((product: TProduct) => (
               <Col key={product._id} xs={24} sm={12} md={8} lg={6} xl={4.8}>
                 <motion.div
                   variants={cardVariants}
@@ -201,7 +187,7 @@ const FeaturedBicycles = () => {
                             boxShadow: "0 4px 12px rgba(22, 119, 255, 0.3)",
                             fontWeight: "500",
                           }}
-                          href={`/product/${product._id}`}
+                          href={`/products/${product._id}`}
                         >
                           Details
                         </Button>
@@ -286,7 +272,7 @@ const FeaturedBicycles = () => {
           }}
         >
           <Button color="default" variant="link" href="/all-product">
-           <GoArrowRight />  View All Bicycles
+            <GoArrowRight /> View All Bicycles
           </Button>
         </motion.div>
       </motion.div>

@@ -68,7 +68,6 @@ const AllProduct = () => {
     productImg: product.productImg,
     fullProduct: product,
   }));
-  
 
   const metaData = productData?.meta;
 

@@ -6,6 +6,7 @@ export type TProduct = {
   productImg: string;
   price: number;
   model: string;
+  rating?: number;
   description: string;
   quantity: number;
   createdAt: string;
