@@ -12,7 +12,7 @@ export const homePaths = [
   },
   {
     name: "All Product",
-    path: "all-product",
+    path: "products",
     element: <AllProduct />,
   },
   {

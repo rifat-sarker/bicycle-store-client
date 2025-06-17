@@ -68,7 +68,7 @@ const Footer = () => {
             </li>
             <li>
               <a
-                href="/all-product"
+                href="/products"
                 style={{
                   textDecoration: "none",
                   display: "block",

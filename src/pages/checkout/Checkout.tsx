@@ -77,7 +77,7 @@ const Cart = () => {
                   />
                   <div style={{ flex: 1 }}>
                     <Link
-                      to={`/product/${item._id}`}
+                      to={`/products/${item._id}`}
                       style={{ fontWeight: "bold", color: "#1677ff" }}
                     >
                       {item.name}

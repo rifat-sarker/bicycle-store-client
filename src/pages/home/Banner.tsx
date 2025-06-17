@@ -163,7 +163,7 @@ const Banner = () => {
                 variant="solid"
                 size="large"
                 style={buttonStyle}
-                href="/all-product"
+                href="/products"
               >
                 Shop City Bikes
               </Button>
@@ -205,7 +205,7 @@ const Banner = () => {
                 variant="solid"
                 size="large"
                 style={buttonStyle}
-                href="/all-product"
+                href="/products"
               >
                 Shop Sports Bikes
               </Button>

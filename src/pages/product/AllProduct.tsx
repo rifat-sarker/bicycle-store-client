@@ -251,7 +251,7 @@ const AllProduct = () => {
                       />
                     ) : (
                       <Link
-                        to={`/product/${product.key}`}
+                        to={`/products/${product.key}`}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -289,7 +289,7 @@ const AllProduct = () => {
                       }}
                     >
                       <Link
-                        to={`/product/${product.key}`}
+                        to={`/products/${product.key}`}
                         style={{ color: "#000" }}
                       >
                         {product.name}

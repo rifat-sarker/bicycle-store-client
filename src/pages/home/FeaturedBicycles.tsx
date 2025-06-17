@@ -271,7 +271,7 @@ const FeaturedBicycles = () => {
             marginTop: "50px",
           }}
         >
-          <Button color="default" variant="link" href="/all-product">
+          <Button color="default" variant="link" href="/products">
             <GoArrowRight /> View All Bicycles
           </Button>
         </motion.div>

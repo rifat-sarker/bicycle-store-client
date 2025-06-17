@@ -72,8 +72,8 @@ const CategoryProducts = () => {
       }))
     : [];
 
-    console.log(products);
-    // console.log(categoryName);
+  console.log(products);
+  // console.log(categoryName);
   const metaData = productData?.meta;
 
   const cardVariants = {
@@ -182,7 +182,7 @@ const CategoryProducts = () => {
                     />
                   ) : (
                     <Link
-                      to={`/product/${product.key}`}
+                      to={`/products/${product.key}`}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -219,7 +219,7 @@ const CategoryProducts = () => {
                     }}
                   >
                     <Link
-                      to={`/product/${product.key}`}
+                      to={`/products/${product.key}`}
                       style={{ color: "#000" }}
                     >
                       {product.name}

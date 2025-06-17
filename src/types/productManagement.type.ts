@@ -24,3 +24,14 @@ export type TCartItem = {
   createdAt?: string;
   updatedAt?: string;
 };
+export type TSaveItems = {
+  _id: string;
+  product: TProduct;
+  productId: string;
+  quantity: number;
+  user: string;
+  price: number;
+  savedForLater?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};

@@ -8,7 +8,7 @@ import { adminPaths } from "../../routes/admin.routes";
 import { customerPaths } from "../../routes/customer.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 import Sider from "antd/es/layout/Sider";
-import { Button, Menu } from "antd";
+import { Button, Menu, Typography } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Logo from "../../utils/Logo";
@@ -75,7 +75,7 @@ const Sidebar = () => {
 
   return (
     <Sider
-      theme="light"
+      theme="dark"
       collapsed={collapsed}
       width={250}
       style={{
@@ -85,24 +85,26 @@ const Sidebar = () => {
       }}
     >
       {/* Logo */}
-      <div
+
+      <Link
         style={{
-          color: "white",
-          height: "4rem",
+          margin: "0 auto",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          width: "100%",
+          color: "#000",
+          // backgroundColor: "#f59e0b",
         }}
+        to="/"
       >
-        <Link to={"/"}>
-          <Logo />
-        </Link>
-      </div>
+        <Logo  size={100} />
+      </Link>
 
       <Menu
         mode="inline"
         defaultSelectedKeys={["0"]}
         items={sidebarItems}
+        theme="dark"
         style={{
           flex: 1,
           overflowY: "auto",
@@ -118,7 +120,6 @@ const Sidebar = () => {
             width: "100%",
             display: "flex",
             alignItems: "center",
-            
           }}
           icon={<LogoutOutlined />}
         >
@@ -134,7 +135,7 @@ const Sidebar = () => {
             left: "50%",
             transform: "translate(-50%, -50%)",
             zIndex: 10,
-            margin: "150px 0px"
+            margin: "150px 0px",
           }}
         >
           <Button
@@ -147,7 +148,6 @@ const Sidebar = () => {
               border: "none",
               padding: "0.5rem",
               borderRadius: "50%",
-              
             }}
           />
         </div>

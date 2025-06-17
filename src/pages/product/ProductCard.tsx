@@ -92,7 +92,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               zIndex: 10,
             }}
           >
-            <Link to={`/product/${_id}`}>
+            <Link to={`/products/${_id}`}>
               <Button
                 type="link"
                 icon={<EyeOutlined style={{ fontSize: "20px" }} />}
