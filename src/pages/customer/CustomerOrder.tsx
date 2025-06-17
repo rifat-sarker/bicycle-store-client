@@ -23,13 +23,19 @@ const CustomerOrder = () => {
   const [deleteOrder] = useDeleteOrderMutation();
 
   const currentUser = useAppSelector(selectCurrentUser);
-  const currentUserEmail = currentUser?.email;
+  // console.log(currentUser, "current user");
+  // const currentUserEmail = currentUser?.email;
+  const currentUserId = currentUser?._id;
 
+  console.log(orders, "rifat");
   const metaData = orders?.meta;
+
   const userOrders: TOrder[] =
     orders?.data?.filter(
-      (order: TOrder) => order.user?.email === currentUserEmail
+      (order: TOrder) => order.user?._id === currentUserId
     ) || [];
+
+  console.log(userOrders);
 
   const handleCancel = async (orderId: string) => {
     try {
@@ -91,18 +97,17 @@ const CustomerOrder = () => {
         loading={isLoading}
         pagination={false}
         style={{ width: "100%" }}
-        scroll={{ x: 1000 }} 
+        scroll={{ x: 1000 }}
       />
       <Pagination
         style={{
           padding: "20px 0px",
           alignSelf: "center",
-          width: "100%", 
+          width: "100%",
         }}
         onChange={(value) => setPage(value)}
         pageSize={metaData?.limit}
         total={metaData?.total}
-        
       />
     </>
   );

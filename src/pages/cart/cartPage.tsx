@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import {
   Button,
   Divider,
@@ -28,6 +28,8 @@ import {
   useDeleteCartItemMutation,
 } from "../../redux/features/cart/cartApi";
 import { TCartItem, TSaveItems } from "../../types";
+import { useCreateOrderMutation } from "../../redux/features/customer/customerOrderApi";
+import { toast } from "sonner";
 
 const { Title, Text } = Typography;
 
@@ -36,6 +38,12 @@ const CartPage = () => {
   const [updateQuantity] = useUpdateCartItemQuantityMutation();
   const [toggleSave] = useToggleSaveCartItemMutation();
   const [deleteItem] = useDeleteCartItemMutation();
+
+  const [
+    createOrder,
+
+    { isSuccess, isLoading: orderLoading, data, isError, error },
+  ] = useCreateOrderMutation();
 
   const cartItems: TCartItem[] = Array.isArray(cartData?.data?.cartItems)
     ? cartData.data.cartItems
@@ -82,6 +90,44 @@ const CartPage = () => {
       message.error("Failed to remove item");
     }
   };
+
+  // This function handles the checkout process
+  const handlePlaceOrder = async () => {
+    try {
+      const orderItems = activeCartItems.map((item) => ({
+        product: item.productId._id,
+        quantity: item.quantity,
+      }));
+
+      const payload = {
+        products: orderItems,
+      };
+
+      await createOrder(payload).unwrap();
+    } catch (error) {
+      console.error(error);
+      message.error("Failed to place order");
+    }
+  };
+
+  const toastId = "order";
+  if (orderLoading) toast.loading("Processing your order...", { id: toastId });
+  if (isSuccess) {
+    toast.success(data?.message, { id: toastId });
+    if (data?.data) {
+      setTimeout(() => {
+        window.location.href = data.data;
+      }, 1000);
+    }
+  }
+  if (isError) {
+    const errorMessage =
+      (error as any)?.data?.message ||
+      "Something went wrong! Please try again.";
+    toast.error(errorMessage, { id: toastId });
+  }
+
+  if (isLoading) return <Skeleton active />;
 
   return (
     <div
@@ -294,7 +340,7 @@ const CartPage = () => {
             title="Order Summary"
             style={{
               position: "sticky",
-              top: 24,
+              top: 120,
               width: "100%",
             }}
           >
@@ -308,22 +354,22 @@ const CartPage = () => {
                 <Text strong>${totalPrice.toFixed(2)}</Text>
               </Text>
               <Checkbox>This order contains a gift</Checkbox>
-              <Link to="/checkout">
-                <Button
-                  type="primary"
-                  block
-                  style={{
-                    backgroundColor: "#f59e0b",
-                    borderColor: "#FCD200",
-                    color: "#000",
-                    fontWeight: 500,
-                    marginTop: 12,
-                  }}
-                  disabled={activeCartItems.length === 0}
-                >
-                  Proceed to checkout
-                </Button>
-              </Link>
+
+              <Button
+                type="primary"
+                block
+                style={{
+                  backgroundColor: "#f59e0b",
+                  color: "#000",
+                  fontWeight: 500,
+                  marginTop: 12,
+                }}
+                disabled={activeCartItems.length === 0}
+                onClick={handlePlaceOrder}
+                loading={orderLoading}
+              >
+                Proceed to checkout
+              </Button>
             </Space>
           </Card>
         </Col>
