@@ -11,12 +11,13 @@ export type TProduct = {
   quantity: number;
   createdAt: string;
   updatedAt: string;
+  stock: boolean;
 };
 
 export type TCartItem = {
   _id: string;
   product: TProduct;
-  productId: string;
+  productId: TProduct;
   quantity: number;
   user: string;
   price: number;
@@ -27,7 +28,7 @@ export type TCartItem = {
 export type TSaveItems = {
   _id: string;
   product: TProduct;
-  productId: string;
+  productId: TProduct;
   quantity: number;
   user: string;
   price: number;
@@ -35,3 +36,5 @@ export type TSaveItems = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+

@@ -11,7 +11,7 @@ const MainLayout = () => {
     <Layout>
       <Navbar />
       <Content style={{ padding: "0 0px", marginTop: "100px" }}>
-        <div style={{ minHeight: 280, padding: 24 }}>
+        <div style={{ minHeight: 280,  }}>
           <Outlet />
         </div>
       </Content>
