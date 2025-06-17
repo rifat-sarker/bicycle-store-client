@@ -66,7 +66,10 @@ const productManagementApi = baseApi.injectEndpoints({
     }),
 
     getProductsByCategorySlug: builder.query({
-      query: (slug) => `categories/${slug}/products`,
+      query: (slug) => ({
+        url: `categories/products/${slug}`,
+        method: "GET",
+      }),
     }),
   }),
 });
@@ -78,5 +81,5 @@ export const {
   useDeleteProductMutation,
   useUpdateProductMutation,
   useGetCategoriesQuery,
-  useGetProductsByCategorySlugQuery
+  useGetProductsByCategorySlugQuery,
 } = productManagementApi;

@@ -36,7 +36,7 @@ const CategoryProducts = () => {
 
   // Find category by name to get the _id
   const matchedCategory = categoryData?.find((cat) => cat.slug === slug);
-  // console.log("Matched category:", matchedCategory);
+  console.log("Matched category:", matchedCategory);
   const categoryId = matchedCategory?._id;
 
   const queryParams: TQueryParam[] = [
@@ -56,6 +56,8 @@ const CategoryProducts = () => {
 
   const rawProducts = productData?.data || [];
 
+  console.log(productData);
+
   const products = rawProducts.length
     ? rawProducts.map((product: TProduct) => ({
         key: product._id,
@@ -70,8 +72,8 @@ const CategoryProducts = () => {
       }))
     : [];
 
-  //   console.log(products);
-  //   console.log(categoryName);
+    console.log(products);
+    // console.log(categoryName);
   const metaData = productData?.meta;
 
   const cardVariants = {

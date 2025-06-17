@@ -17,7 +17,7 @@ import CartPage from "../pages/cart/cartPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />, // Apply Navbar once at the root
+    element: <MainLayout />, 
     children: [
       ...routesGenerator(homePaths),
       { path: "products/:id", element: <ProductDetails /> },

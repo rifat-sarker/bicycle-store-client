@@ -16,9 +16,11 @@ export type TProduct = {
 export type TCartItem = {
   _id: string;
   product: TProduct;
+  productId: string;
   quantity: number;
   user: string;
   price: number;
+  savedForLater?: boolean;
   createdAt?: string;
   updatedAt?: string;
 };

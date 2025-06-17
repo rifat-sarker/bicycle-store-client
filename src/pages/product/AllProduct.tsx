@@ -36,6 +36,8 @@ const AllProduct = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const { data: categories = [] } = useGetCategoriesQuery();
 
+  console.log(categories);
+
   const queryParams: TQueryParam[] = [
     { name: "limit", value: "12" },
     { name: "page", value: page.toString() },
@@ -177,7 +179,7 @@ const AllProduct = () => {
             <Slider
               range
               min={0}
-              max={1000}
+              max={3000}
               value={priceRange}
               onChange={handlePriceRangeChange}
               tooltip={{ formatter: (value) => `$${value}` }}

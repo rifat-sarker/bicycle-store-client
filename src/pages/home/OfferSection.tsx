@@ -1,6 +1,6 @@
 import { Card, Col, Row, Button, Typography } from "antd";
 import { Link } from "react-router-dom";
-import { easeInOut, easeOut, motion } from "framer-motion";
+import { easeInOut,  motion } from "framer-motion";
 import "antd/dist/reset.css"; // Ant Design styles
 import { GoArrowRight } from "react-icons/go";
 
@@ -45,22 +45,23 @@ const OfferSection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: easeOut, staggerChildren: 0.2 },
+      transition: { duration: 0.6, ease: [0.25, 1, 0.5, 1] },
     },
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: easeOut },
+      transition: { duration: 0.6, ease: [0.25, 1, 0.5, 1] },
     },
     hover: {
-      scale: 1.05,
-      transition: { duration: 0.3, ease: easeInOut },
+      scale: 1.06,
+      transition: { duration: 0.25, ease: easeInOut },
     },
   };
+  
 
   const buttonVariants = {
     hover: {
