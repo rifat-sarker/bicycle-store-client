@@ -4,11 +4,7 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
-import {
-  Link,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import BSForm from "../components/form/BSForm";
 import { verifyToken } from "../utils/verifyToken";
 import BSInput from "../components/form/BSInput";
@@ -27,11 +23,11 @@ const CredentialTabs = () => {
     setActiveTab(key); // manually set active tab
 
     if (key === "admin") {
-      setValue("email", "rifatswd@gmail.com");
-      setValue("password", "rifat1234");
+      setValue("email", import.meta.env.VITE_ADMIN_EMAIL);
+      setValue("password", import.meta.env.VITE_ADMIN_PASSWORD);
     } else if (key === "user") {
-      setValue("email", "rifat@gmail.com");
-      setValue("password", "rifat1234");
+      setValue("email", import.meta.env.VITE_USER_EMAIL);
+      setValue("password", import.meta.env.VITE_USER_PASSWORD);
     }
   };
 

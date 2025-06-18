@@ -23,7 +23,7 @@ const CustomerOrder = () => {
   const [deleteOrder] = useDeleteOrderMutation();
 
   const currentUser = useAppSelector(selectCurrentUser);
-  // console.log(currentUser, "current user");
+  console.log(currentUser, "current user");
   // const currentUserEmail = currentUser?.email;
   const currentUserId = currentUser?.id;
   // console.log(currentUserId, "current user id");

@@ -8,6 +8,7 @@ export type TUser = {
   iat: number;
   exp: number;
   status?: string;
+  _id?: string;
   id?: string;
 };
 

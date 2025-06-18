@@ -14,6 +14,8 @@ const UserManagement = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   const currentUserEmail = currentUser?.email;
 
+  console.log(users);
+
   const isAdmin = currentUser?.role === "admin";
   const filteredUsers = (users?.data ?? []).filter(
     (user) => isAdmin || user.email === currentUserEmail
