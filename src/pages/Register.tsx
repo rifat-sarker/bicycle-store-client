@@ -27,6 +27,9 @@ const Register = () => {
         email: data.email.trim(),
         password: data.password,
       };
+
+      // console.log(userInfo);
+      
       const res = await register(userInfo).unwrap();
       console.log(res);
       const user = verifyToken(res.data.accessToken) as TUser;
@@ -75,6 +78,7 @@ const Register = () => {
           <BSInput type="email" name="email" label="Email:" />
           <BSInput type="password" name="password" label="Password:" />
           <Button
+            htmlType="submit"          
             icon={<UserAddOutlined />}
             type="default"
             shape="round"

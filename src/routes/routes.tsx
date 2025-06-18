@@ -13,7 +13,6 @@ import MainLayout from "../components/layout/MainLayout";
 import BlogDetails from "../pages/blog/BlogDetails";
 import CategoryProducts from "../pages/product/CategoryProducts";
 import CartPage from "../pages/cart/cartPage";
-import Checkout from "../pages/checkout/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -29,14 +28,6 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute role="customer">
             <CartPage />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "checkout",
-        element: (
-          <ProtectedRoute role="customer">
-            <Checkout />
           </ProtectedRoute>
         ),
       },

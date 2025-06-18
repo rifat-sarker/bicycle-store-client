@@ -8,7 +8,7 @@ import { adminPaths } from "../../routes/admin.routes";
 import { customerPaths } from "../../routes/customer.routes";
 import { sidebarItemsGenerator } from "../../utils/sidebarItemsGenerator";
 import Sider from "antd/es/layout/Sider";
-import { Button, Menu, Typography } from "antd";
+import { Button, Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import Logo from "../../utils/Logo";
@@ -81,7 +81,7 @@ const Sidebar = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        // height: "100vh",
       }}
     >
       {/* Logo */}

@@ -6,7 +6,6 @@ import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
 import {
   Link,
-  useLocation,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
@@ -67,9 +66,8 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [login] = useLoginMutation();
-  const location = useLocation();
   const [searchParams] = useSearchParams();
-  console.log(location);
+  // console.log(location);
 
   const onSubmit = async (data: any) => {
     const toastId = toast.loading("Logging in...");
