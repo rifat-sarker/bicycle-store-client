@@ -25,9 +25,9 @@ const CustomerOrder = () => {
   const currentUser = useAppSelector(selectCurrentUser);
   // console.log(currentUser, "current user");
   // const currentUserEmail = currentUser?.email;
-  const currentUserId = currentUser?._id;
+  const currentUserId = currentUser?.id;
+  // console.log(currentUserId, "current user id");
 
-  console.log(orders, "rifat");
   const metaData = orders?.meta;
 
   const userOrders: TOrder[] =
@@ -35,7 +35,7 @@ const CustomerOrder = () => {
       (order: TOrder) => order.user?._id === currentUserId
     ) || [];
 
-  console.log(userOrders);
+  // console.log(userOrders);
 
   const handleCancel = async (orderId: string) => {
     try {

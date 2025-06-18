@@ -4,7 +4,7 @@ export type TAllUser = {
   city: string;
   status: "in-progress" | "blocked";
   isDeleted: boolean;
-  _id: string;
+  id: string;
   name: string;
   email: string;
   needsPasswordChange: boolean;
