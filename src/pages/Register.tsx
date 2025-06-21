@@ -31,9 +31,9 @@ const Register = () => {
       // console.log(userInfo);
       
       const res = await register(userInfo).unwrap();
-      console.log(res);
+      // console.log(res);
       const user = verifyToken(res.data.accessToken) as TUser;
-      console.log(user);
+      // console.log(user);
 
       dispatch(setUser({ user: user, token: res.data.accessToken }));
       toast.success("Register success", { id: toastId, duration: 2000 });

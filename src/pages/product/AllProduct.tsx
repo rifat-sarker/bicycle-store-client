@@ -36,7 +36,7 @@ const AllProduct = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000]);
   const { data: categories = [] } = useGetCategoriesQuery();
 
-  console.log(categories);
+  // console.log(categories);
 
   const queryParams: TQueryParam[] = [
     { name: "limit", value: "12" },

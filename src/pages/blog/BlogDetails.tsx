@@ -91,7 +91,7 @@ const BlogDetails: React.FC = () => {
 
   // Log the response for debugging
   React.useEffect(() => {
-    console.log(blogResponse);
+    // console.log(blogResponse);
   }, [blogResponse]);
 
   if (isLoading) {
