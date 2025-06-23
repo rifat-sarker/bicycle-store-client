@@ -24,6 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [hovered, setHovered] = useState(false);
 
+  console.log();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
