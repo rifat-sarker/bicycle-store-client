@@ -21,13 +21,15 @@ import { useAddToCartHandler } from "../../hooks/useAddToCartHandler";
 const { Title, Paragraph } = Typography;
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const { slugAndId } = useParams();
   const { data: product, isLoading } = useGetProductBySlugAndIdQuery(
-    id as string
+    slugAndId as string
   );
   const { data: allProducts } = useGetAllProductsQuery(undefined);
   const { handleAddToCart } = useAddToCartHandler();
 
+  console.log(product);
+  console.log(allProducts);
   const productData = product?.data;
 
   if (isLoading) {

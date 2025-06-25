@@ -1,6 +1,7 @@
 export type TProduct = {
   _id: string;
   name: string;
+  slug: string;
   brand: string;
   category: string;
   productImg: string;
@@ -36,5 +37,3 @@ export type TSaveItems = {
   createdAt?: string;
   updatedAt?: string;
 };
-
-
