@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       ...routesGenerator(homePaths),
-      { path: "products/:id", element: <ProductDetails /> },
+      { path: "products/:slugAndId", element: <ProductDetails /> },
       { path: "blogs/:id", element: <BlogDetails /> },
       { path: "/products/category/:slug", element: <CategoryProducts /> },
       {

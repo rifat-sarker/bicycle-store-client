@@ -27,9 +27,9 @@ const productManagementApi = baseApi.injectEndpoints({
         };
       },
     }),
-    getProductById: builder.query({
-      query: (id: string) => ({
-        url: `/products/${id}`,
+    getProductBySlugAndId: builder.query({
+      query: (slugAndId: string) => ({
+        url: `/products/${slugAndId}`,
         method: "GET",
       }),
       transformResponse: (response: TResponseRedux<TProduct>) => response,
@@ -76,7 +76,7 @@ const productManagementApi = baseApi.injectEndpoints({
 
 export const {
   useGetAllProductsQuery,
-  useGetProductByIdQuery,
+  useGetProductBySlugAndIdQuery,
   useAddProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,

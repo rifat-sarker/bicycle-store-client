@@ -71,6 +71,7 @@ const AllProduct = () => {
     fullProduct: product,
   }));
 
+  console.log(productData);
   const metaData = productData?.meta;
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -11,8 +11,8 @@ import {
   Typography,
 } from "antd";
 import {
-  useGetProductByIdQuery,
   useGetAllProductsQuery,
+  useGetProductBySlugAndIdQuery,
 } from "../../redux/features/admin/productManagementApi";
 
 import ReactImageMagnify from "react-image-magnify";
@@ -22,7 +22,9 @@ const { Title, Paragraph } = Typography;
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { data: product, isLoading } = useGetProductByIdQuery(id as string);
+  const { data: product, isLoading } = useGetProductBySlugAndIdQuery(
+    id as string
+  );
   const { data: allProducts } = useGetAllProductsQuery(undefined);
   const { handleAddToCart } = useAddToCartHandler();
 
