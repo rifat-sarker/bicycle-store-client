@@ -187,7 +187,9 @@ const FeaturedBicycles = () => {
                             boxShadow: "0 4px 12px rgba(22, 119, 255, 0.3)",
                             fontWeight: "500",
                           }}
-                          href={`/products/${product._id}`}
+                          href={`/products/${product.name
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")}-${product._id}`}
                         >
                           Details
                         </Button>

@@ -182,7 +182,9 @@ const CategoryProducts = () => {
                     />
                   ) : (
                     <Link
-                      to={`/products/${product.key}`}
+                      to={`/products/${product.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}-${product.key}`}
                       style={{
                         width: "100%",
                         height: "100%",
@@ -219,7 +221,9 @@ const CategoryProducts = () => {
                     }}
                   >
                     <Link
-                      to={`/products/${product.key}`}
+                      to={`/products/${product.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}-${product.key}`}
                       style={{ color: "#000" }}
                     >
                       {product.name}
@@ -261,7 +265,11 @@ const CategoryProducts = () => {
                       Add to Cart
                     </Button>
 
-                    <Link to={`/products/${product.key}`}>
+                    <Link
+                      to={`/products/${product.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}-${product.key}`}
+                    >
                       <MoreOutlined
                         style={{ fontSize: "20px", color: "#666" }}
                       />
