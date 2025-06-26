@@ -298,6 +298,8 @@ const CategoryProducts = () => {
           total={metaData?.total}
         />
       </Row>
+
+      
     </div>
   );
 };

@@ -1,9 +1,11 @@
+import { ICategory } from "./category";
+
 export type TProduct = {
   _id: string;
   name: string;
   slug: string;
   brand: string;
-  category: string;
+  category: ICategory;
   productImg: string;
   price: number;
   model: string;

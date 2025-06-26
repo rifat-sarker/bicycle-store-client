@@ -1,4 +1,4 @@
-import { useParams, Link,} from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   Card,
   Skeleton,
@@ -28,8 +28,8 @@ const ProductDetails = () => {
   const { data: allProducts } = useGetAllProductsQuery(undefined);
   const { handleAddToCart } = useAddToCartHandler();
 
-  console.log(product);
-  console.log(allProducts);
+  // console.log(product);
+  // console.log(allProducts);
   const productData = product?.data;
 
   if (isLoading) {
@@ -149,7 +149,7 @@ const ProductDetails = () => {
                 <strong>Model:</strong> {productData?.model}
               </li>
               <li>
-                <strong>Category:</strong> {productData?.category}
+                <strong>Category:</strong> {productData?.category?.name}
               </li>
               <li>
                 <strong>Price:</strong> ${productData?.price}
