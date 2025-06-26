@@ -69,7 +69,6 @@ const AllProduct = () => {
     category: product.category,
     productImg: product.productImg,
     fullProduct: product,
-    
   }));
 
   console.log(productData);
