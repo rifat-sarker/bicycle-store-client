@@ -56,6 +56,8 @@ const CategoryProducts = () => {
 
   const rawProducts = productData?.data || [];
 
+
+
   // console.log(productData);
 
   const products = rawProducts.length
@@ -299,7 +301,7 @@ const CategoryProducts = () => {
         />
       </Row>
 
-      
+     
     </div>
   );
 };
