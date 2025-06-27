@@ -126,7 +126,7 @@
                   disabled={!productData?.quantity || productData.quantity <= 0}
                   onClick={() => handleAddToCart(productData)}
                   style={{ backgroundColor: "#f59e0b", color: "#000" }}
-                  // loading={isAdding}
+                 
                 >
                   Add to Cart
                 </Button>

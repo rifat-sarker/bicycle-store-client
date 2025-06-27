@@ -30,10 +30,6 @@ const CategoryProducts = () => {
   const { data: categoryData, isLoading: categoryLoading } =
     useGetCategoriesQuery();
 
-  // console.log("params", useParams());
-  // console.log("All categories:", categoryData);
-  // console.log("categoryName from URL:", slug);
-
   // Find category by name to get the _id
   const matchedCategory = categoryData?.find((cat) => cat.slug === slug);
   // console.log("Matched category:", matchedCategory);
@@ -57,7 +53,6 @@ const CategoryProducts = () => {
   const rawProducts = productData?.data || [];
 
 
-
   // console.log(productData);
 
   const products = rawProducts.length
@@ -74,8 +69,6 @@ const CategoryProducts = () => {
       }))
     : [];
 
-  // console.log(products);
-  // console.log(categoryName);
   const metaData = productData?.meta;
 
   const cardVariants = {

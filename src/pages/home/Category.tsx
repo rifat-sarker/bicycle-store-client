@@ -1,8 +1,8 @@
 import { Card, Col, Row, Button, Typography, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useGetCategoriesQuery } from "../../redux/features/admin/productManagementApi";
-import { easeInOut, easeOut, motion } from "framer-motion"; // For animations
-import "antd/dist/reset.css"; // Ant Design styles
+import { easeInOut, easeOut, motion } from "framer-motion";
+import "antd/dist/reset.css"; 
 import { getAntIcon } from "../../getAntIcon";
 
 const { Title: AntTitle, Text } = Typography;

@@ -60,18 +60,7 @@ const router = createBrowserRouter([
     path: "/register",
     element: <Register />,
   },
-  // {
-  //   path: "/product/:id",
-  //   element: <ProductDetails />,
-  // },
-  // {
-  //   path: "/product/checkout/:id",
-  //   element: <CheckoutPage />,
-  // },
-  // {
-  //   path: "/orders/verify",
-  //   element: <VerificationOrder />,
-  // },
+
 ]);
 
 export default router;
