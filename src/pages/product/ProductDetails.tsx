@@ -21,16 +21,20 @@
   const { Title, Paragraph } = Typography;
 
   const ProductDetails = () => {
-    const { slugAndId: slug } = useParams();
+    const { slugAndId } = useParams();
+    const id = slugAndId?.split("-").slice(-1)[0]; 
+
     const { data: product, isLoading } = useGetProductBySlugAndIdQuery(
-      slug as string
+      id as string
     );
+    
     const { data: allProducts } = useGetAllProductsQuery(undefined);
     const { handleAddToCart } = useAddToCartHandler();
 
     // console.log(product);
-    console.log(allProducts);
+    // console.log(allProducts);
     const productData = product?.data;
+    console.log(productData);
 
     if (isLoading) {
       return <Skeleton active />;
@@ -44,7 +48,7 @@
       )
       ?.slice(0, 4);
 
-      console.log(relatedProducts);
+      // console.log(relatedProducts);
 
     return (
       <div style={{ padding: "20px" }}>
