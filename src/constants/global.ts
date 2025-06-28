@@ -22,6 +22,7 @@ export const brand = [
   "SpeedBikes",
   "ElectraBike",
 ];
+
 export const modelOptions = model.map((item) => ({
   value: item,
   label: item,

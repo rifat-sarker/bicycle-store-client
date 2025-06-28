@@ -164,7 +164,7 @@ const ProductsManagement = () => {
           value: "Outdoor",
         },
       ],
-      onFilter: (value, record) => record.category.includes(value as string),
+      onFilter: (value, record) => String(record.category).includes(value as string),
     },
     {
       title: "Price",
