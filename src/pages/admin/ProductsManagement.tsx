@@ -20,15 +20,19 @@ import {
   useAddProductMutation,
   useDeleteProductMutation,
   useGetAllProductsQuery,
+  useGetCategoriesQuery,
   useUpdateProductMutation,
 } from "../../redux/features/admin/productManagementApi";
 import { TProduct } from "../../types";
-import { brand, category, model } from "../../constants/global";
+import { brand, model } from "../../constants/global";
+
 
 const { Option } = Select;
 
 const ProductsManagement = () => {
   const [page, setPage] = useState(1);
+
+  // Fetch Products
   const {
     data: products,
     isLoading,
@@ -38,6 +42,13 @@ const ProductsManagement = () => {
     { name: "page", value: page },
     { name: "sort", value: "id" },
   ]);
+
+  // Fetch Categories 
+  const { data: categoriesData, isLoading: isCategoryLoading } =
+    useGetCategoriesQuery(undefined);
+
+    console.log(categoriesData);
+
   const [addProduct] = useAddProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
@@ -58,6 +69,7 @@ const ProductsManagement = () => {
       product
         ? {
             ...product,
+            category: (product.category as any)._id || product.category, 
             productImg: product.productImg
               ? [
                   {
@@ -88,10 +100,15 @@ const ProductsManagement = () => {
     setIsModalOpen(false);
     form.resetFields();
   };
+
   const handleSubmit = async (values: any) => {
     try {
+      // Generate slug
+      const slug = values.name.toLowerCase().split(" ").join("-");
+
       const productData = {
         name: values.name,
+        slug, 
         brand: values.brand,
         price: Number(values.price),
         model: values.model,
@@ -127,6 +144,7 @@ const ProductsManagement = () => {
       message.error("Operation failed");
     }
   };
+  
 
   const handleDelete = async (id: string) => {
     try {
@@ -146,25 +164,7 @@ const ProductsManagement = () => {
       title: "Category",
       dataIndex: "category",
       key: "category",
-      filters: [
-        {
-          text: "Racing",
-          value: "Racing",
-        },
-        {
-          text: "Electric",
-          value: "Electric",
-        },
-        {
-          text: "Sport",
-          value: "Sport",
-        },
-        {
-          text: "Outdoor",
-          value: "Outdoor",
-        },
-      ],
-      onFilter: (value, record) => String(record.category).includes(value as string),
+      render: (category: any) => category?.name || "N/A", 
     },
     {
       title: "Price",
@@ -208,12 +208,7 @@ const ProductsManagement = () => {
     },
   ];
 
-  const onChange: TableProps<TProduct>["onChange"] = () =>
-    // pagination,
-    // filters,
-    // sorter,
-    // extra
-    {};
+  const onChange: TableProps<TProduct>["onChange"] = () => {};
 
   return (
     <>
@@ -271,10 +266,10 @@ const ProductsManagement = () => {
               label="Category"
               rules={[{ required: true }]}
             >
-              <Select>
-                {category.map((category) => (
-                  <Option key={category} value={category}>
-                    {category}
+              <Select loading={isCategoryLoading}>
+                {categoriesData?.map((category: any) => (
+                  <Option key={category._id} value={category._id}>
+                    {category.name}
                   </Option>
                 ))}
               </Select>
