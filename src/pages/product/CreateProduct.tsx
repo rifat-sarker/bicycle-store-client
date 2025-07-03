@@ -6,7 +6,6 @@ import BSSelect from "../../components/form/BSSelect";
 import { useAddProductMutation } from "../../redux/features/admin/productManagementApi";
 import {
   brandOptions,
-  categoryOptions,
   modelOptions,
 } from "../../constants/global";
 import { toast } from "sonner";

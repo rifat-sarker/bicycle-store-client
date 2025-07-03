@@ -47,7 +47,7 @@ const ProductsManagement = () => {
   const { data: categoriesData, isLoading: isCategoryLoading } =
     useGetCategoriesQuery(undefined);
 
-    console.log(categoriesData);
+    // console.log(categoriesData);
 
   const [addProduct] = useAddProductMutation();
   const [updateProduct] = useUpdateProductMutation();
